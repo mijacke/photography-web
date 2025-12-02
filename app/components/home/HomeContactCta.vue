@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineProps<{
+  eyebrow: string
   title: string
   subtitle: string
   ctaLabel: string
@@ -14,7 +15,7 @@ defineProps<{
   >
     <div class="grid gap-6 px-6 py-10 lg:grid-cols-[1.3fr,0.7fr] lg:px-10">
       <div class="space-y-3">
-        <p class="text-sm uppercase tracking-[0.32em] text-sand/80">Contact</p>
+        <p class="text-sm uppercase tracking-[0.32em] text-sand/80">{{ eyebrow }}</p>
         <h3 class="text-2xl font-semibold">{{ title }}</h3>
         <p class="text-base text-sand/90">
           {{ subtitle }}

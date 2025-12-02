@@ -1,47 +1,54 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { usePortfolioList } from '@/composables/usePortfolio'
+import { useAppCopy } from '@/composables/useAppCopy'
 import Footer from '@/components/navigation/Footer.vue'
 import HomeContactCta from '@/components/home/HomeContactCta.vue'
 import HomeHero from '@/components/home/HomeHero.vue'
 import HomePortfolioPreview from '@/components/home/HomePortfolioPreview.vue'
 import HomeServices from '@/components/home/HomeServices.vue'
 import Header from '@/components/navigation/Header.vue'
-import { homeHeroCopy, homeHeroImage, homeNavLinks, homeServices } from '@/utils/homeContent'
 import type { Gallery } from '@/types/gallery'
 
-const navLinks = homeNavLinks
-const heroCopy = homeHeroCopy
-const services = homeServices
+const { copy } = useAppCopy()
+
+const navLinks = computed(() => copy.value.navigation.links)
+const headerCta = computed(() => copy.value.navigation.ctas.home)
+const masthead = computed(() => copy.value.home.masthead)
+const profileCopy = computed(() => copy.value.home.profile)
+const services = computed(() => copy.value.home.services)
+const portfolioPreviewCopy = computed(() => copy.value.home.portfolioPreview)
+const contactCopy = computed(() => copy.value.home.contact)
+const dateLocale = computed(() => copy.value.meta.dateLocale)
 
 const { data: galleries } = await usePortfolioList({ limit: 4, key: 'home-galleries' })
 
 const galleryCards = computed<Gallery[]>(() => galleries.value ?? [])
 
-const heroImage = homeHeroImage
+const heroImage = computed(() => profileCopy.value.imageSrc || '/images/home/homehero.jpg')
 </script>
 
 <template>
   <div class="min-h-screen bg-sand text-charcoal">
     <!-- Full viewport hero photo -->
     <section class="relative isolate h-screen min-h-[720px] w-full overflow-hidden bg-charcoal text-white">
-      <NuxtImg :src="heroImage" alt="Documentary photo highlight" class="absolute inset-0 h-full w-full object-cover" width="1920" height="1080" loading="eager" />
+      <NuxtImg :src="heroImage" :alt="masthead.imageAlt" class="absolute inset-0 h-full w-full object-cover" width="1920" height="1080" loading="eager" />
       <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-sand/85" />
       <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-sand/70 to-sand" />
 
       <div class="relative mx-auto flex h-full max-w-5xl items-center justify-center px-6 lg:px-10">
         <div class="max-w-3xl space-y-6 text-center drop-shadow-lg">
-          <p class="text-xs uppercase tracking-[0.38em] text-white/80">Documentary photography</p>
-          <h1 class="text-4xl font-semibold leading-tight sm:text-5xl">Moments that feel like you.</h1>
+          <p class="text-xs uppercase tracking-[0.38em] text-white/80">{{ masthead.eyebrow }}</p>
+          <h1 class="text-4xl font-semibold leading-tight sm:text-5xl">{{ masthead.title }}</h1>
           <p class="text-lg text-white/90">
-            Natural light, real reactions, clean edits. Scroll to see services and recent stories.
+            {{ masthead.description }}
           </p>
           <div class="flex justify-center">
             <a
-              href="#about"
+              :href="masthead.cta.href"
               class="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-white/15"
             >
-              Explore the work
+              {{ masthead.cta.label }}
               <span aria-hidden="true">↓</span>
             </a>
           </div>
@@ -51,32 +58,49 @@ const heroImage = homeHeroImage
 
     <Header
       :links="navLinks"
-      cta-label="Book a date"
-      cta-href="#contact"
+      :brand-label="copy.navigation.brand"
+      :cta-label="headerCta.label"
+      :cta-href="headerCta.href"
       theme="light"
     />
 
     <main class="layout-shell flex flex-col gap-16 pb-20 pt-12">
       <HomeHero
-        :title="heroCopy.title"
-        :eyebrow="heroCopy.eyebrow"
-        :description="heroCopy.description"
-        :cta-label="heroCopy.ctaLabel"
-        :cta-href="heroCopy.ctaHref"
-        :image-src="heroCopy.imageSrc"
-        :image-alt="heroCopy.imageAlt"
+        :title="profileCopy.title"
+        :eyebrow="profileCopy.eyebrow"
+        :description="profileCopy.description"
+        :cta-label="profileCopy.ctaLabel"
+        :cta-href="profileCopy.ctaHref"
+        :image-src="profileCopy.imageSrc"
+        :image-alt="profileCopy.imageAlt"
       />
 
-      <HomeServices :services="services" image-src="/images/home/homehero.jpg" />
+      <HomeServices
+        :services="services.items"
+        :image-src="services.imageSrc"
+        :image-alt="services.imageAlt"
+        :eyebrow="services.eyebrow"
+        :title="services.title"
+        :description="services.description"
+      />
 
-      <HomePortfolioPreview :galleries="galleryCards" />
+      <HomePortfolioPreview
+        :galleries="galleryCards"
+        :eyebrow="portfolioPreviewCopy.eyebrow"
+        :title="portfolioPreviewCopy.title"
+        :description="portfolioPreviewCopy.description"
+        :view-all-label="portfolioPreviewCopy.viewAllLabel"
+        :empty-state="portfolioPreviewCopy.emptyState"
+        :date-locale="dateLocale"
+      />
 
       <section id="contact">
         <HomeContactCta
-          title="Ready for your date? I reply within 24 hours."
-          subtitle="Share your city, date, and the vibe you're after. I'll propose a lean plan you can react to without long emails."
-          cta-label="Message me"
-          cta-href="mailto:hi@mariolassu.com"
+          :eyebrow="contactCopy.eyebrow"
+          :title="contactCopy.title"
+          :subtitle="contactCopy.subtitle"
+          :cta-label="contactCopy.cta.label"
+          :cta-href="contactCopy.cta.href"
         />
       </section>
     </main>
