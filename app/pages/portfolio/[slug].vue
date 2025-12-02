@@ -1,24 +1,18 @@
 <script setup lang="ts">
 import { createError } from 'h3'
-import type { Gallery } from '@/types/gallery'
+import { useGalleryBySlug } from '@/composables/usePortfolio'
+import { formatDate } from '@/utils/date'
 
 const route = useRoute()
 
-const { data: doc } = await useAsyncData(`portfolio-${route.params.slug}`, () =>
-  queryCollection('portfolio')
-    .where('path', '=', `/portfolio/${route.params.slug}`)
-    .first()
-) as { data: Ref<Gallery | null> }
+const { data: galleryData } = await useGalleryBySlug(route.params.slug as string)
 
-if (!doc.value) {
+if (!galleryData.value) {
   throw createError({ statusCode: 404, statusMessage: 'Gallery not found' })
 }
 
-// Po kontrole vieme, že doc.value nie je null
-const gallery = doc.value
-
-const formatDate = (value?: string) =>
-  value ? new Intl.DateTimeFormat('sk-SK', { dateStyle: 'medium' }).format(new Date(value)) : ''
+// Po kontrole vieme, že galleryData.value nie je null
+const gallery = galleryData.value
 
 useHead(() => ({
   title: gallery.title ? `${gallery.title} | Portfolio` : 'Portfolio'

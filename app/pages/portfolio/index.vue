@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import type { Gallery } from '@/types/gallery'
+import { usePortfolioList } from '@/composables/usePortfolio'
+import { formatDate } from '@/utils/date'
 
-const { data: galleries } = await useAsyncData('portfolio-list', () =>
-  queryCollection('portfolio')
-    .select('path', 'title', 'summary', 'cover', 'location', 'date', 'tags')
-    .order('date', 'DESC')
-    .all()
-) as { data: Ref<Gallery[] | null> }
-
-const formatDate = (value?: string) =>
-  value ? new Intl.DateTimeFormat('sk-SK', { dateStyle: 'medium' }).format(new Date(value)) : ''
+const { data: galleries } = await usePortfolioList()
 </script>
 
 <template>
