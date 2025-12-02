@@ -17,7 +17,7 @@ const photoAlt = computed(() => props.imageAlt || 'Featured portrait')
 </script>
 
 <template>
-  <section id="about" class="grid gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:items-center">
+  <section id="intro" class="grid gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:items-center">
     <div class="space-y-8">
       <p class="text-sm uppercase tracking-[0.32em] text-stone-500">{{ eyebrow }}</p>
       <div class="space-y-4">
@@ -38,7 +38,7 @@ const photoAlt = computed(() => props.imageAlt || 'Featured portrait')
     </div>
 
     <div class="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-card">
-      <img :src="photoSource" :alt="photoAlt" class="h-full w-full object-cover" />
+      <NuxtImg :src="photoSource" :alt="photoAlt" class="h-full w-full object-cover" width="1200" height="800" />
     </div>
   </section>
 </template>

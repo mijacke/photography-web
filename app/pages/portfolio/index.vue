@@ -1,21 +1,50 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import Footer from '~/components/footer/Footer.vue'
+import Header from '@/components/navigation/Header.vue'
 import { usePortfolioList } from '@/composables/usePortfolio'
+import { useAppCopy } from '@/composables/useAppCopy'
 import { formatDate } from '@/utils/date'
 
 const { data: galleries } = await usePortfolioList()
+
+const { copy } = useAppCopy()
+
+const navLinks = computed(() => copy.value.navigation.links)
+const portfolioCopy = computed(() => copy.value.portfolio.list)
+const dateLocale = computed(() => copy.value.meta.dateLocale)
+
+const formatDateForLocale = (value?: string) => formatDate(value, dateLocale.value)
 </script>
 
 <template>
   <div class="min-h-screen bg-sand text-charcoal">
+    <Header
+      :links="navLinks"
+      :brand-label="copy.navigation.brand"
+      theme="light"
+    />
     <main class="layout-shell py-16">
       <header class="mb-10 space-y-3">
-        <p class="text-sm uppercase tracking-[0.28em] text-stone-500">Portfolio</p>
-        <h1 class="text-3xl font-semibold text-charcoal sm:text-4xl">Galeria z markdownu</h1>
+        <p class="text-sm uppercase tracking-[0.28em] text-stone-500">{{ portfolioCopy.eyebrow }}</p>
+        <h1 class="text-3xl font-semibold text-charcoal sm:text-4xl">{{ portfolioCopy.title }}</h1>
         <p class="max-w-2xl text-stone-700">
-          Kazdy subor v <code class="rounded bg-stone-200 px-2 py-1 text-charcoal">content/portfolio</code> sa zobrazi ako samostatna
-          route. Pridaj fotky do <code class="rounded bg-stone-200 px-2 py-1 text-charcoal">public/images/portfolio</code> a nasmeruj na ne
-          <code class="rounded bg-stone-200 px-2 py-1 text-charcoal">cover</code> alebo galeriu v obsahu.
+          {{ portfolioCopy.description }}
         </p>
+        <div class="space-y-2 text-stone-700">
+          <p class="max-w-2xl">
+            {{ portfolioCopy.instructions.first.before }}
+            <code class="rounded bg-stone-200 px-2 py-1 text-charcoal">{{ portfolioCopy.instructions.first.code }}</code>
+            {{ portfolioCopy.instructions.first.after }}
+          </p>
+          <p class="max-w-2xl">
+            {{ portfolioCopy.instructions.second.before }}
+            <code class="rounded bg-stone-200 px-2 py-1 text-charcoal">{{ portfolioCopy.instructions.second.code }}</code>
+            {{ portfolioCopy.instructions.second.middle }}
+            <code class="rounded bg-stone-200 px-2 py-1 text-charcoal">{{ portfolioCopy.instructions.second.field }}</code>
+            {{ portfolioCopy.instructions.second.after }}
+          </p>
+        </div>
       </header>
 
       <div v-if="galleries?.length" class="grid gap-8 md:grid-cols-2">
@@ -35,7 +64,7 @@ const { data: galleries } = await usePortfolioList()
               <div class="flex items-center gap-2 text-sm text-stone-600">
                 <span v-if="gallery.location">{{ gallery.location }}</span>
                 <span v-if="gallery.location && gallery.date" aria-hidden="true">/</span>
-                <span v-if="gallery.date">{{ formatDate(gallery.date) }}</span>
+                <span v-if="gallery.date">{{ formatDateForLocale(gallery.date) }}</span>
               </div>
               <h2 class="text-xl font-semibold text-charcoal">{{ gallery.title }}</h2>
               <p class="text-stone-700" v-if="gallery.summary">{{ gallery.summary }}</p>
@@ -50,9 +79,10 @@ const { data: galleries } = await usePortfolioList()
       </div>
 
       <p v-else class="rounded-xl border border-dashed border-stone-300 bg-white px-6 py-10 text-stone-700 shadow-card">
-        Zatial tu nic nie je. Vytvor markdown subor v <code class="rounded bg-stone-200 px-2 py-1 text-charcoal">content/portfolio</code>
-        a tato stranka ho automaticky prida do zoznamu.
+        {{ portfolioCopy.emptyMessage }}
       </p>
     </main>
+
+    <Footer />
   </div>
 </template>
