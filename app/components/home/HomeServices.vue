@@ -10,26 +10,31 @@ type Service = {
 const props = defineProps<{
   services: Service[]
   imageSrc?: string
+  eyebrow: string
+  title: string
+  description: string
+  imageAlt?: string
 }>()
 
 const fallbackImage = '/images/home/homehero.jpg'
 const serviceImage = computed(() => props.imageSrc || fallbackImage)
+const serviceImageAlt = computed(() => props.imageAlt || 'Documentary highlight')
 </script>
 
 <template>
-  <section id="pricing" class="grid gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:items-start">
+  <section id="services" class="grid gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:items-start">
     <div class="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-card">
-      <img :src="serviceImage" alt="Documentary highlight" class="h-full w-full object-cover" />
+      <NuxtImg :src="serviceImage" :alt="serviceImageAlt" class="h-full w-full object-cover" width="1200" height="800" />
     </div>
 
     <div class="space-y-6">
       <div class="space-y-2">
-        <p class="text-sm uppercase tracking-[0.28em] text-stone-500">Services</p>
+        <p class="text-sm uppercase tracking-[0.28em] text-stone-500">{{ eyebrow }}</p>
         <h2 class="text-2xl font-semibold text-charcoal sm:text-3xl">
-          Documentary coverage with room to breathe.
+          {{ title }}
         </h2>
         <p class="text-base text-stone-700">
-          Natural flow, real reactions, streamlined handoff of edited stories for you and your people.
+          {{ description }}
         </p>
       </div>
 
