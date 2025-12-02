@@ -1,0 +1,46 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#dfe6d8" />
+      <stop offset="0.5" stop-color="#c7d1c5" />
+      <stop offset="1" stop-color="#b8c2b7" />
+    </linearGradient>
+    <linearGradient id="mist" x1="200" y1="820" x2="1400" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#96a08f" stop-opacity="0.45" />
+      <stop offset="0.5" stop-color="#8a957f" stop-opacity="0.35" />
+      <stop offset="1" stop-color="#6f7863" stop-opacity="0.3" />
+    </linearGradient>
+    <linearGradient id="hood" x1="900" y1="320" x2="800" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1a1c1f" />
+      <stop offset="1" stop-color="#0f1116" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1100" fill="url(#bg)" />
+  <rect y="620" width="1600" height="480" fill="url(#mist)" />
+  <rect x="60" y="120" width="320" height="340" rx="34" fill="#7c876f" opacity="0.18" />
+  <rect x="1300" y="160" width="220" height="320" rx="26" fill="#6e7b63" opacity="0.22" />
+
+  <ellipse cx="800" cy="880" rx="580" ry="140" fill="#828b75" opacity="0.45" />
+  <ellipse cx="820" cy="900" rx="460" ry="110" fill="#6f765e" opacity="0.55" />
+  <ellipse cx="820" cy="910" rx="360" ry="90" fill="#5d634f" opacity="0.45" />
+
+  <circle cx="850" cy="380" r="96" fill="#0f1116" />
+  <path
+    d="M704 470C720 428 760 396 808 382L832 374C910 350 1004 380 1040 450C1062 493 1064 551 1028 584L928 672C898 698 856 710 816 704C780 699 746 680 722 650L676 594C654 565 648 524 664 492L704 470Z"
+    fill="url(#hood)"
+  />
+  <rect x="720" y="624" width="260" height="180" rx="60" fill="#101215" />
+  <rect x="684" y="658" width="340" height="150" rx="42" fill="#121519" />
+  <rect x="714" y="702" width="280" height="120" rx="34" fill="#0f1116" />
+
+  <rect x="1016" y="676" width="110" height="110" rx="24" fill="#6d735d" />
+  <rect x="1028" y="688" width="90" height="90" rx="20" fill="#c7c1a4" />
+  <rect x="1044" y="704" width="58" height="58" rx="14" fill="#a19a7f" />
+
+  <path
+    d="M576 546C604 510 656 488 702 500C752 512 790 554 784 600C780 626 760 648 724 666L656 702C618 722 562 726 532 696C500 664 516 600 548 566L576 546Z"
+    fill="#2b2f2f"
+  />
+  <rect x="540" y="640" width="160" height="140" rx="40" fill="#15191c" />
+</svg>
