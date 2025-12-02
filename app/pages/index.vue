@@ -1,59 +1,23 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { usePortfolioList } from '@/composables/usePortfolio'
 import HomeContactCta from '@/components/home/HomeContactCta.vue'
 import HomeHero from '@/components/home/HomeHero.vue'
 import HomePortfolioPreview from '@/components/home/HomePortfolioPreview.vue'
 import HomeServices from '@/components/home/HomeServices.vue'
 import StickyHeader from '@/components/navigation/StickyHeader.vue'
+import { homeHeroCopy, homeHeroImage, homeNavLinks, homeServices } from '@/utils/homeContent'
 import type { Gallery } from '@/types/gallery'
 
-const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Contact', href: '#contact' }
-]
+const navLinks = homeNavLinks
+const heroCopy = homeHeroCopy
+const services = homeServices
 
-const heroCopy = {
-  title: 'Mario Lassu',
-  eyebrow: 'Documentary Photography',
-  description:
-    "Don't expect stiff poses or fake smiles on command. The best photos happen when you forget for a moment that the lens is pointed at you. I focus on the atmosphere, the laughter that crinkles your face, and the quiet moments that speak louder than words.",
-  ctaLabel: 'Inquiry',
-  ctaHref: '#contact',
-  imageSrc: '/images/home/homehero.jpg',
-  imageAlt: 'Moody portrait in nature'
-}
-
-const services = [
-  {
-    title: 'Wedding',
-    bullets: ['Full day / Half day coverage', 'Storytelling & candid moments'],
-    stat: '250+ Captured'
-  },
-  {
-    title: 'Event coverage',
-    bullets: ['Corporate & private events', 'Real-time documentation'],
-    stat: '350+ Events'
-  },
-  {
-    title: 'Commercial',
-    bullets: ['Brand & campaign shots', 'Social Media & Marketing Assets'],
-    stat: '30+ Brands'
-  }
-]
-
-const { data: galleries } = await useAsyncData('home-galleries', () =>
-  queryCollection('portfolio')
-    .select('path', 'title', 'summary', 'cover', 'location', 'date', 'tags')
-    .order('date', 'DESC')
-    .limit(4)
-    .all()
-) as { data: Ref<Gallery[] | null> }
+const { data: galleries } = await usePortfolioList({ limit: 4, key: 'home-galleries' })
 
 const galleryCards = computed<Gallery[]>(() => galleries.value ?? [])
 
-const heroImage = '/images/home/homehero.jpg'
+const heroImage = homeHeroImage
 </script>
 
 <template>

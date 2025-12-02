@@ -24,4 +24,6 @@ logs
 !.env.example
 
 # VSCode settings
+.vscode
+.vscode/*
 .vscode/settings.json
