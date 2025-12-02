@@ -11,7 +11,7 @@ const props = defineProps<{
   imageAlt?: string
 }>()
 
-const fallbackImage = '/images/home/portrait.svg'
+const fallbackImage = '/images/home/homehero.jpg'
 const photoSource = computed(() => props.imageSrc || fallbackImage)
 const photoAlt = computed(() => props.imageAlt || 'Featured portrait')
 </script>
