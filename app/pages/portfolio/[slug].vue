@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { createError } from 'h3'
-import Footer from '@/components/navigation/Footer.vue'
+import Footer from '~/components/footer/Footer.vue'
 import Header from '@/components/navigation/Header.vue'
 import { useGalleryBySlug } from '@/composables/usePortfolio'
 import { useAppCopy } from '@/composables/useAppCopy'
@@ -20,7 +20,6 @@ if (!galleryData.value) {
 const gallery = galleryData.value
 
 const navLinks = computed(() => copy.value.navigation.links)
-const headerCta = computed(() => copy.value.navigation.ctas.default)
 const detailCopy = computed(() => copy.value.portfolio.detail)
 const dateLocale = computed(() => copy.value.meta.dateLocale)
 
@@ -37,8 +36,6 @@ useHead(() => ({
     <Header
       :links="navLinks"
       :brand-label="copy.navigation.brand"
-      :cta-label="headerCta.label"
-      :cta-href="headerCta.href"
       theme="light"
     />
     <main class="layout-shell max-w-4xl py-12">

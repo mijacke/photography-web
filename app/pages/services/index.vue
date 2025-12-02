@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import Footer from '@/components/navigation/Footer.vue'
+import Footer from '~/components/footer/Footer.vue'
 import Header from '@/components/navigation/Header.vue'
 import { useAppCopy } from '@/composables/useAppCopy'
 
 const { copy } = useAppCopy()
 
 const navLinks = computed(() => copy.value.navigation.links)
-const headerCta = computed(() => copy.value.navigation.ctas.default)
 const servicesCopy = computed(() => copy.value.services)
 </script>
 
@@ -16,8 +15,6 @@ const servicesCopy = computed(() => copy.value.services)
     <Header
       :links="navLinks"
       :brand-label="copy.navigation.brand"
-      :cta-label="headerCta.label"
-      :cta-href="headerCta.href"
       theme="light"
     />
 
@@ -66,7 +63,7 @@ const servicesCopy = computed(() => copy.value.services)
           </ul>
           <div class="px-6 pb-6">
             <a
-              :href="headerCta.href"
+              href="/contact"
               class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-stone-300 bg-sand px-4 py-3 text-sm font-semibold text-charcoal shadow-sm transition hover:-translate-y-0.5 hover:shadow"
             >
               {{ servicesCopy.packageCtaLabel }} {{ pkg.name }}

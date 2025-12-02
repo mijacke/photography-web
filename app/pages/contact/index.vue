@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
-import Footer from '@/components/navigation/Footer.vue'
+import Footer from '~/components/footer/Footer.vue'
 import Header from '@/components/navigation/Header.vue'
+import ContactMap from '@/components/contact/ContactMap.vue'
 import { useAppCopy } from '@/composables/useAppCopy'
 
 const { copy } = useAppCopy()
 
 const navLinks = computed(() => copy.value.navigation.links)
-const headerCta = computed(() => copy.value.navigation.ctas.default)
 const contactCopy = computed(() => copy.value.contactPage)
+const mapCopy = computed(() => contactCopy.value.map)
 const contacts = computed(() => contactCopy.value.contactCards)
+const addressCard = computed(() => contacts.value.find((card) => card.type === 'address'))
+const addressValue = computed(() => addressCard.value?.value ?? '')
 
 const form = reactive({
   fullName: '',
@@ -32,8 +35,6 @@ const handleSubmit = () => {
     <Header
       :links="navLinks"
       :brand-label="copy.navigation.brand"
-      :cta-label="headerCta.label"
-      :cta-href="headerCta.href"
       theme="light"
     />
 
@@ -43,6 +44,10 @@ const handleSubmit = () => {
         <h1 class="text-4xl font-semibold sm:text-5xl">{{ contactCopy.hero.title }}</h1>
         <p class="text-lg text-stone-700">{{ contactCopy.hero.description }}</p>
       </div>
+
+      <ClientOnly>
+        <ContactMap v-if="addressValue" :address="addressValue" :copy="mapCopy" />
+      </ClientOnly>
 
       <section class="grid gap-8 rounded-3xl border border-stone-200 bg-gradient-to-br from-white to-sand/70 p-8 shadow-card lg:grid-cols-2 lg:p-12">
         <div class="flex h-full flex-col space-y-4 rounded-2xl border border-stone-200 bg-white/80 p-6 shadow-sm">
