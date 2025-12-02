@@ -83,11 +83,7 @@ export const enMessages: AppMessages = {
       eyebrow: 'Contact',
       title: 'Contact me',
       description: 'Share what you need photographed. I will respond quickly with the simplest next step.',
-      introText: 'If you are interested in booking a photoshoot, workshop, or gift voucher, you can reach me via the form, email, or phone. I will gladly help you choose the type of session, timing, and all the details to create natural, emotional, and timeless photographs together. I look forward to meeting you – and to turning our shared memories into unforgettable images.',
-      availability: 'Available across Europe for weddings, events, and brand stories.',
-      callout: 'Tell me if you prefer email or a quick call.',
-      primaryCta: { label: 'Send an email', href: 'mailto:hi@paulidrahosova.com' },
-      secondaryCta: { label: 'See recent work', href: '/portfolio' }
+      introText: 'If you are interested in booking a photoshoot, workshop, or gift voucher, you can reach me via the form, email, or phone. I will gladly help you choose the type of session, timing, and all the details to create natural, emotional, and timeless photographs together. I look forward to meeting you – and to turning our shared memories into unforgettable images.'
     },
     contactCards: [
       { label: 'Phone', value: '+421 900 000 000', href: 'tel:+421900000000' },

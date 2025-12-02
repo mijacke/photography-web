@@ -44,32 +44,15 @@ const handleSubmit = () => {
         <p class="text-lg text-stone-700">{{ contactCopy.hero.description }}</p>
       </div>
 
-      <section class="grid gap-8 rounded-3xl border border-stone-200 bg-gradient-to-br from-white to-sand/70 p-8 shadow-card lg:grid-cols-[0.95fr,1.05fr] lg:p-12">
-        <div class="space-y-4 rounded-2xl border border-stone-200 bg-white/80 p-6 shadow-sm">
+      <section class="grid gap-8 rounded-3xl border border-stone-200 bg-gradient-to-br from-white to-sand/70 p-8 shadow-card lg:grid-cols-2 lg:p-12">
+        <div class="flex h-full flex-col space-y-4 rounded-2xl border border-stone-200 bg-white/80 p-6 shadow-sm">
           <p class="text-xs uppercase tracking-[0.28em] text-stone-600">{{ contactCopy.hero.eyebrow }}</p>
           
-          <div class="space-y-4 text-sm leading-relaxed text-stone-700">
+          <div class="text-sm leading-relaxed text-stone-700">
             <p>{{ contactCopy.hero.introText }}</p>
-            <p class="font-medium text-olive">{{ contactCopy.hero.availability }}</p>
-            <p class="italic text-stone-600">{{ contactCopy.hero.callout }}</p>
           </div>
 
-          <div class="flex flex-wrap gap-3 pt-2">
-            <a
-              :href="contactCopy.hero.primaryCta.href"
-              class="rounded-full bg-olive px-5 py-2.5 text-sm font-semibold text-sand shadow-lg shadow-olive/30 transition hover:-translate-y-0.5 hover:shadow-xl"
-            >
-              {{ contactCopy.hero.primaryCta.label }}
-            </a>
-            <NuxtLink
-              :to="contactCopy.hero.secondaryCta.href"
-              class="rounded-full border border-stone-300 bg-white px-5 py-2.5 text-sm font-semibold text-charcoal shadow-sm transition hover:-translate-y-0.5 hover:shadow"
-            >
-              {{ contactCopy.hero.secondaryCta.label }}
-            </NuxtLink>
-          </div>
-
-          <div class="space-y-3 pt-4">
+          <div class="flex-1 space-y-3 pt-4">
             <div
               v-for="item in contacts"
               :key="item.label"
@@ -86,7 +69,7 @@ const handleSubmit = () => {
           </div>
         </div>
 
-        <div class="space-y-4 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <div class="flex h-full flex-col space-y-4 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
           <p class="text-xs uppercase tracking-[0.24em] text-stone-600">{{ contactCopy.form.title }}</p>
           <form class="space-y-3" @submit.prevent="handleSubmit">
             <input

@@ -134,10 +134,6 @@ export type AppMessages = {
       title: string
       description: string
       introText: string
-      availability: string
-      callout: string
-      primaryCta: CTA
-      secondaryCta: CTA
     }
     contactCards: ContactCard[]
     form: {
