@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import Footer from '@/components/navigation/Footer.vue'
+import Header from '@/components/navigation/Header.vue'
 import { usePortfolioList } from '@/composables/usePortfolio'
 import { formatDate } from '@/utils/date'
+import { homeNavLinks } from '@/utils/homeContent'
 
 const { data: galleries } = await usePortfolioList()
+
+const navLinks = homeNavLinks
+
 </script>
 
 <template>
   <div class="min-h-screen bg-sand text-charcoal">
+    <Header :links="navLinks" cta-label="Book a date" cta-href="/contact" theme="light" />
     <main class="layout-shell py-16">
       <header class="mb-10 space-y-3">
         <p class="text-sm uppercase tracking-[0.28em] text-stone-500">Portfolio</p>
@@ -54,5 +61,7 @@ const { data: galleries } = await usePortfolioList()
         a tato stranka ho automaticky prida do zoznamu.
       </p>
     </main>
+
+    <Footer />
   </div>
 </template>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,8 +9,13 @@
     scroll-behavior: smooth;
   }
 
+  html,
   body {
-    @apply font-sans bg-white;
+    font-family: 'Quicksand', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-white;
     color: #1f1f1a;
   }
 }

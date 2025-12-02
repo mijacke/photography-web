@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { createError } from 'h3'
+import Footer from '@/components/navigation/Footer.vue'
+import Header from '@/components/navigation/Header.vue'
 import { useGalleryBySlug } from '@/composables/usePortfolio'
 import { formatDate } from '@/utils/date'
+import { homeNavLinks } from '@/utils/homeContent'
 
 const route = useRoute()
 
@@ -17,10 +20,14 @@ const gallery = galleryData.value
 useHead(() => ({
   title: gallery.title ? `${gallery.title} | Portfolio` : 'Portfolio'
 }))
+
+const navLinks = homeNavLinks
+
 </script>
 
 <template>
   <div class="min-h-screen bg-sand text-charcoal">
+    <Header :links="navLinks" cta-label="Book a date" cta-href="/contact" theme="light" />
     <main class="layout-shell max-w-4xl py-12">
       <NuxtLink
         to="/portfolio"
@@ -41,12 +48,14 @@ useHead(() => ({
       </header>
 
       <div v-if="gallery.cover" class="mt-8 overflow-hidden rounded-2xl ring-1 ring-stone-200">
-        <img :src="gallery.cover" :alt="gallery.title || 'Gallery'" class="h-full w-full object-cover" />
+        <NuxtImg :src="gallery.cover" :alt="gallery.title || 'Gallery'" class="h-full w-full object-cover" width="800" height="600" />
       </div>
 
       <div class="prose mt-10 max-w-none">
         <ContentRenderer :value="gallery as any" />
       </div>
     </main>
+
+    <Footer />
   </div>
 </template>

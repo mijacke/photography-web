@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { usePortfolioList } from '@/composables/usePortfolio'
+import Footer from '@/components/navigation/Footer.vue'
 import HomeContactCta from '@/components/home/HomeContactCta.vue'
 import HomeHero from '@/components/home/HomeHero.vue'
 import HomePortfolioPreview from '@/components/home/HomePortfolioPreview.vue'
 import HomeServices from '@/components/home/HomeServices.vue'
-import StickyHeader from '@/components/navigation/StickyHeader.vue'
+import Header from '@/components/navigation/Header.vue'
 import { homeHeroCopy, homeHeroImage, homeNavLinks, homeServices } from '@/utils/homeContent'
 import type { Gallery } from '@/types/gallery'
 
@@ -24,7 +25,7 @@ const heroImage = homeHeroImage
   <div class="min-h-screen bg-sand text-charcoal">
     <!-- Full viewport hero photo -->
     <section class="relative isolate h-screen min-h-[720px] w-full overflow-hidden bg-charcoal text-white">
-      <img :src="heroImage" alt="Documentary photo highlight" class="absolute inset-0 h-full w-full object-cover" />
+      <NuxtImg :src="heroImage" alt="Documentary photo highlight" class="absolute inset-0 h-full w-full object-cover" width="1920" height="1080" loading="eager" />
       <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-sand/85" />
       <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-sand/70 to-sand" />
 
@@ -48,7 +49,7 @@ const heroImage = homeHeroImage
       </div>
     </section>
 
-    <StickyHeader
+    <Header
       :links="navLinks"
       cta-label="Book a date"
       cta-href="#contact"
@@ -70,12 +71,16 @@ const heroImage = homeHeroImage
 
       <HomePortfolioPreview :galleries="galleryCards" />
 
-      <HomeContactCta
-        title="Ready for your date? I reply within 24 hours."
-        subtitle="Share your city, date, and the vibe you're after. I'll propose a lean plan you can react to without long emails."
-        cta-label="Message me"
-        cta-href="mailto:hi@mariolassu.com"
-      />
+      <section id="contact">
+        <HomeContactCta
+          title="Ready for your date? I reply within 24 hours."
+          subtitle="Share your city, date, and the vibe you're after. I'll propose a lean plan you can react to without long emails."
+          cta-label="Message me"
+          cta-href="mailto:hi@mariolassu.com"
+        />
+      </section>
     </main>
+
+    <Footer />
   </div>
 </template>

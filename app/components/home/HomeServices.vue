@@ -19,7 +19,7 @@ const serviceImage = computed(() => props.imageSrc || fallbackImage)
 <template>
   <section id="pricing" class="grid gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:items-start">
     <div class="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-card">
-      <img :src="serviceImage" alt="Documentary highlight" class="h-full w-full object-cover" />
+      <NuxtImg :src="serviceImage" alt="Documentary highlight" class="h-full w-full object-cover" width="1200" height="800" />
     </div>
 
     <div class="space-y-6">

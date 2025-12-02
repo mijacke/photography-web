@@ -38,7 +38,7 @@ const photoAlt = computed(() => props.imageAlt || 'Featured portrait')
     </div>
 
     <div class="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-card">
-      <img :src="photoSource" :alt="photoAlt" class="h-full w-full object-cover" />
+      <NuxtImg :src="photoSource" :alt="photoAlt" class="h-full w-full object-cover" width="1200" height="800" />
     </div>
   </section>
 </template>
