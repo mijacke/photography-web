@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import Footer from '@/components/navigation/Footer.vue'
+import Footer from '~/components/footer/Footer.vue'
 import Header from '@/components/navigation/Header.vue'
 import { usePortfolioList } from '@/composables/usePortfolio'
 import { useAppCopy } from '@/composables/useAppCopy'
@@ -11,7 +11,6 @@ const { data: galleries } = await usePortfolioList()
 const { copy } = useAppCopy()
 
 const navLinks = computed(() => copy.value.navigation.links)
-const headerCta = computed(() => copy.value.navigation.ctas.default)
 const portfolioCopy = computed(() => copy.value.portfolio.list)
 const dateLocale = computed(() => copy.value.meta.dateLocale)
 
@@ -23,8 +22,6 @@ const formatDateForLocale = (value?: string) => formatDate(value, dateLocale.val
     <Header
       :links="navLinks"
       :brand-label="copy.navigation.brand"
-      :cta-label="headerCta.label"
-      :cta-href="headerCta.href"
       theme="light"
     />
     <main class="layout-shell py-16">
