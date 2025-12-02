@@ -4,10 +4,10 @@ import type { NavLink } from '@/types/navigation'
 export const homeHeroImage = '/images/home/homehero.jpg'
 
 export const homeNavLinks: NavLink[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Contact', href: '#contact' }
+  { label: 'About', href: '/about' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Contact', href: '/contact' }
 ]
 
 export const homeHeroCopy: HeroCopy = {
