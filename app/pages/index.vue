@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { usePortfolioList } from '@/composables/usePortfolio'
 import { useAppCopy } from '@/composables/useAppCopy'
-import Footer from '@/components/navigation/Footer.vue'
+import { useHeroAutoScroll } from '@/composables/useHeroAutoScroll'
+import Footer from '~/components/footer/Footer.vue'
 import HomeContactCta from '@/components/home/HomeContactCta.vue'
 import HomeHero from '@/components/home/HomeHero.vue'
 import HomePortfolioPreview from '@/components/home/HomePortfolioPreview.vue'
@@ -13,7 +14,6 @@ import type { Gallery } from '@/types/gallery'
 const { copy } = useAppCopy()
 
 const navLinks = computed(() => copy.value.navigation.links)
-const headerCta = computed(() => copy.value.navigation.ctas.home)
 const masthead = computed(() => copy.value.home.masthead)
 const profileCopy = computed(() => copy.value.home.profile)
 const services = computed(() => copy.value.home.services)
@@ -26,12 +26,14 @@ const { data: galleries } = await usePortfolioList({ limit: 4, key: 'home-galler
 const galleryCards = computed<Gallery[]>(() => galleries.value ?? [])
 
 const heroImage = computed(() => profileCopy.value.imageSrc || '/images/home/homehero.jpg')
+
+const { heroSection, headerAnchor } = useHeroAutoScroll()
 </script>
 
 <template>
   <div class="min-h-screen bg-sand text-charcoal">
     <!-- Full viewport hero photo -->
-    <section class="relative isolate h-screen min-h-[720px] w-full overflow-hidden bg-charcoal text-white">
+    <section ref="heroSection" class="relative isolate h-screen min-h-[720px] w-full overflow-hidden bg-charcoal text-white">
       <NuxtImg :src="heroImage" :alt="masthead.imageAlt" class="absolute inset-0 h-full w-full object-cover" width="1920" height="1080" loading="eager" />
       <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-sand/85" />
       <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent via-sand/70 to-sand" />
@@ -56,11 +58,11 @@ const heroImage = computed(() => profileCopy.value.imageSrc || '/images/home/hom
       </div>
     </section>
 
+    <div ref="headerAnchor" />
+
     <Header
       :links="navLinks"
       :brand-label="copy.navigation.brand"
-      :cta-label="headerCta.label"
-      :cta-href="headerCta.href"
       theme="light"
     />
 
