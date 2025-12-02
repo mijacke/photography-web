@@ -11,11 +11,7 @@ export const enMessages: AppMessages = {
       { label: 'Gallery', href: '/portfolio' },
       { label: 'Services', href: '/services' },
       { label: 'Contact', href: '/contact' }
-    ],
-    ctas: {
-      home: { label: 'Book a date', href: '#contact' },
-      default: { label: 'Book a date', href: '/contact' }
-    }
+    ]
   },
   home: {
     masthead: {
@@ -86,12 +82,19 @@ export const enMessages: AppMessages = {
       introText: 'If you are interested in booking a photoshoot, workshop, or gift voucher, you can reach me via the form, email, or phone. I will gladly help you choose the type of session, timing, and all the details to create natural, emotional, and timeless photographs together. I look forward to meeting you – and to turning our shared memories into unforgettable images.'
     },
     contactCards: [
-      { label: 'Phone', value: '+421 900 000 000', href: 'tel:+421900000000' },
-      { label: 'Email', value: 'hi@paulidrahosova.com', href: 'mailto:hi@paulidrahosova.com' },
-      { label: 'Address', value: 'Bratislava, Slovakia' },
-      { label: 'Location', value: 'Slovakia · Available across Europe' },
-      { label: 'Response', value: 'I usually reply within 24 hours' }
+      { label: 'Phone', value: '+421 900 000 000', href: 'tel:+421900000000', type: 'phone' },
+      { label: 'Email', value: 'hi@paulidrahosova.com', href: 'mailto:hi@paulidrahosova.com', type: 'email' },
+      { label: 'Address', value: 'Hodská 1233, Galanta 92401', type: 'address' },
+      { label: 'Location', value: 'Slovakia · Available across Europe', type: 'location' },
+      { label: 'Response', value: 'I usually reply within 24 hours', type: 'response' }
     ],
+    map: {
+      eyebrow: 'Google map',
+      title: 'You can find me here',
+      description: 'The map uses the address from the contact card. Open it in a new tab if you need full navigation.',
+      addressLabel: 'Address',
+      directionsLabel: 'Open in Maps'
+    },
     form: {
       title: 'Contact form',
       namePlaceholder: 'Full name',
