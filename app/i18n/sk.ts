@@ -83,11 +83,7 @@ export const skMessages: AppMessages = {
       eyebrow: 'Kontakt',
       title: 'Kontaktujte ma',
       description: 'Vyplňte stručne, čo potrebujete nafotiť. Odpíšem rýchlo a navrhnem jednoduchý ďalší krok.',
-      introText: 'Ak máte záujem o rezerváciu fotenia, workshop alebo darčekovú poukážku, môžete ma kontaktovať prostredníctvom formulára, e-mailu alebo telefonicky. Rada vám poradím s výberom typu fotenia, termínu aj všetkými detailmi, aby sme spolu vytvorili prirodzené, emotívne a nadčasové fotografie. Teším sa na naše stretnutie – a na spomienky, ktoré spolu premeníme na nezabudnuteľné zábery.',
-      availability: 'Dostupná po celej Európe na svadby, eventy a príbehy značiek.',
-      callout: 'Napíšte mi preferovaný kanál – email alebo telefonát.',
-      primaryCta: { label: 'Poslať email', href: 'mailto:hi@paulidrahosova.com' },
-      secondaryCta: { label: 'Pozrieť portfólio', href: '/portfolio' }
+      introText: 'Ak máte záujem o rezerváciu fotenia, workshop alebo darčekovú poukážku, môžete ma kontaktovať prostredníctvom formulára, e-mailu alebo telefonicky. Rada vám poradím s výberom typu fotenia, termínu aj všetkými detailmi, aby sme spolu vytvorili prirodzené, emotívne a nadčasové fotografie. Teším sa na naše stretnutie – a na spomienky, ktoré spolu premeníme na nezabudnuteľné zábery.'
     },
     contactCards: [
       { label: 'Telefón', value: '+421 900 000 000', href: 'tel:+421900000000' },
