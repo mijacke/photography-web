@@ -10,8 +10,8 @@ export default {
         white: '#ffffff'
       },
       fontFamily: {
-        sans: ['"Quicksand"', 'system-ui', 'sans-serif'],
-        display: ['"Quicksand"', 'system-ui', 'sans-serif']
+        sans: ['var(--font-primary)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-primary)', 'system-ui', 'sans-serif']
       },
       boxShadow: {
         card: '0 22px 60px -36px rgba(17, 24, 39, 0.4)'
