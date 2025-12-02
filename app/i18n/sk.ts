@@ -11,11 +11,7 @@ export const skMessages: AppMessages = {
       { label: 'Galéria', href: '/portfolio' },
       { label: 'Služby', href: '/services' },
       { label: 'Kontakt', href: '/contact' }
-    ],
-    ctas: {
-      home: { label: 'Rezervuj termín', href: '#contact' },
-      default: { label: 'Rezervuj termín', href: '/contact' }
-    }
+    ]
   },
   home: {
     masthead: {
@@ -86,12 +82,19 @@ export const skMessages: AppMessages = {
       introText: 'Ak máte záujem o rezerváciu fotenia, workshop alebo darčekovú poukážku, môžete ma kontaktovať prostredníctvom formulára, e-mailu alebo telefonicky. Rada vám poradím s výberom typu fotenia, termínu aj všetkými detailmi, aby sme spolu vytvorili prirodzené, emotívne a nadčasové fotografie. Teším sa na naše stretnutie – a na spomienky, ktoré spolu premeníme na nezabudnuteľné zábery.'
     },
     contactCards: [
-      { label: 'Telefón', value: '+421 900 000 000', href: 'tel:+421900000000' },
-      { label: 'Email', value: 'hi@paulidrahosova.com', href: 'mailto:hi@paulidrahosova.com' },
-      { label: 'Adresa', value: 'Bratislava, Slovensko' },
-      { label: 'Pôsobenie', value: 'Slovensko · Dostupná po Európe' },
-      { label: 'Odpoveď', value: 'Reagujem zvyčajne do 24 hodín' }
+      { label: 'Telefón', value: '+421 900 000 000', href: 'tel:+421900000000', type: 'phone' },
+      { label: 'Email', value: 'hi@paulidrahosova.com', href: 'mailto:hi@paulidrahosova.com', type: 'email' },
+      { label: 'Adresa', value: 'Hodská 1233, Galanta 92401', type: 'address' },
+      { label: 'Pôsobenie', value: 'Slovensko · Dostupná po Európe', type: 'location' },
+      { label: 'Odpoveď', value: 'Reagujem zvyčajne do 24 hodín', type: 'response' }
     ],
+    map: {
+      eyebrow: 'Google mapa',
+      title: 'Nájdete ma tu',
+      description: 'Mapa zobrazuje adresu z kontaktu. Ak potrebujete presnú navigáciu, otvorte si mapu v novom okne.',
+      addressLabel: 'Adresa',
+      directionsLabel: 'Otvoriť v Mapách'
+    },
     form: {
       title: 'Kontaktný formulár',
       namePlaceholder: 'Meno a priezvisko',

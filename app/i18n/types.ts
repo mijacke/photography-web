@@ -67,6 +67,7 @@ export type ContactCard = {
   label: string
   value: string
   href?: string
+  type?: 'phone' | 'email' | 'address' | 'location' | 'response'
 }
 
 export type ServicesCopy = {
@@ -98,10 +99,6 @@ export type AppMessages = {
   navigation: {
     brand: string
     links: NavLink[]
-    ctas: {
-      home: CTA
-      default: CTA
-    }
   }
   home: {
     masthead: {
@@ -136,6 +133,13 @@ export type AppMessages = {
       introText: string
     }
     contactCards: ContactCard[]
+    map: {
+      eyebrow: string
+      title: string
+      description: string
+      addressLabel: string
+      directionsLabel: string
+    }
     form: {
       title: string
       namePlaceholder: string
