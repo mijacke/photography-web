@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Gallery } from '@/types/gallery'
+import type { HomePortfolioEmptyState } from '@/types/home'
 import { formatDate } from '@/utils/date'
 
 const props = defineProps<{
@@ -9,7 +10,7 @@ const props = defineProps<{
   title: string
   description: string
   viewAllLabel: string
-  emptyState: { before: string; path: string; after: string }
+  emptyState: HomePortfolioEmptyState
   dateLocale?: string
 }>()
 

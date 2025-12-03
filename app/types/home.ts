@@ -13,3 +13,17 @@ export type HomeService = {
   bullets: string[]
   stat: string
 }
+
+export type HomePortfolioEmptyState = {
+  before: string
+  path: string
+  after: string
+}
+
+export type HomePortfolioPreviewCopy = {
+  eyebrow: string
+  title: string
+  description: string
+  viewAllLabel: string
+  emptyState: HomePortfolioEmptyState
+}

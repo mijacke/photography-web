@@ -89,11 +89,7 @@ export const skMessages: AppMessages = {
       { label: 'Odpoveď', value: 'Reagujem zvyčajne do 24 hodín', type: 'response' }
     ],
     map: {
-      eyebrow: 'Google mapa',
-      title: 'Nájdete ma tu',
-      description: 'Mapa zobrazuje adresu z kontaktu. Ak potrebujete presnú navigáciu, otvorte si mapu v novom okne.',
-      addressLabel: 'Adresa',
-      directionsLabel: 'Otvoriť v Mapách'
+      addressLabel: 'Adresa'
     },
     form: {
       title: 'Kontaktný formulár',
