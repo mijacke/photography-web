@@ -29,7 +29,7 @@ const { brandLinkClasses } = useThemeClasses(isDark.value, props.locale)
     to="/"
     class="inline-flex items-center gap-3 rounded-md px-1 transition"
     :class="brandLinkClasses()"
-    @click="(event) => emit('click', event)"
+    @click="(event: MouseEvent) => emit('click', event)"
   >
     <NuxtImg
       v-if="brandLogoSrc"

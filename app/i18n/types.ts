@@ -1,5 +1,9 @@
-import type { HeroCopy, HomeService } from '@/types/home'
+import type { ContactCard, ContactMapCopy } from '@/types/contact'
+import type { HeroCopy, HomePortfolioPreviewCopy, HomeService } from '@/types/home'
 import type { NavLink } from '@/types/navigation'
+
+export type { ContactCard, ContactMapCopy } from '@/types/contact'
+export type { HomePortfolioEmptyState, HomePortfolioPreviewCopy } from '@/types/home'
 
 export type CTA = { label: string; href: string }
 
@@ -41,33 +45,12 @@ export type PortfolioCopy = {
   detail: PortfolioDetailCopy
 }
 
-export type HomePortfolioEmptyState = {
-  before: string
-  path: string
-  after: string
-}
-
-export type HomePortfolioPreviewCopy = {
-  eyebrow: string
-  title: string
-  description: string
-  viewAllLabel: string
-  emptyState: HomePortfolioEmptyState
-}
-
 export type PackageCard = {
   name: string
   price: string
   summary: string
   includes: string[]
   badge?: string
-}
-
-export type ContactCard = {
-  label: string
-  value: string
-  href?: string
-  type?: 'phone' | 'email' | 'address' | 'location' | 'response'
 }
 
 export type ServicesCopy = {
@@ -133,13 +116,7 @@ export type AppMessages = {
       introText: string
     }
     contactCards: ContactCard[]
-    map: {
-      eyebrow: string
-      title: string
-      description: string
-      addressLabel: string
-      directionsLabel: string
-    }
+    map: ContactMapCopy
     form: {
       title: string
       namePlaceholder: string

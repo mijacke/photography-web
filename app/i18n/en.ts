@@ -89,11 +89,7 @@ export const enMessages: AppMessages = {
       { label: 'Response', value: 'I usually reply within 24 hours', type: 'response' }
     ],
     map: {
-      eyebrow: 'Google map',
-      title: 'You can find me here',
-      description: 'The map uses the address from the contact card. Open it in a new tab if you need full navigation.',
-      addressLabel: 'Address',
-      directionsLabel: 'Open in Maps'
+      addressLabel: 'Address'
     },
     form: {
       title: 'Contact form',
