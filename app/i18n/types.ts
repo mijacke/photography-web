@@ -45,6 +45,15 @@ export type PortfolioCopy = {
   detail: PortfolioDetailCopy
 }
 
+export type HomeCategory = {
+  title: string
+  description: string
+  ctaLabel: string
+  ctaHref: string
+  imageSrc: string
+  imageAlt: string
+}
+
 export type PackageCard = {
   name: string
   price: string
@@ -106,6 +115,16 @@ export type AppMessages = {
       title: string
       subtitle: string
       cta: CTA
+    }
+    intro: {
+      title: string
+      subtitle: string
+    }
+    categories: {
+      family: HomeCategory
+      maternity: HomeCategory
+      wedding: HomeCategory
+      newborn: HomeCategory
     }
   }
   contactPage: {

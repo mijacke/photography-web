@@ -72,6 +72,44 @@ export const enMessages: AppMessages = {
       subtitle:
         "Share your city, date, and the vibe you're after. I'll propose a lean plan you can react to without long emails.",
       cta: { label: 'Message me', href: 'mailto:hi@paulidrahosova.com' }
+    },
+    intro: {
+      title: 'Wedding, maternity, newborn and family photography',
+      subtitle: 'captured in a clean style, focused on emotions...'
+    },
+    categories: {
+      family: {
+        title: 'Family',
+        description: 'Capturing unique moments of your family, full of love and joy.',
+        ctaLabel: 'View more',
+        ctaHref: '/portfolio/category/family',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Family photography'
+      },
+      maternity: {
+        title: 'Maternity',
+        description: 'The beauty of expecting a new life, captured in natural light.',
+        ctaLabel: 'View more',
+        ctaHref: '/portfolio/category/maternity',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Maternity photography'
+      },
+      wedding: {
+        title: 'Wedding',
+        description: 'Your big day, full of emotions and unforgettable moments.',
+        ctaLabel: 'View more',
+        ctaHref: '/portfolio/category/wedding',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Wedding photography'
+      },
+      newborn: {
+        title: 'Newborn',
+        description: 'The first days of your baby, gentle and innocent details.',
+        ctaLabel: 'View more',
+        ctaHref: '/portfolio/category/newborn',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Newborn photography'
+      }
     }
   },
   contactPage: {
