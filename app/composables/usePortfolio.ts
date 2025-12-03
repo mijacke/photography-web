@@ -3,17 +3,24 @@ import type { Gallery } from '@/types/gallery'
 type PortfolioListOptions = {
   limit?: number
   key?: string
+  category?: string
 }
 
 export const usePortfolioList = (options: PortfolioListOptions = {}) => {
-  const { limit, key = 'portfolio-list' } = options
+  const { limit, key = 'portfolio-list', category } = options
 
-  return useAsyncData<Gallery[]>(key, () => {
+  return useAsyncData<Gallery[]>(key, async () => {
     const query = queryCollection('portfolio')
       .select('path', 'title', 'summary', 'cover', 'location', 'date', 'tags')
       .order('date', 'DESC')
 
-    return (limit ? query.limit(limit) : query).all()
+    const items = await (limit ? query.limit(limit) : query).all()
+
+    if (category) {
+      return items.filter(item => item.tags?.includes(category))
+    }
+
+    return items
   })
 }
 

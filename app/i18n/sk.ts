@@ -72,6 +72,44 @@ export const skMessages: AppMessages = {
       subtitle:
         'Napíš mesto, dátum a atmosféru, ktorú chceš. Navrhnem jednoduchý plán bez dlhých mailov.',
       cta: { label: 'Napísať správu', href: 'mailto:hi@paulidrahosova.com' }
+    },
+    intro: {
+      title: 'Svadobné, tehotenské, novorodenecké a rodinné fotografie',
+      subtitle: 'zachytené čistým štýlom, zamerané na emócie...'
+    },
+    categories: {
+      family: {
+        title: 'Rodinné',
+        description: 'Zachytávam jedinečné momenty vašej rodiny, plné lásky a radosti.',
+        ctaLabel: 'Zobraziť viac',
+        ctaHref: '/portfolio/category/family',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Rodinná fotografia'
+      },
+      maternity: {
+        title: 'Tehotenské',
+        description: 'Krása očakávania nového života, zachytená v prirodzenom svetle.',
+        ctaLabel: 'Zobraziť viac',
+        ctaHref: '/portfolio/category/maternity',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Tehotenská fotografia'
+      },
+      wedding: {
+        title: 'Svadobné',
+        description: 'Váš veľký deň, plný emócií a nezabudnuteľných okamihov.',
+        ctaLabel: 'Zobraziť viac',
+        ctaHref: '/portfolio/category/wedding',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Svadobná fotografia'
+      },
+      newborn: {
+        title: 'Newborn',
+        description: 'Prvé dni vášho bábätka, jemné a nevinné detaily.',
+        ctaLabel: 'Zobraziť viac',
+        ctaHref: '/portfolio/category/newborn',
+        imageSrc: '/images/home/homehero.jpg',
+        imageAlt: 'Newborn fotografia'
+      }
     }
   },
   contactPage: {

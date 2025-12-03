@@ -5,9 +5,7 @@ import { useAppCopy } from '@/composables/useAppCopy'
 import { useHeroAutoScroll } from '@/composables/useHeroAutoScroll'
 import Footer from '~/components/footer/Footer.vue'
 import HomeContactCta from '@/components/home/HomeContactCta.vue'
-import HomeHero from '@/components/home/HomeHero.vue'
-import HomePortfolioPreview from '@/components/home/HomePortfolioPreview.vue'
-import HomeServices from '@/components/home/HomeServices.vue'
+import HomeCategorySection from '@/components/home/HomeCategorySection.vue'
 import Header from '@/components/navigation/Header.vue'
 import type { Gallery } from '@/types/gallery'
 
@@ -15,9 +13,8 @@ const { copy } = useAppCopy()
 
 const navLinks = computed(() => copy.value.navigation.links)
 const masthead = computed(() => copy.value.home.masthead)
-const profileCopy = computed(() => copy.value.home.profile)
-const services = computed(() => copy.value.home.services)
-const portfolioPreviewCopy = computed(() => copy.value.home.portfolioPreview)
+const intro = computed(() => copy.value.home.intro)
+const categories = computed(() => copy.value.home.categories)
 const contactCopy = computed(() => copy.value.home.contact)
 const dateLocale = computed(() => copy.value.meta.dateLocale)
 
@@ -25,7 +22,7 @@ const { data: galleries } = await usePortfolioList({ limit: 4, key: 'home-galler
 
 const galleryCards = computed<Gallery[]>(() => galleries.value ?? [])
 
-const heroImage = computed(() => profileCopy.value.imageSrc || '/images/home/homehero.jpg')
+const heroImage = computed(() => '/images/home/homehero.jpg')
 
 const { heroSection, headerAnchor } = useHeroAutoScroll()
 </script>
@@ -66,35 +63,16 @@ const { heroSection, headerAnchor } = useHeroAutoScroll()
       theme="light"
     />
 
-    <main class="layout-shell flex flex-col gap-16 pb-20 pt-12">
-      <HomeHero
-        :title="profileCopy.title"
-        :eyebrow="profileCopy.eyebrow"
-        :description="profileCopy.description"
-        :cta-label="profileCopy.ctaLabel"
-        :cta-href="profileCopy.ctaHref"
-        :image-src="profileCopy.imageSrc"
-        :image-alt="profileCopy.imageAlt"
-      />
+    <main class="layout-shell flex flex-col gap-0 pb-20 pt-12">
+      <section class="mx-auto max-w-3xl px-6 py-16 text-center lg:py-24">
+        <h2 class="text-3xl font-serif text-charcoal sm:text-4xl md:text-5xl">{{ intro.title }}</h2>
+        <p class="mt-6 text-lg italic text-charcoal/80 font-serif">{{ intro.subtitle }}</p>
+      </section>
 
-      <HomeServices
-        :services="services.items"
-        :image-src="services.imageSrc"
-        :image-alt="services.imageAlt"
-        :eyebrow="services.eyebrow"
-        :title="services.title"
-        :description="services.description"
-      />
-
-      <HomePortfolioPreview
-        :galleries="galleryCards"
-        :eyebrow="portfolioPreviewCopy.eyebrow"
-        :title="portfolioPreviewCopy.title"
-        :description="portfolioPreviewCopy.description"
-        :view-all-label="portfolioPreviewCopy.viewAllLabel"
-        :empty-state="portfolioPreviewCopy.emptyState"
-        :date-locale="dateLocale"
-      />
+      <HomeCategorySection :category="categories.family" />
+      <HomeCategorySection :category="categories.maternity" reversed />
+      <HomeCategorySection :category="categories.wedding" />
+      <HomeCategorySection :category="categories.newborn" reversed />
 
       <section id="contact">
         <HomeContactCta
