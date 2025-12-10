@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxt/content', '@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/critters'],
-  css: ['@/assets/css/tailwind.css'],
+  css: ['~/assets/css/tailwind.css'],
   critters: {
     config: {
       preload: 'swap'
@@ -14,7 +14,7 @@ export default defineNuxtConfig({
       style: [
         {
           innerHTML: `
-            body { background-color: #f5f3ec; margin: 0; padding: 0; }
+            body { background-color: #faf8f5; margin: 0; padding: 0; }
             #__nuxt { min-height: 100vh; }
           `
         }
@@ -22,6 +22,13 @@ export default defineNuxtConfig({
     }
   },
   runtimeConfig: {
+    // Private keys (server-side only)
+    instagramAccessToken: process.env.INSTAGRAM_ACCESS_TOKEN || process.env.INSTAGRAM_TOKEN || '',
+    instagramToken: process.env.INSTAGRAM_TOKEN || process.env.INSTAGRAM_ACCESS_TOKEN || '',
+    instagramBusinessAccountId: process.env.INSTAGRAM_BUSINESS_ACCOUNT_ID || '',
+    instagramApiVersion: process.env.INSTAGRAM_API_VERSION || 'v19.0',
+    facebookAppId: process.env.FACEBOOK_APP_ID || '',
+    facebookAppSecret: process.env.FACEBOOK_APP_SECRET || '',
     public: {
       googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''
     }
