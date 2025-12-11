@@ -1,99 +1,206 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import Footer from '~/components/footer/Footer.vue'
-import Header from '@/components/navigation/Header.vue'
-import { useAppCopy } from '@/composables/useAppCopy'
+useSeoMeta({
+  title: 'Services | Photography',
+  description: 'Professional photography services for families, newborns, maternity, and weddings. Based in Bratislava, available worldwide.',
+})
 
-const { copy } = useAppCopy()
-
-const navLinks = computed(() => copy.value.navigation.links)
-const servicesCopy = computed(() => copy.value.services)
+const services = [
+  {
+    id: 'family',
+    title: 'Family Sessions',
+    description: 'Capturing the love and connection between family members in natural, relaxed settings. Perfect for annual family portraits, milestone celebrations, or just because.',
+    features: [
+      '1-2 hour session',
+      'Outdoor or in-home options',
+      '30+ edited digital images',
+      'Print-ready high resolution files',
+      'Online gallery for easy sharing',
+    ],
+    image: '/images/home/homehero.jpg',
+  },
+  {
+    id: 'newborn',
+    title: 'Newborn Photography',
+    description: 'Delicate portraits of your newest family member in their first precious days. Best scheduled within the first 2 weeks of life when babies are sleepiest.',
+    features: [
+      '2-3 hour session',
+      'In-home or studio setting',
+      '25+ edited digital images',
+      'Parent and sibling photos included',
+      'Wraps and props provided',
+    ],
+    image: '/images/home/homehero.jpg',
+  },
+  {
+    id: 'maternity',
+    title: 'Maternity Photography',
+    description: 'Celebrating the beauty of pregnancy and the anticipation of new life. Best scheduled between 28-34 weeks.',
+    features: [
+      '1 hour session',
+      'Outdoor or studio options',
+      '20+ edited digital images',
+      'Partner photos included',
+      'Styling guidance provided',
+    ],
+    image: '/images/home/homehero.jpg',
+  },
+  {
+    id: 'wedding',
+    title: 'Wedding Photography',
+    description: 'Documenting your special day with timeless elegance and authentic emotion. From intimate elopements to grand celebrations.',
+    features: [
+      'Full day coverage available',
+      'Second photographer option',
+      '300+ edited digital images',
+      'Engagement session included',
+      'Premium album options',
+    ],
+    image: '/images/home/homehero.jpg',
+  },
+]
 </script>
 
 <template>
-  <div class="min-h-screen bg-sand text-charcoal">
-    <Header
-      :links="navLinks"
-      :brand-label="copy.navigation.brand"
-      theme="light"
-    />
+  <div>
+    <!-- Page Header -->
+    <section class="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream-100">
+      <div class="container-narrow text-center">
+        <p class="text-accent text-lg md:text-xl mb-3">
+          What I Offer
+        </p>
+        <h1 class="text-4xl md:text-5xl font-display text-charcoal-900 mb-6">
+          Photography Services
+        </h1>
+        <p class="text-charcoal-600 max-w-xl mx-auto">
+          Every session is carefully crafted to capture your unique story. 
+          Choose the style that fits your needs.
+        </p>
+      </div>
+    </section>
 
-    <main class="layout-shell space-y-12 py-14">
-      <section class="grid gap-10 rounded-3xl border border-stone-200 bg-gradient-to-br from-white to-sand/70 p-8 shadow-card lg:grid-cols-[1.1fr,0.9fr] lg:p-10">
-        <div class="space-y-4">
-          <p class="text-xs uppercase tracking-[0.28em] text-stone-500">{{ servicesCopy.hero.eyebrow }}</p>
-          <h1 class="text-4xl font-semibold sm:text-5xl">{{ servicesCopy.hero.title }}</h1>
-          <p class="text-lg leading-8 text-stone-700">
-            {{ servicesCopy.hero.description }}
-          </p>
-          <div class="inline-flex items-center gap-3 rounded-full border border-stone-300 bg-white px-4 py-2 text-sm text-stone-700 shadow-sm">
-            <span class="h-2 w-2 rounded-full bg-olive" />
-            {{ servicesCopy.hero.badge }}
-          </div>
-        </div>
-        <div class="rounded-3xl border border-stone-200 bg-white/80 p-6 shadow-sm">
-          <h3 class="text-lg font-semibold text-charcoal">{{ servicesCopy.alwaysIncluded.title }}</h3>
-          <ul class="mt-4 space-y-2 text-sm leading-relaxed text-stone-700">
-            <li v-for="item in servicesCopy.alwaysIncluded.bullets" :key="item">
-              {{ item }}
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="grid gap-6 md:grid-cols-3">
-        <article
-          v-for="pkg in servicesCopy.packages"
-          :key="pkg.name"
-          class="flex h-full flex-col gap-4 rounded-3xl border border-stone-200 bg-white shadow-card transition hover:-translate-y-1 hover:shadow-lg"
-        >
-          <div class="space-y-2 px-6 pt-6">
-            <p class="text-xs uppercase tracking-[0.28em] text-stone-500">{{ pkg.badge }}</p>
-            <div class="flex items-baseline justify-between">
-              <h2 class="text-2xl font-semibold text-charcoal">{{ pkg.name }}</h2>
-              <span class="text-lg font-semibold text-olive">{{ pkg.price }}</span>
-            </div>
-            <p class="text-sm leading-relaxed text-stone-700">{{ pkg.summary }}</p>
-          </div>
-          <ul class="flex flex-1 flex-col gap-2 px-6 pb-6 text-sm leading-relaxed text-stone-700">
-            <li v-for="item in pkg.includes" :key="item" class="flex items-start gap-2">
-              <span class="mt-1 h-2 w-2 rounded-full bg-olive/80" aria-hidden="true" />
-              <span>{{ item }}</span>
-            </li>
-          </ul>
-          <div class="px-6 pb-6">
-            <a
-              href="/contact"
-              class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-stone-300 bg-sand px-4 py-3 text-sm font-semibold text-charcoal shadow-sm transition hover:-translate-y-0.5 hover:shadow"
-            >
-              {{ servicesCopy.packageCtaLabel }} {{ pkg.name }}
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-        </article>
-      </section>
-
-      <section class="grid gap-8 rounded-3xl border border-stone-200 bg-white/90 p-8 shadow-card md:grid-cols-[1fr,1fr] lg:p-10">
-        <div class="space-y-3">
-          <p class="text-xs uppercase tracking-[0.28em] text-stone-500">{{ servicesCopy.addOns.eyebrow }}</p>
-          <h2 class="text-2xl font-semibold">{{ servicesCopy.addOns.title }}</h2>
-          <p class="text-base text-stone-700">
-            {{ servicesCopy.addOns.description }}
-          </p>
-        </div>
-        <div class="grid gap-3 sm:grid-cols-2">
-          <div
-            v-for="item in servicesCopy.addOns.items"
-            :key="item"
-            class="flex items-center justify-between rounded-2xl border border-stone-200 bg-sand/70 px-4 py-3 text-sm font-medium text-charcoal"
+    <!-- Services List -->
+    <section class="bg-cream-100">
+      <div 
+        v-for="(service, index) in services" 
+        :key="service.id"
+        :id="service.id"
+        class="section-padding border-b border-cream-200 last:border-b-0"
+      >
+        <div class="container-wide">
+          <div 
+            :class="[
+              'grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center',
+              index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+            ]"
           >
-            <span>{{ item }}</span>
-            <span aria-hidden="true">+</span>
+            <!-- Image -->
+            <div :class="index % 2 === 1 ? 'lg:order-2' : ''">
+              <div class="aspect-[4/3] overflow-hidden">
+                <NuxtImg
+                  :src="service.image"
+                  :alt="service.title"
+                  class="w-full h-full object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div :class="index % 2 === 1 ? 'lg:order-1' : ''">
+              <h2 class="text-3xl md:text-4xl font-display text-charcoal-900 mb-4">
+                {{ service.title }}
+              </h2>
+              
+              <p class="text-charcoal-600 leading-relaxed mb-6">
+                {{ service.description }}
+              </p>
+              
+              <h3 class="font-sans text-sm font-semibold uppercase tracking-wider text-charcoal-800 mb-4">
+                What's Included
+              </h3>
+              
+              <ul class="space-y-2 mb-8">
+                <li 
+                  v-for="feature in service.features" 
+                  :key="feature"
+                  class="flex items-start gap-3 text-charcoal-600"
+                >
+                  <img src="/svg/icons/check.svg" alt="" class="h-5 w-5 flex-shrink-0 mt-0.5" />
+                  {{ feature }}
+                </li>
+              </ul>
+              
+              <UiAppButton to="/contact" variant="primary">
+                Inquire About {{ service.title }}
+              </UiAppButton>
+            </div>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <Footer />
+    <!-- FAQ Section -->
+    <section class="section-padding bg-cream-200">
+      <div class="container-narrow">
+        <div class="text-center mb-12">
+          <p class="text-accent text-lg md:text-xl mb-3">
+            Common Questions
+          </p>
+          <h2 class="text-3xl md:text-4xl font-display text-charcoal-900">
+            Frequently Asked Questions
+          </h2>
+        </div>
+
+        <div class="space-y-6">
+          <details class="group bg-cream-100 p-6">
+            <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
+              How far in advance should I book?
+              <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="mt-4 text-charcoal-600">
+              I recommend booking 4-6 weeks in advance for family and maternity sessions, 
+              2-3 months for newborn sessions (before baby arrives!), and 6-12 months for weddings.
+            </p>
+          </details>
+
+          <details class="group bg-cream-100 p-6">
+            <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
+              What should we wear?
+              <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="mt-4 text-charcoal-600">
+              I provide a detailed style guide upon booking! Generally, I recommend coordinating 
+              (not matching) outfits in soft, neutral colors that complement each other.
+            </p>
+          </details>
+
+          <details class="group bg-cream-100 p-6">
+            <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
+              Where do sessions take place?
+              <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="mt-4 text-charcoal-600">
+              I offer both outdoor and indoor sessions. I have beautiful location recommendations 
+              around Bratislava, but I'm also happy to come to your home or a meaningful location of your choice.
+            </p>
+          </details>
+
+          <details class="group bg-cream-100 p-6">
+            <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
+              When will we receive our photos?
+              <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p class="mt-4 text-charcoal-600">
+              You'll receive your online gallery within 2-3 weeks for portrait sessions and 
+              4-6 weeks for weddings. I'll send sneak peeks within 48 hours!
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <SectionsHomeCTASection />
   </div>
 </template>
