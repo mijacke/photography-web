@@ -7,23 +7,29 @@ const props = withDefaults(defineProps<Props>(), {
   transparent: false
 })
 
+const route = useRoute()
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
 const isPortfolioDropdownOpen = ref(false)
 
+// Check if current route is a portfolio page
+const isOnPortfolioPage = computed(() => {
+  return route.path.startsWith('/portfolio')
+})
+
 const portfolioCategories = [
-  { label: 'Newborn', href: '/portfolio?category=newborn' },
-  { label: 'Maternity', href: '/portfolio?category=maternity' },
-  { label: 'Cake Smash', href: '/portfolio?category=cake-smash' },
-  { label: 'Family', href: '/portfolio?category=family' },
+  { label: 'Rodina', href: '/portfolio/rodina' },
+  { label: 'Svadby', href: '/portfolio/svadby' },
+  { label: 'Novorodenci', href: '/portfolio/novorodenci' },
+  { label: 'Tehotenstvo', href: '/portfolio/tehotenstvo' },
 ]
 
 const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Portfolio', href: '/portfolio', hasDropdown: true },
-  { label: 'Services', href: '/services' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Domov', href: '/' },
+  { label: 'Portfólio', href: '/portfolio', hasDropdown: true },
+  { label: 'Služby', href: '/services' },
+  { label: 'O mne', href: '/about' },
+  { label: 'Kontakt', href: '/contact' },
 ]
 
 onMounted(() => {
@@ -96,58 +102,63 @@ const closeDropdown = () => {
             <!-- Portfolio with dropdown -->
             <div 
               v-if="link.hasDropdown" 
-              class="relative"
+              class="relative group"
               @mouseenter="isPortfolioDropdownOpen = true"
               @mouseleave="isPortfolioDropdownOpen = false"
             >
               <button
                 :class="[
                   'flex items-center gap-1 text-sm font-medium tracking-wider uppercase transition-colors duration-300',
-                  linkClasses
+                  isPortfolioDropdownOpen ? 'text-warm-500' : linkClasses
                 ]"
               >
                 {{ link.label }}
+                <!-- Black chevron, warm on hover -->
                 <img 
-                  :src="isPortfolioDropdownOpen ? '/svg/icons/chevron-up.svg' : '/svg/icons/chevron-down.svg'" 
+                  :src="isPortfolioDropdownOpen ? '/svg/icons/chevron-down-warm.svg' : '/svg/icons/chevron-down.svg'" 
                   alt="" 
-                  class="h-4 w-4 transition-transform duration-200"
+                  class="h-4 w-4"
                 />
               </button>
               
-              <!-- Dropdown Menu -->
-              <Transition
-                enter-active-class="transition-all duration-200 ease-out"
-                enter-from-class="opacity-0 -translate-y-2"
-                enter-to-class="opacity-100 translate-y-0"
-                leave-active-class="transition-all duration-150 ease-in"
-                leave-from-class="opacity-100 translate-y-0"
-                leave-to-class="opacity-0 -translate-y-2"
-              >
-                <div 
-                  v-if="isPortfolioDropdownOpen"
-                  class="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg py-2"
+              <!-- Dropdown Menu - invisible bridge to prevent gap -->
+              <div class="absolute top-full left-0 w-48 pt-2">
+                <Transition
+                  enter-active-class="transition-all duration-200 ease-out"
+                  enter-from-class="opacity-0 -translate-y-2"
+                  enter-to-class="opacity-100 translate-y-0"
+                  leave-active-class="transition-all duration-150 ease-in"
+                  leave-from-class="opacity-100 translate-y-0"
+                  leave-to-class="opacity-0 -translate-y-2"
                 >
-                  <NuxtLink
-                    v-for="category in portfolioCategories"
-                    :key="category.href"
-                    :to="category.href"
-                    class="block px-4 py-3 text-charcoal-700 hover:text-warm-500 hover:bg-cream-100 font-script text-lg italic transition-colors"
-                    @click="closeDropdown"
+                  <div 
+                    v-if="isPortfolioDropdownOpen"
+                    class="bg-white shadow-lg"
                   >
-                    {{ category.label }}
-                  </NuxtLink>
-                </div>
-              </Transition>
+                    <NuxtLink
+                      v-for="category in portfolioCategories"
+                      :key="category.href"
+                      :to="category.href"
+                      :class="[
+                        'block px-4 py-3 text-sm font-medium tracking-wider uppercase transition-colors',
+                        route.path === category.href 
+                          ? 'text-warm-500 bg-cream-100' 
+                          : 'text-charcoal-700 hover:text-warm-500 hover:bg-cream-100'
+                      ]"
+                      @click="closeDropdown"
+                    >
+                      {{ category.label }}
+                    </NuxtLink>
+                  </div>
+                </Transition>
+              </div>
             </div>
-
             <!-- Regular links -->
             <NuxtLink
               v-else
               :to="link.href"
-              :class="[
-                'text-sm font-medium tracking-wider uppercase transition-colors duration-300',
-                linkClasses
-              ]"
+              class="text-sm font-medium tracking-wider uppercase transition-colors duration-300"
+              :class="linkClasses"
             >
               {{ link.label }}
             </NuxtLink>
@@ -194,7 +205,7 @@ const closeDropdown = () => {
                   v-for="category in portfolioCategories"
                   :key="category.href"
                   :to="category.href"
-                  class="text-charcoal-600 hover:text-warm-500 font-script text-lg italic py-1 block"
+                  class="text-charcoal-600 hover:text-warm-500 text-sm font-medium tracking-wider uppercase py-1 block"
                   @click="isMobileMenuOpen = false"
                 >
                   {{ category.label }}
