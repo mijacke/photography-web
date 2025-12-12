@@ -29,10 +29,13 @@ export default {
         display: ['Playfair Display', 'Georgia', 'serif'],
         script: ['Cormorant Garamond', 'Georgia', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
+        hero: ['Cormorant', 'Georgia', 'serif'],
       },
       fontSize: {
         'hero': ['4rem', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
         'hero-sm': ['2.5rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
+        'hero-title': ['100px', { lineHeight: '100px', letterSpacing: '-3px' }],
+        'hero-subtitle': ['24px', { lineHeight: '24px', letterSpacing: '17px' }],
       },
       spacing: {
         '18': '4.5rem',
