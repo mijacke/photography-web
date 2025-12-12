@@ -89,7 +89,38 @@ const contactInfo = {
           </div>
         </div>
 
-        <!-- Column 3: Documents -->
+        <!-- Column 3: Quick Links -->
+        <div>
+          <h4 class="font-display text-lg text-charcoal-900 mb-4">Rýchle odkazy</h4>
+          <ul class="space-y-3">
+            <li>
+              <NuxtLink
+                to="/services"
+                class="text-charcoal-600 hover:text-warm-500 transition-colors"
+              >
+                Služby
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink
+                to="/about"
+                class="text-charcoal-600 hover:text-warm-500 transition-colors"
+              >
+                O mne
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink
+                to="/contact"
+                class="text-charcoal-600 hover:text-warm-500 transition-colors"
+              >
+                Kontakt
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Documents -->
         <div>
           <h4 class="font-display text-lg text-charcoal-900 mb-4">Dokumenty</h4>
           <ul class="space-y-3">
@@ -102,15 +133,6 @@ const contactInfo = {
               </a>
             </li>
           </ul>
-        </div>
-
-        <!-- Column 4: Credits -->
-        <div>
-          <h4 class="font-display text-lg text-charcoal-900 mb-4">Tvorba webu</h4>
-          <div class="space-y-2 text-charcoal-600">
-            <p>Web design: <a href="https://www.instagram.com/mijackee/" target="_blank" rel="noopener noreferrer" class="text-charcoal-900 hover:text-warm-500 transition-colors">mijackee</a></p>
-            <p>Development: <a href="https://www.instagram.com/mijackee/" target="_blank" rel="noopener noreferrer" class="text-charcoal-900 hover:text-warm-500 transition-colors">mijackee</a></p>
-          </div>
         </div>
       </div>
 
