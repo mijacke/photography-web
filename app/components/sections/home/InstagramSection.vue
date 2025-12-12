@@ -44,8 +44,8 @@ const instagramUrl = 'https://www.instagram.com/paulifotografka/'
 </script>
 
 <template>
-  <section class="pt-[108px] px-2 bg-cream-100">
-    <div v-if="pending" class="grid grid-cols-2 md:grid-cols-5 gap-1">
+  <section class="pt-2 px-2 bg-cream-100">
+    <div v-if="pending" class="grid grid-cols-2 md:grid-cols-5 gap-2">
       <div
         v-for="n in 5"
         :key="n"
@@ -54,7 +54,7 @@ const instagramUrl = 'https://www.instagram.com/paulifotografka/'
     </div>
     
     <!-- Instagram Grid - show only actual posts -->
-    <div v-else-if="hasData" :class="['grid gap-1', gridClass]">
+    <div v-else-if="hasData" :class="['grid gap-2', gridClass]">
       <a
         v-for="post in instagramPosts"
         :key="post.id"
