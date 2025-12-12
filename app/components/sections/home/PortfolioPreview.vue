@@ -1,23 +1,23 @@
 <script setup lang="ts">
 const categories = [
   {
-    title: 'Tehotenstvo',
-    slug: 'maternity',
-    image: '/images/home/homehero.jpg',
-  },
-  {
-    title: 'Novorodenci',
-    slug: 'newborn',
+    title: 'Rodina',
+    href: '/portfolio/rodina',
     image: '/images/home/homehero.jpg',
   },
   {
     title: 'Svadby',
-    slug: 'wedding',
+    href: '/portfolio/svadby',
     image: '/images/home/homehero.jpg',
   },
   {
-    title: 'Rodina',
-    slug: 'family',
+    title: 'Novorodenci',
+    href: '/portfolio/novorodenci',
+    image: '/images/home/homehero.jpg',
+  },
+  {
+    title: 'Tehotenstvo',
+    href: '/portfolio/tehotenstvo',
     image: '/images/home/homehero.jpg',
   },
 ]
@@ -57,8 +57,8 @@ const categories = [
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         <NuxtLink
           v-for="category in categories"
-          :key="category.slug"
-          :to="`/portfolio?category=${category.slug}`"
+          :key="category.href"
+          :to="category.href"
           class="group block"
         >
           <!-- Image Card -->
