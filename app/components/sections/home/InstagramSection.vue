@@ -45,55 +45,68 @@ const instagramUrl = 'https://www.instagram.com/paulifotografka/'
 
 <template>
   <section class="pt-2 px-2 bg-cream-100">
-    <div v-if="pending" class="grid grid-cols-2 md:grid-cols-5 gap-2">
-      <div
-        v-for="n in 5"
-        :key="n"
-        class="aspect-square bg-charcoal-200 animate-pulse"
-      />
-    </div>
-    
-    <!-- Instagram Grid - show only actual posts -->
-    <div v-else-if="hasData" :class="['grid gap-2', gridClass]">
-      <a
-        v-for="post in instagramPosts"
-        :key="post.id"
-        :href="post.link"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group relative aspect-square overflow-hidden"
-      >
-        <!-- Image -->
-        <img
-          :src="post.image"
-          :alt="post.caption || `Instagram post ${post.id}`"
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
+    <ClientOnly>
+      <div v-if="pending" class="grid grid-cols-2 md:grid-cols-5 gap-2">
+        <div
+          v-for="n in 5"
+          :key="n"
+          class="aspect-square bg-charcoal-200 animate-pulse"
         />
-        
-        <!-- Carousel indicator (multiple photos icon) - always visible -->
-        <div 
-          v-if="isCarousel(post)" 
-          class="absolute top-2 right-2 text-white drop-shadow-lg"
+      </div>
+      
+      <!-- Instagram Grid - show only actual posts -->
+      <div v-else-if="hasData" :class="['grid gap-2', gridClass]">
+        <a
+          v-for="post in instagramPosts"
+          :key="post.id"
+          :href="post.link"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group relative aspect-square overflow-hidden"
         >
-          <img src="/svg/icons/images.svg" alt="" class="w-5 h-5 invert" />
-        </div>
-        
-        <!-- Hover overlay with Instagram icon -->
-        <div class="absolute inset-0 bg-charcoal-900/0 group-hover:bg-charcoal-900/30 transition-colors duration-300 flex items-center justify-center">
-          <img 
-            src="/svg/icons/instagram.svg" 
-            alt="" 
-            class="w-8 h-8 invert opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          <!-- Image -->
+          <img
+            :src="post.image"
+            :alt="post.caption || `Instagram post ${post.id}`"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+          
+          <!-- Carousel indicator (multiple photos icon) - always visible -->
+          <div 
+            v-if="isCarousel(post)" 
+            class="absolute top-2 right-2 text-white drop-shadow-lg"
+          >
+            <img src="/svg/icons/images.svg" alt="" class="w-5 h-5 invert" />
+          </div>
+          
+          <!-- Hover overlay with Instagram icon -->
+          <div class="absolute inset-0 bg-charcoal-900/0 group-hover:bg-charcoal-900/30 transition-colors duration-300 flex items-center justify-center">
+            <img 
+              src="/svg/icons/instagram.svg" 
+              alt="" 
+              class="w-8 h-8 invert opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            />
+          </div>
+        </a>
+      </div>
+
+      <!-- No posts state (API failed or no posts) -->
+      <div v-else class="text-center py-8 text-charcoal-500">
+        <p>Sledujte nás na Instagrame</p>
+      </div>
+
+      <!-- Fallback skeleton for SSR -->
+      <template #fallback>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+          <div
+            v-for="n in 5"
+            :key="n"
+            class="aspect-square bg-charcoal-200 animate-pulse"
           />
         </div>
-      </a>
-    </div>
-
-    <!-- No posts state (API failed or no posts) -->
-    <div v-else class="text-center py-8 text-charcoal-500">
-      <p>Sledujte nás na Instagrame</p>
-    </div>
+      </template>
+    </ClientOnly>
 
     <!-- Follow on Instagram button -->
     <div class="flex justify-center py-8">

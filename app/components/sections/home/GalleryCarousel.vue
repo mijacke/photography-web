@@ -2,11 +2,8 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
 
-// Gallery images for the carousel
-const galleryImages = [
-  '/images/carousel/carousel1.jpg',
-  '/images/carousel/carousel2.jpg',
-]
+// Get gallery carousel images from Sanity
+const { galleryCarouselImages } = useSanityHomepage()
 
 // Splide configuration - single slide with fade transition
 const splideOptions = {
@@ -24,9 +21,9 @@ const splideOptions = {
 </script>
 
 <template>
-  <section class="bg-white w-full">
+  <section v-if="galleryCarouselImages.length > 0" class="bg-white w-full">
     <Splide :options="splideOptions">
-      <SplideSlide v-for="(image, index) in galleryImages" :key="index">
+      <SplideSlide v-for="(image, index) in galleryCarouselImages" :key="index">
         <div class="w-full h-[40vh] md:h-[50vh] lg:h-[60vh]">
           <img
             :src="image"
@@ -39,3 +36,4 @@ const splideOptions = {
     </Splide>
   </section>
 </template>
+

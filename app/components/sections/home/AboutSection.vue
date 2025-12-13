@@ -1,3 +1,8 @@
+<script setup lang="ts">
+// Get about image from Sanity
+const { aboutImage } = useSanityHomepage()
+</script>
+
 <template>
   <section class="section-padding bg-cream-200">
     <div class="container-wide">
@@ -6,12 +11,16 @@
         <!-- Image Side -->
         <div class="relative">
           <div class="aspect-[4/5] overflow-hidden">
+            <!-- Show Sanity image if available -->
             <img
-              src="/images/me/aboutMe.jpg"
+              v-if="aboutImage"
+              :src="aboutImage"
               alt="Photographer portrait"
               class="w-full h-full object-cover"
               loading="lazy"
             />
+            <!-- Loading skeleton -->
+            <div v-else class="w-full h-full bg-cream-300 animate-pulse"></div>
           </div>
           <!-- Decorative frame -->
           <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"></div>

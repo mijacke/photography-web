@@ -7,8 +7,8 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  leftImage: '/images/home/homehero.jpg',
-  rightImage: '/images/home/homehero.jpg'
+  leftImage: '',
+  rightImage: ''
 })
 </script>
 
@@ -18,7 +18,7 @@ withDefaults(defineProps<Props>(), {
     <div class="absolute inset-0 flex flex-col md:flex-row">
       <!-- Left/Top Image -->
       <div class="w-full md:w-1/2 h-1/2 md:h-full">
-        <NuxtImg
+        <img
           :src="leftImage"
           alt=""
           class="w-full h-full object-cover"
@@ -27,7 +27,7 @@ withDefaults(defineProps<Props>(), {
       </div>
       <!-- Right/Bottom Image -->
       <div class="w-full md:w-1/2 h-1/2 md:h-full">
-        <NuxtImg
+        <img
           :src="rightImage"
           alt=""
           class="w-full h-full object-cover"
@@ -37,11 +37,17 @@ withDefaults(defineProps<Props>(), {
     </div>
     
     <!-- Content Overlay -->
-    <div class="relative z-10 text-center px-4 md:px-6 max-w-4xl mx-auto">
-      <p class="text-white text-xs md:text-base lg:text-hero-subtitle font-sans uppercase mb-3 md:mb-6 drop-shadow-lg tracking-[0.2em] md:tracking-[17px]">
+    <div class="relative z-10 text-center px-4 md:px-6 w-full max-w-[95%] mx-auto">
+      <p 
+        class="text-white font-sans uppercase mb-2 md:mb-4 drop-shadow-lg tracking-[0.2em]"
+        style="font-size: clamp(0.75rem, 2vw, 1.125rem); letter-spacing: clamp(0.2em, 0.5vw, 0.4em);"
+      >
         {{ subtitle }}
       </p>
-      <h1 class="text-3xl md:text-5xl lg:text-hero-title font-hero text-white lowercase drop-shadow-lg">
+      <h1 
+        class="font-hero text-white lowercase drop-shadow-lg whitespace-nowrap leading-tight"
+        style="font-size: clamp(1.8rem, 8vw, 6rem);"
+      >
         {{ title }}
       </h1>
     </div>

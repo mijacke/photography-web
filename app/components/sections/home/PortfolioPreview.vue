@@ -1,26 +1,29 @@
 <script setup lang="ts">
-const categories = [
+// Get portfolio images from Sanity
+const { portfolioImages } = useSanityHomepage()
+
+const categories = computed(() => [
   {
     title: 'Rodina',
     href: '/portfolio/rodina',
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.rodina || '',
   },
   {
     title: 'Svadby',
     href: '/portfolio/svadby',
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.svadby || '',
   },
   {
     title: 'Novorodenci',
     href: '/portfolio/novorodenci',
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.novorodenci || '',
   },
   {
     title: 'Tehotenstvo',
     href: '/portfolio/tehotenstvo',
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.tehotenstvo || '',
   },
-]
+])
 </script>
 
 <template>
@@ -33,7 +36,7 @@ const categories = [
       
       <!-- Decorative swirl/flourish image -->
       <div class="flex justify-center mb-12">
-        <NuxtImg 
+        <img 
           src="/images/sigmoid/sigmoid.png"
           alt="Decorative swirl"
           class="w-auto h-24 md:h-30 lg:h-36"
@@ -70,7 +73,10 @@ const categories = [
               :src="category.image"
               :alt="category.title"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(max-width: 768px) 50vw, 25vw"
+              width="400"
+              height="533"
+              format="webp"
+              quality="85"
               loading="lazy"
             />
           </div>

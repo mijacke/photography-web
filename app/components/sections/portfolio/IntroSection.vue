@@ -8,7 +8,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   subtitle: '',
-  image: '/images/me/aboutMe.jpg',
+  image: '',
   imageAlt: 'Portfolio image'
 })
 </script>

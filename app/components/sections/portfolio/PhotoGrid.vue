@@ -5,6 +5,7 @@ interface Photo {
   id: number
   src: string
   alt: string
+  orientation?: 'portrait' | 'landscape'
 }
 
 interface Props {
@@ -56,9 +57,11 @@ const goToNext = () => {
   }
 }
 
-// Two standard photo orientations: portrait (3:4) and landscape (4:3)
-const getPhotoOrientation = (id: number) => {
-  return id % 2 === 0 ? 'portrait' : 'landscape'
+// Get orientation specifically from data or fallback
+const getPhotoOrientation = (photo: Photo) => {
+  if (photo.orientation) return photo.orientation
+  // Fallback if not specified (legacy behavior)
+  return photo.id % 2 === 0 ? 'portrait' : 'landscape'
 }
 
 // Keyboard navigation
@@ -92,7 +95,7 @@ onMounted(() => {
         <template #default="{ item }">
           <div
             class="group relative cursor-pointer overflow-hidden bg-charcoal-900"
-            :class="getPhotoOrientation(item.id) === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'"
+            :class="getPhotoOrientation(item) === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'"
             @click="openLightbox(item)"
           >
             <!-- Photo or Placeholder -->
@@ -129,7 +132,7 @@ onMounted(() => {
       >
         <div
           v-if="selectedPhoto"
-          class="fixed inset-0 z-50 flex items-center justify-center bg-charcoal-900/95 p-4"
+          class="fixed inset-0 z-[100] flex items-center justify-center bg-charcoal-900/95 p-4"
           @click="closeLightbox"
         >
           <!-- Close Button -->

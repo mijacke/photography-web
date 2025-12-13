@@ -27,9 +27,11 @@ defineProps<Props>()
         :src="item.cover"
         :alt="item.title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        width="400"
+        height="500"
+        format="webp"
+        quality="85"
         loading="lazy"
-        :placeholder="[40, 50, 10]"
       />
       <div 
         v-else 

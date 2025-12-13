@@ -3,15 +3,8 @@ import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import type { SplideInstance } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
 
-// 6 hero images total
-const heroImages = [
-  '/images/hero-section/1.jpg',
-  '/images/hero-section/2.jpg',
-  '/images/hero-section/3.jpg',
-  '/images/hero-section/4.jpg',
-  '/images/hero-section/5.jpg',
-  '/images/hero-section/6.jpg',
-]
+// Get images from Sanity only
+const { heroImages } = useSanityHomepage()
 
 const splideRef = ref<SplideInstance | null>(null)
 const currentIndex = ref(0)
@@ -56,8 +49,8 @@ const goToSlide = (index: number) => {
     <!-- Top spacing to match gaps -->
     <div class="h-2 bg-cream-100"></div>
     
-    <!-- Splide Carousel -->
-    <div class="relative w-full">
+    <!-- Splide Carousel - only show if we have images from Sanity -->
+    <div v-if="heroImages.length > 0" class="relative w-full">
       <Splide
         ref="splideRef"
         :options="splideOptions"
@@ -65,11 +58,10 @@ const goToSlide = (index: number) => {
       >
         <SplideSlide v-for="(image, index) in heroImages" :key="index">
           <div class="h-[calc(100vh-320px)] md:h-[calc(100vh-290px)]">
-            <NuxtImg
+            <img
               :src="image"
               :alt="`Gallery image ${index + 1}`"
               class="w-full h-full object-cover"
-              sizes="33vw"
               :loading="index < 3 ? 'eager' : 'lazy'"
             />
           </div>
@@ -88,6 +80,13 @@ const goToSlide = (index: number) => {
           ]"
           :aria-label="`Go to slide ${index + 1}`"
         />
+      </div>
+    </div>
+
+    <!-- Loading skeleton while fetching from Sanity -->
+    <div v-else class="relative w-full">
+      <div class="h-[calc(100vh-320px)] md:h-[calc(100vh-290px)] bg-cream-200 animate-pulse flex items-center justify-center">
+        <span class="text-charcoal-400">Načítavam...</span>
       </div>
     </div>
 
