@@ -6,29 +6,25 @@ useSeoMeta({
   ogDescription: 'Zachytávam magické obdobie očakávania nového života.',
 })
 
-// Photos array with real images
-const photos = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  src: (i + 1) % 2 === 0 ? '/images/hero-section/1.jpg' : '/images/carousel/carousel1.jpg',
-  alt: `Tehotenská fotografia ${i + 1}`
-}))
+// Fetch from Sanity - photos are now part of category
+const { heroLeftUrl, heroRightUrl, introImageUrl, photos, pending, error } = useSanityCategory('tehotenstvo')
 </script>
 
 <template>
   <div>
     <!-- Hero Section -->
     <SectionsPortfolioHero
-      title="tehotenská fotografia"
+      title="tehotenské fotografie"
       subtitle="PORTFÓLIO"
-      left-image="/images/hero-section/1.jpg"
-      right-image="/images/hero-section/2.jpg"
+      :left-image="heroLeftUrl || ''"
+      :right-image="heroRightUrl || ''"
     />
 
     <!-- Intro Section -->
     <SectionsPortfolioIntroSection
       subtitle="O tehotenskom fotení"
-      title="Tehotenská Fotografia"
-      image="/images/hero-section/1.jpg"
+      title="Tehotenské Fotografie"
+      :image="introImageUrl || ''"
       image-alt="Tehotenská fotografia"
     >
       <p>Ponúkam jemné, nadčasové a umelecké fotografie, ktoré s citom zachytia krásu, očakávanie a radosť z tohto výnimočného obdobia vášho života. Každý záber je vytvorený tak, aby vyzdvihol prirodzenosť, emócie a jedinečný príbeh budúcej mamy.</p>

@@ -6,29 +6,25 @@ useSeoMeta({
   ogDescription: 'Zachytávam krehkú krásu prvých dní života.',
 })
 
-// Photos array with real images
-const photos = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  src: (i + 1) % 2 === 0 ? '/images/hero-section/1.jpg' : '/images/carousel/carousel1.jpg',
-  alt: `Novorodenecká fotografia ${i + 1}`
-}))
+// Fetch from Sanity - photos are now part of category
+const { heroLeftUrl, heroRightUrl, introImageUrl, photos, pending, error } = useSanityCategory('novorodenci')
 </script>
 
 <template>
   <div>
     <!-- Hero Section -->
     <SectionsPortfolioHero
-      title="novorodenecká fotografia"
+      title="novorodenecké fotografie"
       subtitle="PORTFÓLIO"
-      left-image="/images/hero-section/1.jpg"
-      right-image="/images/hero-section/2.jpg"
+      :left-image="heroLeftUrl || ''"
+      :right-image="heroRightUrl || ''"
     />
 
     <!-- Intro Section -->
     <SectionsPortfolioIntroSection
       subtitle="O novorodeneckom fotení"
-      title="Novorodenecká Fotografia"
-      image="/images/hero-section/2.jpg"
+      title="Novorodenecké Fotografie"
+      :image="introImageUrl || ''"
       image-alt="Novorodenecká fotografia"
     >
       <p>Zažite kúzlo prvých dní s vaším bábätkom prostredníctvom jemných a nadčasových novorodeneckých fotografií. Spoločne zachytíme tú najčistejšiu krásu, pokoj a lásku, ktoré sprevádzajú tieto neopakovateľné chvíle.</p>

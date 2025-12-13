@@ -33,7 +33,7 @@ useSeoMeta({
             <h2 class="font-display text-2xl text-charcoal-900 mb-6">
               Send a Message
             </h2>
-            <SectionsContactContactForm />
+            <SectionsContactForm />
           </div>
 
           <!-- Contact Info -->

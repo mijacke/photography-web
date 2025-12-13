@@ -1,39 +1,38 @@
 <script setup lang="ts">
+// Get portfolio images from Sanity
+const { portfolioImages } = useSanityHomepage()
+
 useSeoMeta({
   title: 'Portfolio | Photography',
-  description: 'Browse my photography portfolio featuring family sessions, weddings, newborn, and maternity photography.',
+  description: 'Prezrite si moje fotografické portfólio - rodinné fotenie, svadby, novorodenci a tehotenské fotografie.',
 })
 
-// Fetch all portfolio items
-const { data: portfolioItems } = await useAsyncData('portfolio-all', () => {
-  return queryCollection('portfolio')
-    .order('date', 'DESC')
-    .all()
-})
-
-// Get unique tags for filtering
-const allTags = computed(() => {
-  if (!portfolioItems.value) return []
-  const tags = new Set<string>()
-  portfolioItems.value.forEach(item => {
-    item.tags?.forEach(tag => tags.add(tag))
-  })
-  return Array.from(tags)
-})
-
-const activeFilter = ref<string | null>(null)
-
-const filteredItems = computed(() => {
-  if (!portfolioItems.value) return []
-  if (!activeFilter.value) return portfolioItems.value
-  return portfolioItems.value.filter(item => 
-    item.tags?.includes(activeFilter.value!)
-  )
-})
-
-const setFilter = (tag: string | null) => {
-  activeFilter.value = tag
-}
+const categories = computed(() => [
+  {
+    title: 'Rodina',
+    description: 'Rodinné portrétové fotenie plné lásky a radosti.',
+    href: '/portfolio/rodina',
+    image: portfolioImages.value.rodina || ''
+  },
+  {
+    title: 'Svadby',
+    description: 'Zachytenie vášho najkrajšieho dňa.',
+    href: '/portfolio/svadby',
+    image: portfolioImages.value.svadby || ''
+  },
+  {
+    title: 'Novorodenci',
+    description: 'Jemné fotografie vašich maličkých.',
+    href: '/portfolio/novorodenci',
+    image: portfolioImages.value.novorodenci || ''
+  },
+  {
+    title: 'Tehotenstvo',
+    description: 'Oslavujeme krásu materstva.',
+    href: '/portfolio/tehotenstvo',
+    image: portfolioImages.value.tehotenstvo || ''
+  },
+])
 </script>
 
 <template>
@@ -41,84 +40,74 @@ const setFilter = (tag: string | null) => {
     <!-- Page Header -->
     <section class="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream-100">
       <div class="container-narrow text-center">
-        <p class="text-accent text-lg md:text-xl mb-3">
-          My Work
+        <p class="text-warm-500 font-script text-2xl md:text-3xl mb-3">
+          Moja práca
         </p>
         <h1 class="text-4xl md:text-5xl font-display text-charcoal-900 mb-6">
-          Portfolio
+          Portfólio
         </h1>
         <p class="text-charcoal-600 max-w-xl mx-auto">
-          A collection of my favorite moments captured over the years. 
-          Each session tells a unique story of love and connection.
+          Zbierka mojich najobľúbenejších momentov zachytených za roky. 
+          Každé fotenie rozpráva jedinečný príbeh lásky a spojenia.
         </p>
       </div>
     </section>
 
-    <!-- Filter Tags -->
-    <section v-if="allTags.length > 0" class="py-6 bg-cream-100 border-b border-cream-200">
-      <div class="container-wide">
-        <div class="flex flex-wrap justify-center gap-3">
-          <button
-            @click="setFilter(null)"
-            :class="[
-              'px-4 py-2 text-sm font-medium tracking-wider uppercase transition-all duration-300',
-              !activeFilter 
-                ? 'bg-charcoal-900 text-white' 
-                : 'bg-cream-200 text-charcoal-700 hover:bg-cream-300'
-            ]"
-          >
-            All
-          </button>
-          <button
-            v-for="tag in allTags"
-            :key="tag"
-            @click="setFilter(tag)"
-            :class="[
-              'px-4 py-2 text-sm font-medium tracking-wider uppercase transition-all duration-300',
-              activeFilter === tag 
-                ? 'bg-charcoal-900 text-white' 
-                : 'bg-cream-200 text-charcoal-700 hover:bg-cream-300'
-            ]"
-          >
-            {{ tag }}
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Portfolio Grid -->
+    <!-- Portfolio Categories Grid -->
     <section class="section-padding bg-cream-100">
       <div class="container-wide">
-        <div 
-          v-if="filteredItems && filteredItems.length > 0"
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-        >
-          <TransitionGroup
-            enter-active-class="transition-all duration-300"
-            enter-from-class="opacity-0 scale-95"
-            enter-to-class="opacity-100 scale-100"
-            leave-active-class="transition-all duration-200"
-            leave-from-class="opacity-100 scale-100"
-            leave-to-class="opacity-0 scale-95"
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <NuxtLink
+            v-for="category in categories"
+            :key="category.href"
+            :to="category.href"
+            class="group relative overflow-hidden aspect-[4/3]"
           >
-            <SectionsPortfolioPortfolioCard
-              v-for="item in filteredItems"
-              :key="item.path"
-              :item="item"
+            <!-- Background Image -->
+            <NuxtImg
+              :src="category.image"
+              :alt="category.title"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              width="600"
+              height="450"
+              format="webp"
+              quality="85"
+              loading="lazy"
             />
-          </TransitionGroup>
-        </div>
-
-        <!-- Empty State -->
-        <div v-else class="text-center py-20">
-          <p class="text-charcoal-500 text-lg">
-            No portfolio items found.
-          </p>
+            
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-charcoal-900/40 group-hover:bg-charcoal-900/50 transition-colors duration-300"></div>
+            
+            <!-- Content -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
+              <h2 class="text-3xl md:text-4xl font-display text-white mb-3 transform group-hover:-translate-y-1 transition-transform duration-300">
+                {{ category.title }}
+              </h2>
+              <p class="text-cream-200 text-sm md:text-base max-w-xs opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                {{ category.description }}
+              </p>
+            </div>
+          </NuxtLink>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <SectionsHomeCTASection />
+    <!-- Contact CTA -->
+    <section class="py-16 md:py-20 bg-cream-200">
+      <div class="container-narrow text-center">
+        <h2 class="text-2xl md:text-3xl font-display text-charcoal-900 mb-4">
+          Máte záujem o fotenie?
+        </h2>
+        <p class="text-charcoal-600 mb-8 max-w-xl mx-auto">
+          Kontaktujte ma a porozprávajme sa o vašich predstavách.
+        </p>
+        <NuxtLink
+          to="/contact"
+          class="inline-block px-8 py-4 bg-charcoal-900 text-white text-sm tracking-wider uppercase hover:bg-charcoal-800 transition-colors"
+        >
+          Kontaktovať
+        </NuxtLink>
+      </div>
+    </section>
   </div>
 </template>

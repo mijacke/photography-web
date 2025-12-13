@@ -6,30 +6,25 @@ useSeoMeta({
   ogDescription: 'Každá rodina má svoj jedinečný príbeh. Pomôžem vám ho zachytiť v krásnych fotografiách.',
 })
 
-// Photos array with real images
-// Portrait (even IDs) use hero-section/1.jpg, Landscape (odd IDs) use carousel1.jpg
-const photos = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  src: (i + 1) % 2 === 0 ? '/images/hero-section/1.jpg' : '/images/carousel/carousel1.jpg',
-  alt: `Rodinná fotografia ${i + 1}`
-}))
+// Fetch from Sanity - photos are now part of category
+const { heroLeftUrl, heroRightUrl, introImageUrl, photos, pending, error } = useSanityCategory('rodina')
 </script>
 
 <template>
   <div>
     <!-- Hero Section -->
     <SectionsPortfolioHero
-      title="rodinná fotografia"
+      title="rodinné fotografie"
       subtitle="PORTFÓLIO"
-      left-image="/images/hero-section/1.jpg"
-      right-image="/images/hero-section/2.jpg"
+      :left-image="heroLeftUrl || ''"
+      :right-image="heroRightUrl || ''"
     />
 
     <!-- Intro Section -->
     <SectionsPortfolioIntroSection
       subtitle="O rodinnom fotení"
-      title="Rodinná Fotografia"
-      image="/images/hero-section/1.jpg"
+      title="Rodinné Fotografie"
+      :image="introImageUrl || ''"
       image-alt="Rodinná fotografia"
     >
       <p>Rodinné fotenie je o láske, blízkosti a skutočných emóciách. O chvíľach, ktoré sú na prvý pohľad obyčajné, no s odstupom času sa stanú tými najvzácnejšími spomienkami.</p>

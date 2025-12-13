@@ -1,10 +1,13 @@
 <script setup lang="ts">
+// Get portfolio images from Sanity to use for services
+const { portfolioImages } = useSanityHomepage()
+
 useSeoMeta({
   title: 'Services | Photography',
   description: 'Professional photography services for families, newborns, maternity, and weddings. Based in Bratislava, available worldwide.',
 })
 
-const services = [
+const services = computed(() => [
   {
     id: 'family',
     title: 'Family Sessions',
@@ -16,7 +19,7 @@ const services = [
       'Print-ready high resolution files',
       'Online gallery for easy sharing',
     ],
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.rodina || '',
   },
   {
     id: 'newborn',
@@ -29,7 +32,7 @@ const services = [
       'Parent and sibling photos included',
       'Wraps and props provided',
     ],
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.novorodenci || '',
   },
   {
     id: 'maternity',
@@ -42,7 +45,7 @@ const services = [
       'Partner photos included',
       'Styling guidance provided',
     ],
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.tehotenstvo || '',
   },
   {
     id: 'wedding',
@@ -55,9 +58,9 @@ const services = [
       'Engagement session included',
       'Premium album options',
     ],
-    image: '/images/home/homehero.jpg',
+    image: portfolioImages.value.svadby || '',
   },
-]
+])
 </script>
 
 <template>
@@ -100,7 +103,10 @@ const services = [
                   :src="service.image"
                   :alt="service.title"
                   class="w-full h-full object-cover"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  width="600"
+                  height="450"
+                  format="webp"
+                  quality="85"
                   loading="lazy"
                 />
               </div>
@@ -201,6 +207,21 @@ const services = [
     </section>
 
     <!-- CTA -->
-    <SectionsHomeCTASection />
+    <section class="py-16 md:py-20 bg-charcoal-900">
+      <div class="container-narrow text-center">
+        <h2 class="text-2xl md:text-3xl font-display text-white mb-4">
+          Ready to Book?
+        </h2>
+        <p class="text-cream-200 mb-8 max-w-xl mx-auto">
+          Let's create beautiful memories together.
+        </p>
+        <NuxtLink
+          to="/contact"
+          class="inline-block px-8 py-4 bg-warm-500 text-white text-sm tracking-wider uppercase hover:bg-warm-600 transition-colors"
+        >
+          Get in Touch
+        </NuxtLink>
+      </div>
+    </section>
   </div>
 </template>

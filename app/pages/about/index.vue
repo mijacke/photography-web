@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Get about page image from Sanity (separate from homepage about section)
+const { mainImage: aboutImage } = useSanityAbout()
+
 useSeoMeta({
   title: 'About | Photography',
   description: 'Learn more about your photographer - my story, approach, and passion for capturing life\'s precious moments.',
@@ -28,13 +31,16 @@ useSeoMeta({
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           <!-- Image -->
-          <div class="relative">
+          <div v-if="aboutImage" class="relative">
             <div class="aspect-[4/5] overflow-hidden">
               <NuxtImg
-                src="/images/home/homehero.jpg"
+                :src="aboutImage"
                 alt="Photographer portrait"
                 class="w-full h-full object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                width="600"
+                height="750"
+                format="webp"
+                quality="85"
               />
             </div>
             <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"></div>
@@ -118,6 +124,21 @@ useSeoMeta({
     </section>
 
     <!-- CTA -->
-    <SectionsHomeCTASection />
+    <section class="py-16 md:py-20 bg-charcoal-900">
+      <div class="container-narrow text-center">
+        <h2 class="text-2xl md:text-3xl font-display text-white mb-4">
+          Let's Work Together
+        </h2>
+        <p class="text-cream-200 mb-8 max-w-xl mx-auto">
+          I'd love to hear about your story and create something beautiful.
+        </p>
+        <NuxtLink
+          to="/contact"
+          class="inline-block px-8 py-4 bg-warm-500 text-white text-sm tracking-wider uppercase hover:bg-warm-600 transition-colors"
+        >
+          Contact Me
+        </NuxtLink>
+      </div>
+    </section>
   </div>
 </template>
