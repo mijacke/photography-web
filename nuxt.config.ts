@@ -30,11 +30,22 @@ export default defineNuxtConfig({
     facebookAppId: process.env.FACEBOOK_APP_ID || '',
     facebookAppSecret: process.env.FACEBOOK_APP_SECRET || '',
     public: {
-      googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''
+      googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+      sanityProjectId: 'm42prcjy',
+      sanityDataset: 'production',
     }
   },
   image: {
-    quality: 100,
-    format: ['webp']
-  }
+    quality: 85,
+    format: ['webp'],
+    // Disable responsive srcset generation to avoid invalid w descriptor warnings
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+    },
+  },
 })
