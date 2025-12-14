@@ -100,6 +100,7 @@ const services = computed(() => [
             <div :class="index % 2 === 1 ? 'lg:order-2' : ''">
               <div class="aspect-[4/3] overflow-hidden">
                 <NuxtImg
+                  v-if="service.image"
                   :src="service.image"
                   :alt="service.title"
                   class="w-full h-full object-cover"

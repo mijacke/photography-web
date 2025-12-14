@@ -106,7 +106,7 @@ onMounted(() => {
               <span class="text-charcoal-600 text-sm">{{ item.id }}</span>
             </div>
             <NuxtImg
-              v-else
+              v-else-if="item.src"
               :src="item.src"
               :alt="item.alt"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -167,7 +167,7 @@ onMounted(() => {
           
           <!-- Photo -->
           <div 
-            v-if="selectedPhoto.src !== 'placeholder'"
+            v-if="selectedPhoto.src && selectedPhoto.src !== 'placeholder'"
             class="max-w-5xl max-h-[85vh] relative"
             @click.stop
           >

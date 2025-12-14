@@ -35,7 +35,7 @@ const contactInfo = {
         <div class="flex flex-col items-center md:items-start">
           <NuxtLink to="/" class="mb-4">
             <NuxtImg
-              src="/images/brand_logo/logo2.png"
+              src="/images/brand_logo/logo.png"
               alt="Photography Logo"
               width="200"
               height="75"

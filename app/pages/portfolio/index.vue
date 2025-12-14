@@ -63,8 +63,8 @@ const categories = computed(() => [
             :to="category.href"
             class="group relative overflow-hidden aspect-[4/3]"
           >
-            <!-- Background Image -->
             <NuxtImg
+              v-if="category.image"
               :src="category.image"
               :alt="category.title"
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -75,10 +75,8 @@ const categories = computed(() => [
               loading="lazy"
             />
             
-            <!-- Overlay -->
             <div class="absolute inset-0 bg-charcoal-900/40 group-hover:bg-charcoal-900/50 transition-colors duration-300"></div>
             
-            <!-- Content -->
             <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6">
               <h2 class="text-3xl md:text-4xl font-display text-white mb-3 transform group-hover:-translate-y-1 transition-transform duration-300">
                 {{ category.title }}

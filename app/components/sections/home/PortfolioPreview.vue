@@ -70,6 +70,7 @@ const categories = computed(() => [
             style="box-shadow: #00000090 0px 0px 10px 0px;"
           >
             <NuxtImg
+              v-if="category.image"
               :src="category.image"
               :alt="category.title"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
