@@ -87,7 +87,7 @@ const closeDropdown = () => {
         <!-- Logo -->
         <NuxtLink to="/" class="flex-shrink-0">
           <NuxtImg
-            src="/images/brand_logo/logo.png"
+            src="/images/brand_logo/logo2.png"
             alt="Photography Logo"
             width="160"
             height="60"

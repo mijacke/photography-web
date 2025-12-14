@@ -25,7 +25,7 @@ export default defineEventHandler(async () => {
 
     try {
         const about = await client.fetch(ABOUT_QUERY)
-        return about
+        return about || null
     } catch (error: any) {
         throw createError({
             statusCode: 500,

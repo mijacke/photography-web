@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const category = await client.fetch(CATEGORY_QUERY, { categorySlug: slug })
-        return category
+        return category || null
     } catch (error: any) {
         throw createError({
             statusCode: 500,

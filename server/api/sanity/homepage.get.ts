@@ -49,7 +49,7 @@ export default defineEventHandler(async () => {
 
     try {
         const homepage = await client.fetch(HOMEPAGE_QUERY)
-        return homepage
+        return homepage || null
     } catch (error: any) {
         throw createError({
             statusCode: 500,
