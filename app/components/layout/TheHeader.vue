@@ -89,9 +89,9 @@ const closeDropdown = () => {
           <NuxtImg
             src="/images/brand_logo/logo2.png"
             alt="Photography Logo"
-            width="160"
-            height="60"
-            :class="['h-10 md:h-12 w-auto transition-all duration-300', logoClasses]"
+            width="240"
+            height="90"
+            :class="['h-20 md:h-24 w-auto transition-all duration-300', logoClasses]"
             loading="eager"
           />
         </NuxtLink>

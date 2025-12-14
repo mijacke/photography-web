@@ -37,9 +37,9 @@ const contactInfo = {
             <NuxtImg
               src="/images/brand_logo/logo2.png"
               alt="Photography Logo"
-              width="140"
-              height="52"
-              class="h-12 w-auto"
+              width="200"
+              height="75"
+              class="h-20 w-auto"
             />
           </NuxtLink>
           <p class="text-charcoal-600 text-sm mb-4">
