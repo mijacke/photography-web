@@ -33,14 +33,10 @@ useSeoMeta({
           <!-- Image -->
           <div v-if="aboutImage" class="relative">
             <div class="aspect-[4/5] overflow-hidden">
-              <NuxtImg
+              <img
                 :src="aboutImage"
                 alt="Photographer portrait"
                 class="w-full h-full object-cover"
-                width="600"
-                height="750"
-                format="webp"
-                quality="85"
               />
             </div>
             <div class="absolute -bottom-4 -right-4 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"></div>

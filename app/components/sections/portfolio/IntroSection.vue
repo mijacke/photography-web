@@ -21,7 +21,7 @@ withDefaults(defineProps<Props>(), {
         <!-- Image Side -->
         <div class="relative">
           <div class="aspect-[4/5] overflow-hidden">
-            <NuxtImg
+            <img
               v-if="image"
               :src="image"
               :alt="imageAlt"

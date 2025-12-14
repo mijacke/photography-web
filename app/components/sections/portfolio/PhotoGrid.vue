@@ -105,8 +105,8 @@ onMounted(() => {
             >
               <span class="text-charcoal-600 text-sm">{{ item.id }}</span>
             </div>
-            <NuxtImg
-              v-else-if="item.src"
+            <img
+              v-else
               :src="item.src"
               :alt="item.alt"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -171,7 +171,7 @@ onMounted(() => {
             class="max-w-5xl max-h-[85vh] relative"
             @click.stop
           >
-            <NuxtImg
+            <img
               :src="selectedPhoto.src"
               :alt="selectedPhoto.alt"
               class="max-w-full max-h-[85vh] object-contain"

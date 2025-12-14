@@ -63,15 +63,11 @@ const categories = computed(() => [
             :to="category.href"
             class="group relative overflow-hidden aspect-[4/3]"
           >
-            <NuxtImg
+            <img
               v-if="category.image"
               :src="category.image"
               :alt="category.title"
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              width="600"
-              height="450"
-              format="webp"
-              quality="85"
               loading="lazy"
             />
             

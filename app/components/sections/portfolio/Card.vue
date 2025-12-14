@@ -22,15 +22,11 @@ defineProps<Props>()
   >
     <!-- Image Container -->
     <div class="aspect-[4/5] overflow-hidden relative">
-      <NuxtImg
+      <img
         v-if="item.cover"
         :src="item.cover"
         :alt="item.title"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        width="400"
-        height="500"
-        format="webp"
-        quality="85"
         loading="lazy"
       />
       <div 

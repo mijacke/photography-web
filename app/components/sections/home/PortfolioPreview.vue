@@ -69,15 +69,11 @@ const categories = computed(() => [
             class="relative aspect-[3/4] overflow-hidden bg-cream-200"
             style="box-shadow: #00000090 0px 0px 10px 0px;"
           >
-            <NuxtImg
+            <img
               v-if="category.image"
               :src="category.image"
               :alt="category.title"
               class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              width="400"
-              height="533"
-              format="webp"
-              quality="85"
               loading="lazy"
             />
           </div>
