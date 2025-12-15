@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Buttons
+   Button component styles - primary, outline, ghost variants
+   ========================================================================== */
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide uppercase transition-all duration-300;
+    }
+
+    .btn-primary {
+        @apply btn text-white;
+        background-color: #b08d57;
+    }
+
+    .btn-primary:hover {
+        background-color: #9a7a4a;
+    }
+
+    .btn-outline {
+        @apply btn border text-gray-700;
+        border-color: #3d3835;
+        color: #3d3835;
+    }
+
+    .btn-outline:hover {
+        background-color: #231f20;
+        border-color: #231f20;
+        color: white;
+    }
+
+    .btn-ghost {
+        @apply btn;
+        color: #3d3835;
+    }
+
+    .btn-ghost:hover {
+        color: #b08d57;
+    }
+}

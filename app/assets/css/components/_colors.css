@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Color System
+   Custom color palette - cream, charcoal, warm gold tones
+   ========================================================================== */
+
+@layer components {
+
+    /* Background colors - Cream palette */
+    .bg-cream-50 {
+        background-color: #fdfcfa;
+    }
+
+    .bg-cream-100 {
+        background-color: #faf8f5;
+    }
+
+    .bg-cream-200 {
+        background-color: #f5f0e8;
+    }
+
+    .bg-cream-300 {
+        background-color: #ebe3d5;
+    }
+
+    /* Background colors - Charcoal palette */
+    .bg-charcoal-300 {
+        background-color: #a19d9b;
+    }
+
+    .bg-charcoal-900 {
+        background-color: #231f20;
+    }
+
+    /* Background colors - Warm gold palette */
+    .bg-warm-400 {
+        background-color: #c4a574;
+    }
+
+    .bg-warm-500 {
+        background-color: #b08d57;
+    }
+
+    /* Text colors - Cream palette */
+    .text-cream-100 {
+        color: #faf8f5;
+    }
+
+    .text-cream-200 {
+        color: #f5f0e8;
+    }
+
+    /* Text colors - Charcoal palette */
+    .text-charcoal-500 {
+        color: #5c5653;
+    }
+
+    .text-charcoal-600 {
+        color: #4a4543;
+    }
+
+    .text-charcoal-700 {
+        color: #3d3835;
+    }
+
+    .text-charcoal-800 {
+        color: #2d2926;
+    }
+
+    .text-charcoal-900 {
+        color: #231f20;
+    }
+
+    /* Text colors - Warm gold palette */
+    .text-warm-300 {
+        color: #d4bc94;
+    }
+
+    .text-warm-400 {
+        color: #c4a574;
+    }
+
+    .text-warm-500 {
+        color: #b08d57;
+    }
+
+    .text-warm-600 {
+        color: #9a7a4a;
+    }
+
+    /* Border colors */
+    .border-cream-200 {
+        border-color: #f5f0e8;
+    }
+
+    .border-cream-300 {
+        border-color: #ebe3d5;
+    }
+
+    .border-charcoal-700 {
+        border-color: #3d3835;
+    }
+
+    .border-warm-400 {
+        border-color: #c4a574;
+    }
+
+    /* Hover states - Text */
+    .hover\:text-warm-500:hover {
+        color: #b08d57;
+    }
+
+    .hover\:text-warm-300:hover {
+        color: #d4bc94;
+    }
+
+    /* Hover states - Background */
+    .hover\:bg-warm-500:hover {
+        background-color: #b08d57;
+    }
+
+    .hover\:bg-warm-600:hover {
+        background-color: #9a7a4a;
+    }
+
+    .hover\:bg-charcoal-900:hover {
+        background-color: #231f20;
+    }
+
+    .hover\:bg-cream-300:hover {
+        background-color: #ebe3d5;
+    }
+
+    /* Focus states */
+    .focus\:border-warm-400:focus {
+        border-color: #c4a574;
+    }
+
+    .focus\:ring-warm-400:focus {
+        --tw-ring-color: #c4a574;
+    }
+
+    /* Accent text style */
+    .text-accent {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-style: italic;
+        color: #b08d57;
+    }
+}
