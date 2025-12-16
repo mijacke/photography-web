@@ -2,10 +2,8 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
 
-// Get gallery carousel images from Sanity
 const { galleryCarouselImages } = useSanityHomepage()
 
-// Splide configuration - single slide with fade transition
 const splideOptions = {
   type: 'fade',
   rewind: true,
@@ -27,7 +25,7 @@ const splideOptions = {
         <div class="w-full h-[40vh] md:h-[50vh] lg:h-[60vh]">
           <img
             :src="image"
-            :alt="`Gallery image ${index + 1}`"
+            :alt="`Galéria obrázok ${index + 1}`"
             class="w-full h-full object-cover object-center"
             :loading="index === 0 ? 'eager' : 'lazy'"
           />
