@@ -67,7 +67,7 @@ const instagramUrl = 'https://www.instagram.com/paulifotografka/'
           <!-- Image -->
           <img
             :src="post.image"
-            :alt="post.caption || `Instagram post ${post.id}`"
+            :alt="post.caption || `Instagram príspevok ${post.id}`"
             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
