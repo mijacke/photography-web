@@ -1,6 +1,7 @@
 <script setup lang="ts">
-// Get portfolio images from Sanity
+
 const { portfolioImages } = useSanityHomepage()
+const { fadeInUp, staggerReveal, scaleIn3D, cleanup, refresh } = useGsapAnimations()
 
 const categories = computed(() => [
   {
@@ -24,28 +25,47 @@ const categories = computed(() => [
     image: portfolioImages.value.tehotenstvo || '',
   },
 ])
+
+onMounted(() => {
+  nextTick(() => {
+    fadeInUp('.portfolio-header', { y: 30, duration: 0.8 })
+    fadeInUp('.portfolio-sigmoid', { y: 0, duration: 1, delay: 0.1 })
+    fadeInUp('.portfolio-link', { y: 20, duration: 0.7, delay: 0.2 })
+    
+    const cards = document.querySelectorAll('.portfolio-card')
+    if (cards.length > 0) {
+      staggerReveal('.portfolio-grid', cards, { y: 50, stagger: 0.25, duration: 1 })
+    }
+    
+    refresh()
+  })
+})
+
+onUnmounted(() => {
+  cleanup()
+})
 </script>
 
 <template>
   <section class="bg-cream-200">
     <!-- Section Header with sigmoid - centered between sections -->
     <div class="py-2.5 text-center">
-      <h2 class="text-lg md:text-xl lg:text-2xl tracking-[0.3em] uppercase text-charcoal-700">
+      <h2 class="portfolio-header text-lg md:text-xl lg:text-2xl tracking-[0.3em] uppercase text-charcoal-700">
         Krásne okamihy
       </h2>
       
       <!-- Decorative swirl/flourish image -->
-      <div class="flex justify-center mb-12">
+      <div class="portfolio-sigmoid flex justify-center mb-12">
         <img 
           src="/images/sigmoid/sigmoid.png"
-          alt="Decorative swirl"
+          alt="Dekoratívny ornament"
           class="w-auto h-24 md:h-30 lg:h-36"
         />
       </div>
 
       <NuxtLink 
-        to="/portfolio" 
-        class="group font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-700 hover:text-warm-500 transition-colors inline-flex items-center gap-3"
+        to="/portfolio/rodina" 
+        class="portfolio-link group font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-700 hover:text-warm-500 transition-colors inline-flex items-center gap-3"
       >
         Prezrite si moje portfólio
         <span class="relative h-6 w-6 md:h-8 md:w-8">
@@ -56,13 +76,13 @@ const categories = computed(() => [
     </div>
 
     <!-- Category Grid -->
-    <div class="px-8 md:px-16 lg:px-24 pt-32 pb-32">
+    <div class="portfolio-grid px-8 md:px-16 lg:px-24 pt-32 pb-32">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         <NuxtLink
           v-for="category in categories"
           :key="category.href"
           :to="category.href"
-          class="group block"
+          class="portfolio-card group block"
         >
           <!-- Image Card -->
           <div 
@@ -87,3 +107,4 @@ const categories = computed(() => [
     </div>
   </section>
 </template>
+
