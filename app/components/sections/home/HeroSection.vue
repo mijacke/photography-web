@@ -3,13 +3,12 @@ import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import type { SplideInstance } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
 
-// Get images from Sanity only
 const { heroImages } = useSanityHomepage()
+const { fadeInUp, cleanup, refresh } = useGsapAnimations()
 
 const splideRef = ref<SplideInstance | null>(null)
 const currentIndex = ref(0)
 
-// Splide configuration - responsive
 const splideOptions = {
   type: 'loop',
   perPage: 3,
@@ -42,6 +41,18 @@ const onMove = (splide: any, newIndex: number) => {
 const goToSlide = (index: number) => {
   splideRef.value?.splide?.go(index)
 }
+
+onMounted(() => {
+  nextTick(() => {
+    const { gsap } = useGsapAnimations()
+    gsap.from('.hero-subtitle', { y: 20, autoAlpha: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' })
+    gsap.from('.hero-title', { y: 25, autoAlpha: 0, duration: 0.9, delay: 0.5, ease: 'power3.out' })
+  })
+})
+
+onUnmounted(() => {
+  cleanup()
+})
 </script>
 
 <template>
@@ -60,7 +71,7 @@ const goToSlide = (index: number) => {
           <div class="h-[calc(100vh-320px)] md:h-[calc(100vh-290px)]">
             <img
               :src="image"
-              :alt="`Gallery image ${index + 1}`"
+              :alt="`Galéria obrázok ${index + 1}`"
               class="w-full h-full object-cover"
               :loading="index < 3 ? 'eager' : 'lazy'"
             />
@@ -78,7 +89,7 @@ const goToSlide = (index: number) => {
             'w-2 h-2 rounded-full transition-all duration-300',
             index === currentIndex ? 'bg-warm-500 w-6' : 'bg-white/80 hover:bg-white'
           ]"
-          :aria-label="`Go to slide ${index + 1}`"
+          :aria-label="`Prejsť na snímku ${index + 1}`"
         />
       </div>
     </div>
@@ -92,10 +103,10 @@ const goToSlide = (index: number) => {
 
     <!-- Text Content Below Carousel -->
     <div class="py-10 md:py-14 text-center bg-cream-100">
-      <p class="text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600 mb-3">
+      <p class="hero-subtitle text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600 mb-3">
         Tehotenské, novorodencké a rodinné fotografie v Bratislave
       </p>
-      <h1 class="font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-900">
+      <h1 class="hero-title font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-900">
         Zachytávam vaše najkrajšie spomienky
       </h1>
     </div>
