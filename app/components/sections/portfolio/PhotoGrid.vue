@@ -14,6 +14,9 @@ interface Props {
 
 const props = defineProps<Props>()
 
+// Prevent MasonryWall from rendering until mounted on client
+const isMounted = ref(false)
+
 const selectedPhotoIndex = ref<number | null>(null)
 
 const selectedPhoto = computed(() => {
@@ -64,7 +67,9 @@ const getPhotoOrientation = (photo: Photo) => {
   return photo.id % 2 === 0 ? 'portrait' : 'landscape'
 }
 
-// Keyboard navigation
+const { fadeInUp, cleanup, refresh } = useGsapAnimations()
+
+// Keyboard navigation and GSAP animations
 onMounted(() => {
   const handleKeydown = (e: KeyboardEvent) => {
     if (selectedPhotoIndex.value === null) return
@@ -73,7 +78,48 @@ onMounted(() => {
     if (e.key === 'ArrowRight') goToNext()
   }
   window.addEventListener('keydown', handleKeydown)
-  onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
+  
+  // Wait for DOM to be ready before rendering MasonryWall and animating
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // Now safe to render MasonryWall
+      isMounted.value = true
+      
+      const { gsap, ScrollTrigger } = useGsapAnimations()
+      
+      // Title fadeIn - composable checks existence
+      fadeInUp('.gallery-title', { y: 30, duration: 0.8 })
+      
+      // Use ScrollTrigger.batch for efficient stagger on masonry items
+      // Wait a bit for masonry to render
+      setTimeout(() => {
+        const items = document.querySelectorAll('.gallery-item')
+        if (items.length > 0) {
+          gsap.set(items, { autoAlpha: 0, y: 40 })
+          
+          ScrollTrigger.batch(items, {
+            onEnter: (batch) => {
+              gsap.to(batch, {
+                autoAlpha: 1,
+                y: 0,
+                duration: 0.7,
+                stagger: 0.08,
+                ease: 'power3.out'
+              })
+            },
+            start: 'top 90%',
+            once: true
+          })
+        }
+        refresh()
+      }, 200)
+    })
+  })
+  
+  onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeydown)
+    cleanup()
+  })
 })
 </script>
 
@@ -81,12 +127,13 @@ onMounted(() => {
   <section class="py-16 md:py-24 bg-white">
     <div class="container-wide">
       <!-- Gallery Title -->
-      <h2 class="text-2xl md:text-3xl font-display text-charcoal-900 text-center mb-12">
+      <h2 class="gallery-title text-2xl md:text-3xl font-display text-charcoal-900 text-center mb-12">
         Galéria fotiek
       </h2>
       
-      <!-- Masonry Gallery -->
+      <!-- Masonry Gallery - only render when mounted and photos exist -->
       <MasonryWall
+        v-if="isMounted && photos.length > 0"
         :items="photos"
         :ssr-columns="3"
         :column-width="300"
@@ -94,7 +141,7 @@ onMounted(() => {
       >
         <template #default="{ item }">
           <div
-            class="group relative cursor-pointer overflow-hidden bg-charcoal-900"
+            class="gallery-item group relative cursor-pointer overflow-hidden bg-charcoal-900"
             :class="getPhotoOrientation(item) === 'portrait' ? 'aspect-[3/4]' : 'aspect-[4/3]'"
             @click="openLightbox(item)"
           >
