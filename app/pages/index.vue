@@ -3,10 +3,10 @@
 const { heroImages } = useSanityHomepage()
 
 useSeoMeta({
-  title: 'Photography | Maternity, Newborn & Family Photography',
-  description: 'Professional photography capturing life\'s most precious moments. Maternity, newborn, family, and wedding photography in Bratislava and beyond.',
-  ogTitle: 'Photography | Capturing Your New Favourite Memories',
-  ogDescription: 'Professional photography capturing life\'s most precious moments. Based in Bratislava, available worldwide.',
+  title: 'Pauli Fotografka | Rodinná, Novorodenecká a Tehotenská Fotografia',
+  description: 'Profesionálna fotografka zachytávajúca najvzácnejšie momenty života. Tehotenské, novorodenecké, rodinné a svadobné fotografie v Galante a okolí.',
+  ogTitle: 'Pauli Fotografka | Zachytávam vaše najkrajšie spomienky',
+  ogDescription: 'Profesionálna fotografka zachytávajúca najvzácnejšie momenty života. Pôsobím v Galante, dostupná po celom Slovensku.',
   ogImage: () => heroImages.value[0] || '',
 })
 </script>
