@@ -1,82 +1,160 @@
 <script setup lang="ts">
 // Get portfolio images from Sanity to use for services
 const { portfolioImages } = useSanityHomepage()
+const { fadeInUp, slideIn, parallax, staggerReveal, scaleIn3D, cleanup, refresh } = useGsapAnimations()
 
 useSeoMeta({
-  title: 'Services | Photography',
-  description: 'Professional photography services for families, newborns, maternity, and weddings. Based in Bratislava, available worldwide.',
+  title: 'Služby | Fotografka',
+  description: 'Profesionálne fotografické služby pre rodiny, novorodencov, tehotné a svadby. Pôsobím v Bratislave a okolí.',
 })
 
 const services = computed(() => [
   {
-    id: 'family',
-    title: 'Family Sessions',
-    description: 'Capturing the love and connection between family members in natural, relaxed settings. Perfect for annual family portraits, milestone celebrations, or just because.',
+    id: 'rodina',
+    title: 'Rodinné fotenie',
+    description: 'Zachytím lásku a spojenie medzi členmi vašej rodiny v prirodzenom, uvoľnenom prostredí. Ideálne pre každoročné rodinné portréty, oslavu míľnikov alebo jednoducho len tak.',
     features: [
-      '1-2 hour session',
-      'Outdoor or in-home options',
-      '30+ edited digital images',
-      'Print-ready high resolution files',
-      'Online gallery for easy sharing',
+      '1-2 hodinové fotenie',
+      'Exteriér alebo u vás doma',
+      '30+ upravených digitálnych fotografií',
+      'Súbory vo vysokom rozlíšení pripravené na tlač',
+      'Online galéria pre jednoduché zdieľanie',
     ],
     image: portfolioImages.value.rodina || '',
+    cta: 'Mám záujem o rodinné fotenie',
   },
   {
-    id: 'newborn',
-    title: 'Newborn Photography',
-    description: 'Delicate portraits of your newest family member in their first precious days. Best scheduled within the first 2 weeks of life when babies are sleepiest.',
+    id: 'novorodenci',
+    title: 'Novorodenecké fotenie',
+    description: 'Jemné portréty vášho nového člena rodiny v prvých vzácnych dňoch života. Najlepšie je naplánovať fotenie do 2 týždňov po narodení, kedy sú bábätká najospalejšie.',
     features: [
-      '2-3 hour session',
-      'In-home or studio setting',
-      '25+ edited digital images',
-      'Parent and sibling photos included',
-      'Wraps and props provided',
+      '2-3 hodinové fotenie',
+      'U vás doma alebo v ateliéri',
+      '25+ upravených digitálnych fotografií',
+      'Fotky s rodičmi a súrodencami v cene',
+      'Rekvizity a zavinovačky zabezpečím',
     ],
     image: portfolioImages.value.novorodenci || '',
+    cta: 'Mám záujem o novorodenecké fotenie',
   },
   {
-    id: 'maternity',
-    title: 'Maternity Photography',
-    description: 'Celebrating the beauty of pregnancy and the anticipation of new life. Best scheduled between 28-34 weeks.',
+    id: 'tehotenstvo',
+    title: 'Tehotenské fotenie',
+    description: 'Oslava krásy tehotenstva a očakávania nového života. Ideálne je naplánovať fotenie medzi 28. a 34. týždňom.',
     features: [
-      '1 hour session',
-      'Outdoor or studio options',
-      '20+ edited digital images',
-      'Partner photos included',
-      'Styling guidance provided',
+      '1 hodinové fotenie',
+      'Exteriér alebo ateliér',
+      '20+ upravených digitálnych fotografií',
+      'Fotky s partnerom v cene',
+      'Poradenstvo pri výbere oblečenia',
     ],
     image: portfolioImages.value.tehotenstvo || '',
+    cta: 'Mám záujem o tehotenské fotenie',
   },
   {
-    id: 'wedding',
-    title: 'Wedding Photography',
-    description: 'Documenting your special day with timeless elegance and authentic emotion. From intimate elopements to grand celebrations.',
+    id: 'svadby',
+    title: 'Svadobné fotenie',
+    description: 'Zdokumentujem váš výnimočný deň s nadčasovou eleganciou a autentickými emóciami. Od komorných obradov až po veľkolepé oslavy.',
     features: [
-      'Full day coverage available',
-      'Second photographer option',
-      '300+ edited digital images',
-      'Engagement session included',
-      'Premium album options',
+      'Celodenná dokumentácia',
+      'Možnosť druhého fotografa',
+      '300+ upravených digitálnych fotografií',
+      'Zásnubné fotenie v cene',
+      'Prémiové svadobné albumy',
     ],
     image: portfolioImages.value.svadby || '',
+    cta: 'Mám záujem o svadobné fotenie',
   },
 ])
+
+// Initialize GSAP animations on mount
+onMounted(() => {
+  // Wait for images to potentially load
+  nextTick(() => {
+    // Hero text animations - run immediately (no scroll trigger), like home page
+    const { gsap } = useGsapAnimations()
+    gsap.from('.header-animate', { 
+      y: 20, 
+      autoAlpha: 0, 
+      duration: 0.8, 
+      delay: 0.3, 
+      stagger: 0.15,
+      ease: 'power3.out' 
+    })
+
+    // Service cards - alternating slide-in with parallax
+    document.querySelectorAll('.service-card').forEach((card, index) => {
+      const imageWrapper = card.querySelector('.service-image-wrapper')
+      const image = card.querySelector('.service-image')
+      const content = card.querySelector('.service-content')
+      const features = card.querySelectorAll('.feature-item')
+
+      // Image slide in from opposite side
+      if (imageWrapper) {
+        slideIn(imageWrapper, {
+          direction: index % 2 === 0 ? 'left' : 'right',
+          distance: 80,
+          duration: 1,
+        })
+      }
+
+      // Parallax on image
+      if (image) {
+        parallax(image, { yPercent: -15 })
+      }
+
+      // Content fade in
+      if (content) {
+        fadeInUp(content, { y: 40, duration: 0.9, delay: 0.2 })
+      }
+
+      // Stagger features - pass the actual elements, not a global selector
+      if (features.length > 0) {
+        staggerReveal(content || card, features, { stagger: 0.08, y: 20 })
+      }
+    })
+
+    // FAQ section
+    fadeInUp('.faq-header', { y: 40, stagger: 0.1 })
+    staggerReveal('.faq-container', '.faq-item', { stagger: 0.12, y: 25 })
+
+    // CTA with 3D effect
+    scaleIn3D('.cta-section', { scale: 0.95, rotateX: 3, duration: 1.1 })
+    fadeInUp('.cta-content', { y: 30, stagger: 0.15, delay: 0.1 })
+
+    // Refresh ScrollTrigger after all animations are set up
+    refresh()
+  })
+})
+
+// Cleanup on unmount
+onUnmounted(() => {
+  cleanup()
+})
 </script>
 
 <template>
   <div>
-    <!-- Page Header -->
-    <section class="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream-100">
-      <div class="container-narrow text-center">
-        <p class="text-accent text-lg md:text-xl mb-3">
-          What I Offer
-        </p>
-        <h1 class="text-4xl md:text-5xl font-display text-charcoal-900 mb-6">
-          Photography Services
-        </h1>
-        <p class="text-charcoal-600 max-w-xl mx-auto">
-          Every session is carefully crafted to capture your unique story. 
-          Choose the style that fits your needs.
+    <!-- Full Viewport Hero: Video 80% + Text 20% -->
+    <section class="h-[calc(100vh-80px)] flex flex-col bg-cream-100">
+      <!-- Video Container - 80% -->
+      <div class="flex-[80] relative overflow-hidden">
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          class="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/video/sluzby.mp4?v=2" type="video/mp4" />
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/5 via-black/0 to-black/10 pointer-events-none" />
+      </div>
+
+      <!-- Text Content - 20% -->
+      <div class="flex-[20] flex items-center justify-center text-center bg-cream-100 px-4">
+        <p class="header-animate text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600">
+          Každé fotenie je starostlivo pripravené, aby zachytilo váš jedinečný príbeh
         </p>
       </div>
     </section>
@@ -87,7 +165,10 @@ const services = computed(() => [
         v-for="(service, index) in services" 
         :key="service.id"
         :id="service.id"
-        class="section-padding border-b border-cream-200 last:border-b-0"
+        :class="[
+          'service-card section-padding border-b border-cream-200 last:border-b-0',
+          index % 2 === 0 ? 'bg-cream-200' : 'bg-cream-100'
+        ]"
       >
         <div class="container-wide">
           <div 
@@ -97,20 +178,24 @@ const services = computed(() => [
             ]"
           >
             <!-- Image -->
-            <div :class="index % 2 === 1 ? 'lg:order-2' : ''">
+            <div 
+              :class="['service-image-wrapper overflow-hidden', index % 2 === 1 ? 'lg:order-2' : '']"
+              style="will-change: transform;"
+            >
               <div class="aspect-[4/3] overflow-hidden">
                 <img
                   v-if="service.image"
                   :src="service.image"
                   :alt="service.title"
-                  class="w-full h-full object-cover"
+                  class="service-image w-full h-full object-cover"
+                  style="will-change: transform;"
                   loading="lazy"
                 />
               </div>
             </div>
 
             <!-- Content -->
-            <div :class="index % 2 === 1 ? 'lg:order-1' : ''">
+            <div :class="['service-content', index % 2 === 1 ? 'lg:order-1' : '']">
               <h2 class="text-3xl md:text-4xl font-display text-charcoal-900 mb-4">
                 {{ service.title }}
               </h2>
@@ -120,22 +205,22 @@ const services = computed(() => [
               </p>
               
               <h3 class="font-sans text-sm font-semibold uppercase tracking-wider text-charcoal-800 mb-4">
-                What's Included
+                Čo je v cene
               </h3>
               
               <ul class="space-y-2 mb-8">
                 <li 
                   v-for="feature in service.features" 
                   :key="feature"
-                  class="flex items-start gap-3 text-charcoal-600"
+                  class="feature-item flex items-start gap-3 text-charcoal-600"
                 >
                   <img src="/svg/icons/check.svg" alt="" class="h-5 w-5 flex-shrink-0 mt-0.5" />
                   {{ feature }}
                 </li>
               </ul>
               
-              <UiAppButton to="/contact" variant="primary">
-                Inquire About {{ service.title }}
+              <UiAppButton to="/contact" variant="outline">
+                {{ service.cta || 'Mám záujem' }}
               </UiAppButton>
             </div>
           </div>
@@ -145,80 +230,118 @@ const services = computed(() => [
 
     <!-- FAQ Section -->
     <section class="section-padding bg-cream-200">
-      <div class="container-narrow">
+      <div class="container-narrow faq-container">
         <div class="text-center mb-12">
-          <p class="text-accent text-lg md:text-xl mb-3">
-            Common Questions
+          <p class="faq-header text-accent text-lg md:text-xl mb-3">
+            Časté otázky
           </p>
-          <h2 class="text-3xl md:text-4xl font-display text-charcoal-900">
-            Frequently Asked Questions
+          <h2 class="faq-header text-3xl md:text-4xl font-display text-charcoal-900">
+            Čo vás zaujíma?
           </h2>
         </div>
 
         <div class="space-y-6">
-          <details class="group bg-cream-100 p-6">
+          <details class="faq-item group bg-cream-100 p-6">
             <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
-              How far in advance should I book?
+              Ako dlho vopred je potrebné rezervovať termín?
               <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
             </summary>
             <p class="mt-4 text-charcoal-600">
-              I recommend booking 4-6 weeks in advance for family and maternity sessions, 
-              2-3 months for newborn sessions (before baby arrives!), and 6-12 months for weddings.
+              Pre rodinné a tehotenské fotenie odporúčam rezervovať 4-6 týždňov vopred, 
+              novorodenecké fotenie 2-3 mesiace (ešte pred pôrodom!), svadby ideálne 6-12 mesiacov vopred.
             </p>
           </details>
 
-          <details class="group bg-cream-100 p-6">
+          <details class="faq-item group bg-cream-100 p-6">
             <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
-              What should we wear?
+              Čo si máme obliecť?
               <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
             </summary>
             <p class="mt-4 text-charcoal-600">
-              I provide a detailed style guide upon booking! Generally, I recommend coordinating 
-              (not matching) outfits in soft, neutral colors that complement each other.
+              Po rezervácii vám pošlem podrobného sprievodcu štýlom! Vo všeobecnosti odporúčam 
+              zladiť (nie zjednotiť) oblečenie v jemných, neutrálnych farbách, ktoré sa navzájom dopĺňajú.
             </p>
           </details>
 
-          <details class="group bg-cream-100 p-6">
+          <details class="faq-item group bg-cream-100 p-6">
             <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
-              Where do sessions take place?
+              Kde fotenie prebieha?
               <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
             </summary>
             <p class="mt-4 text-charcoal-600">
-              I offer both outdoor and indoor sessions. I have beautiful location recommendations 
-              around Bratislava, but I'm also happy to come to your home or a meaningful location of your choice.
+              Ponúkam fotenie v exteriéri aj interiéri. Mám krásne tipy na lokality v okolí Bratislavy, 
+              ale rada prídem aj k vám domov alebo na miesto, ktoré je pre vás výnimočné.
             </p>
           </details>
 
-          <details class="group bg-cream-100 p-6">
+          <details class="faq-item group bg-cream-100 p-6">
             <summary class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center">
-              When will we receive our photos?
+              Kedy dostaneme fotky?
               <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>
             </summary>
             <p class="mt-4 text-charcoal-600">
-              You'll receive your online gallery within 2-3 weeks for portrait sessions and 
-              4-6 weeks for weddings. I'll send sneak peeks within 48 hours!
+              Online galériu s fotografiami obdržíte do 2-3 týždňov pri portrétnom fotení a 
+              do 4-6 týždňov pri svadbách. Prvé ukážky vám pošlem už do 48 hodín!
             </p>
           </details>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="py-16 md:py-20 bg-charcoal-900">
-      <div class="container-narrow text-center">
-        <h2 class="text-2xl md:text-3xl font-display text-white mb-4">
-          Ready to Book?
-        </h2>
-        <p class="text-cream-200 mb-8 max-w-xl mx-auto">
-          Let's create beautiful memories together.
-        </p>
-        <NuxtLink
-          to="/contact"
-          class="inline-block px-8 py-4 bg-warm-500 text-white text-sm tracking-wider uppercase hover:bg-warm-600 transition-colors"
-        >
-          Get in Touch
-        </NuxtLink>
-      </div>
-    </section>
+
   </div>
 </template>
+
+<style scoped>
+.services-hero {
+  display: flex;
+  flex-direction: column;
+  /* Exactly fill viewport minus navbar (80px) */
+  height: calc(100vh - 80px);
+  height: calc(100dvh - 80px);
+  overflow: hidden;
+}
+
+.services-hero__video {
+  /* Video takes everything except content height (180px) */
+  height: calc(100vh - 80px - 180px);
+  height: calc(100dvh - 80px - 180px);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.services-hero__video-element {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.services-hero__video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.02) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Content - fixed 180px height */
+.services-hero__content {
+  height: 180px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--cream-100, #f7f5f0);
+}
+</style>
+
+
+
