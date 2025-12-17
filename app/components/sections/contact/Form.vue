@@ -15,12 +15,12 @@ const form = reactive({
 })
 
 const eventTypes = [
-  'Family Session',
-  'Newborn Photography',
-  'Maternity Photography',
-  'Wedding Photography',
-  'Engagement Session',
-  'Other',
+  'Rodinné fotenie',
+  'Novorodenecké fotenie',
+  'Tehotenské fotenie',
+  'Svadobné fotenie',
+  'Zásnubné fotenie',
+  'Iné',
 ]
 
 const isSubmitting = ref(false)
@@ -50,7 +50,7 @@ const handleSubmit = async () => {
       message: '',
     })
   } catch (error) {
-    errorMessage.value = 'Something went wrong. Please try again or email us directly.'
+    errorMessage.value = 'Niečo sa pokazilo. Skúste to znova alebo mi napíšte priamo na email.'
   } finally {
     isSubmitting.value = false
   }
@@ -67,38 +67,38 @@ const handleSubmit = async () => {
         </svg>
       </div>
       <h3 class="font-display text-2xl text-charcoal-900 mb-3">
-        Thank You!
+        Ďakujem!
       </h3>
       <p class="text-charcoal-600 mb-6">
-        Your message has been sent. I'll get back to you within 24-48 hours.
+        Vaša správa bola odoslaná. Ozvem sa vám čo najskôr!
       </p>
       <button 
         @click="isSubmitted = false" 
         class="text-warm-500 hover:text-warm-600 underline underline-offset-4"
       >
-        Send another message
+        Poslať ďalšiu správu
       </button>
     </div>
 
     <!-- Form -->
-    <form v-else @submit.prevent="handleSubmit" class="space-y-6">
+    <form v-else @submit.prevent="handleSubmit" class="space-y-8">
       <!-- Name & Email Row -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
-          <label for="name" class="block text-sm font-medium text-charcoal-700 mb-2">
-            Name *
+          <label for="name" class="block text-xs font-medium text-charcoal-500 tracking-wider uppercase mb-3">
+            Meno *
           </label>
           <input
             id="name"
             v-model="form.name"
             type="text"
             required
-            class="w-full px-4 py-3 bg-white border border-cream-300 text-charcoal-900 placeholder-charcoal-400 focus:border-warm-400 focus:ring-1 focus:ring-warm-400 outline-none transition-colors"
-            placeholder="Your name"
+            class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300"
+            placeholder="Vaše meno"
           />
         </div>
         <div>
-          <label for="email" class="block text-sm font-medium text-charcoal-700 mb-2">
+          <label for="email" class="block text-xs font-medium text-charcoal-500 tracking-wider uppercase mb-3">
             Email *
           </label>
           <input
@@ -106,68 +106,69 @@ const handleSubmit = async () => {
             v-model="form.email"
             type="email"
             required
-            class="w-full px-4 py-3 bg-white border border-cream-300 text-charcoal-900 placeholder-charcoal-400 focus:border-warm-400 focus:ring-1 focus:ring-warm-400 outline-none transition-colors"
-            placeholder="your@email.com"
+            class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300"
+            placeholder="vas@email.sk"
           />
         </div>
       </div>
 
       <!-- Phone -->
       <div>
-        <label for="phone" class="block text-sm font-medium text-charcoal-700 mb-2">
-          Phone
+        <label for="phone" class="block text-xs font-medium text-charcoal-500 tracking-wider uppercase mb-3">
+          Telefón
         </label>
         <input
           id="phone"
           v-model="form.phone"
           type="tel"
-          class="w-full px-4 py-3 bg-white border border-cream-300 text-charcoal-900 placeholder-charcoal-400 focus:border-warm-400 focus:ring-1 focus:ring-warm-400 outline-none transition-colors"
+          class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300"
           placeholder="+421 ..."
         />
       </div>
 
       <!-- Event Type & Date Row -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 gap-8">
         <div>
-          <label for="eventType" class="block text-sm font-medium text-charcoal-700 mb-2">
-            Session Type
+          <label for="eventType" class="block text-xs font-medium text-charcoal-500 tracking-wider uppercase mb-3">
+            Typ fotenia *
           </label>
           <select
             id="eventType"
             v-model="form.eventType"
-            class="w-full px-4 py-3 bg-white border border-cream-300 text-charcoal-900 focus:border-warm-400 focus:ring-1 focus:ring-warm-400 outline-none transition-colors"
+            required
+            class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 focus:border-warm-400 focus:outline-none transition-all duration-300 appearance-none cursor-pointer"
           >
-            <option value="">Select a session type</option>
+            <option value="" disabled>Vyberte typ fotenia</option>
             <option v-for="type in eventTypes" :key="type" :value="type">
               {{ type }}
             </option>
           </select>
         </div>
         <div>
-          <label for="eventDate" class="block text-sm font-medium text-charcoal-700 mb-2">
-            Preferred Date
+          <label for="eventDate" class="block text-xs font-medium text-charcoal-500 tracking-wider uppercase mb-3">
+            Preferovaný dátum
           </label>
           <input
             id="eventDate"
             v-model="form.eventDate"
             type="date"
-            class="w-full px-4 py-3 bg-white border border-cream-300 text-charcoal-900 focus:border-warm-400 focus:ring-1 focus:ring-warm-400 outline-none transition-colors"
+            class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 focus:border-warm-400 focus:outline-none transition-all duration-300"
           />
         </div>
       </div>
 
       <!-- Message -->
       <div>
-        <label for="message" class="block text-sm font-medium text-charcoal-700 mb-2">
-          Message *
+        <label for="message" class="block text-xs font-medium text-charcoal-500 tracking-wider uppercase mb-3">
+          Správa *
         </label>
         <textarea
           id="message"
           v-model="form.message"
           required
-          rows="5"
-          class="w-full px-4 py-3 bg-white border border-cream-300 text-charcoal-900 placeholder-charcoal-400 focus:border-warm-400 focus:ring-1 focus:ring-warm-400 outline-none transition-colors resize-none"
-          placeholder="Tell me about what you're looking for..."
+          rows="4"
+          class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300 resize-none"
+          placeholder="Povedzte mi o vašom príbehu..."
         ></textarea>
       </div>
 
@@ -177,21 +178,23 @@ const handleSubmit = async () => {
       </div>
 
       <!-- Submit Button -->
-      <div>
-        <button
+      <div class="pt-4">
+        <UiAppButton
           type="submit"
+          variant="outline"
+          size="lg"
           :disabled="isSubmitting"
-          class="w-full md:w-auto btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-full md:w-auto"
         >
           <span v-if="isSubmitting" class="flex items-center gap-2">
             <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Sending...
+            Odosielam...
           </span>
-          <span v-else>Send Message</span>
-        </button>
+          <span v-else>Odoslať správu</span>
+        </UiAppButton>
       </div>
     </form>
   </div>
