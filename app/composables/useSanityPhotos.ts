@@ -26,11 +26,8 @@ const buildImageUrl = (projectId: string, dataset: string, imageRef: string, par
 
     const queryParams: string[] = []
     if (params?.w) queryParams.push(`w=${params.w}`)
-    // Default quality 85 - optimal for web (imperceptible difference, much smaller file size)
     queryParams.push(`q=${params?.q || 85}`)
-    // Auto format - serves WebP to browsers that support it
     queryParams.push('auto=format')
-    // Fit mode - scale down but never up
     queryParams.push('fit=max')
 
     return `${baseUrl}?${queryParams.join('&')}`
@@ -41,7 +38,6 @@ export const useSanityPhotos = (categorySlug: string) => {
     const projectId = config.public.sanityProjectId as string
     const dataset = config.public.sanityDataset as string
 
-    // Fetch from our server API route (avoids CORS issues)
     const { data, pending, error } = useFetch<SanityPhoto[]>(
         `/api/sanity/photos/${categorySlug}`,
         {

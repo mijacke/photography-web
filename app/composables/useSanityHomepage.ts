@@ -16,7 +16,6 @@ interface SanityHomepage {
 // Helper to build optimized Sanity image URL
 const buildOptimizedUrl = (url: string, width: number = 1200, quality: number = 85) => {
     if (!url) return null
-    // Add optimization parameters to Sanity CDN URL
     return `${url}?w=${width}&q=${quality}&auto=format&fit=max`
 }
 
@@ -24,9 +23,7 @@ export const useSanityHomepage = () => {
     // Fetch from our server API route
     const { data, pending, error } = useFetch<SanityHomepage | null>(
         '/api/sanity/homepage',
-        {
-            key: 'homepage',
-        }
+        { key: 'homepage' }
     )
 
     // Hero carousel images - optimized for large screens
@@ -77,4 +74,3 @@ export const useSanityHomepage = () => {
         error,
     }
 }
-

@@ -14,12 +14,9 @@ const buildOptimizedUrl = (url: string, width: number = 600, quality: number = 8
 }
 
 export const useSanityAbout = () => {
-    // Fetch from our server API route
     const { data, pending, error } = useFetch<SanityAbout | null>(
         '/api/sanity/about',
-        {
-            key: 'about',
-        }
+        { key: 'about' }
     )
 
     // Main image for about page - portrait format

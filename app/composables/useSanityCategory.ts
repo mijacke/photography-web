@@ -40,11 +40,7 @@ const buildImageUrl = (projectId: string, dataset: string, imageRef: string, opt
     const baseUrl = `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dimensions}.${format}`
 
     const params: string[] = []
-
-    if (options?.width) {
-        params.push(`w=${options.width}`)
-    }
-
+    if (options?.width) params.push(`w=${options.width}`)
     params.push(`q=${options?.quality || 85}`)
     params.push('auto=format')
     params.push('fit=max')
@@ -63,12 +59,9 @@ export const useSanityCategory = (categorySlug: string) => {
     const projectId = config.public.sanityProjectId as string
     const dataset = config.public.sanityDataset as string
 
-    // Fetch from our server API route (avoids CORS issues)
     const { data, pending, error } = useFetch<SanityCategory | null>(
         `/api/sanity/category/${categorySlug}`,
-        {
-            key: `category-${categorySlug}`,
-        }
+        { key: `category-${categorySlug}` }
     )
 
     // Hero images - optimized for large screens (1600px wide)
@@ -103,7 +96,6 @@ export const useSanityCategory = (categorySlug: string) => {
         const maxLength = Math.max(portraits.length, landscapes.length)
 
         for (let i = 0; i < maxLength; i++) {
-            // Add portrait if available
             const portrait = portraits[i]
             if (portrait?.asset?.url) {
                 allPhotos.push({
@@ -114,7 +106,6 @@ export const useSanityCategory = (categorySlug: string) => {
                 })
             }
 
-            // Add landscape if available
             const landscape = landscapes[i]
             if (landscape?.asset?.url) {
                 allPhotos.push({
@@ -139,4 +130,3 @@ export const useSanityCategory = (categorySlug: string) => {
         error,
     }
 }
-
