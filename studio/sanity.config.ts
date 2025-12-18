@@ -26,6 +26,14 @@ const deskStructure = (S: any) =>
             .schemaType('about')
             .documentId('about')
         ),
+      S.listItem()
+        .title('📸 Služby')
+        .id('services')
+        .child(
+          S.document()
+            .schemaType('services')
+            .documentId('services')
+        ),
 
       S.divider(),
 
@@ -80,6 +88,7 @@ const deskStructure = (S: any) =>
 export default defineConfig({
   name: 'default',
   title: 'Photography Web',
+  basePath: '/structure', // Opens Structure view by default
 
   projectId: 'm42prcjy',
   dataset: 'production',
