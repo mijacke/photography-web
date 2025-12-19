@@ -1,34 +1,51 @@
 /* ==========================================================================
    Page Transitions
-   Nuxt page transition animations with scroll flash prevention
    ========================================================================== */
 
-/* Page transitions - fade only, no translateY to prevent visual jump */
-.page-enter-active,
-.page-leave-active {
-    transition: opacity 0.25s ease-out;
+/* Page transition - fade in only for new page */
+.page-enter-active {
+    transition: opacity 0.2s ease-out;
 }
 
 .page-enter-from {
     opacity: 0;
 }
 
+/* Leaving page - instant hide */
+.page-leave-active,
+.page-leave-from,
 .page-leave-to {
-    opacity: 0;
+    display: none !important;
 }
 
-/* CRITICAL: During page leave, fix the position to prevent scroll flash */
-.page-leave-active {
+/* 
+   NAVIGATION OVERLAY
+   Covers the entire screen IMMEDIATELY during navigation
+*/
+.nav-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    width: 100%;
-    z-index: 100;
+    bottom: 0;
+    background-color: #faf8f5;
+    /* Match your site background */
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    /* NO TRANSITION - must be instant! */
 }
 
-/* Prevent scroll during navigation */
-html.is-changing {
-    scroll-behavior: auto !important;
-    overflow: hidden !important;
+.nav-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    /* Still no transition - instant show */
+}
+
+/* Only fade out when hiding (after new page is ready) */
+.nav-overlay.hiding {
+    transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
+    opacity: 0;
+    visibility: hidden;
 }
