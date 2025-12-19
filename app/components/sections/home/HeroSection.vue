@@ -4,10 +4,12 @@ import type { SplideInstance } from '@splidejs/vue-splide'
 import '@splidejs/vue-splide/css'
 
 const { heroImages } = useSanityHomepage()
-const { fadeInUp, cleanup, refresh } = useGsapAnimations()
+const { cleanup, initializeAnimations } = useGsapAnimations()
 
 const splideRef = ref<SplideInstance | null>(null)
 const currentIndex = ref(0)
+const subtitleRef = ref<HTMLElement | null>(null)
+const titleRef = ref<HTMLElement | null>(null)
 
 const splideOptions = {
   type: 'loop',
@@ -43,10 +45,14 @@ const goToSlide = (index: number) => {
 }
 
 onMounted(() => {
-  nextTick(() => {
+  initializeAnimations(() => {
     const { gsap } = useGsapAnimations()
-    gsap.from('.hero-subtitle', { y: 20, autoAlpha: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' })
-    gsap.from('.hero-title', { y: 25, autoAlpha: 0, duration: 0.9, delay: 0.5, ease: 'power3.out' })
+    if (subtitleRef.value) {
+        gsap.from(subtitleRef.value, { y: 20, autoAlpha: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' })
+    }
+    if (titleRef.value) {
+        gsap.from(titleRef.value, { y: 25, autoAlpha: 0, duration: 0.9, delay: 0.5, ease: 'power3.out' })
+    }
   })
 })
 
@@ -103,10 +109,10 @@ onUnmounted(() => {
 
     <!-- Text Content Below Carousel -->
     <div class="py-10 md:py-14 text-center bg-cream-100">
-      <p class="hero-subtitle text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600 mb-3">
+      <p ref="subtitleRef" class="hero-subtitle text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600 mb-3">
         Tehotenské, novorodencké a rodinné fotografie v Bratislave
       </p>
-      <h1 class="hero-title font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-900">
+      <h1 ref="titleRef" class="hero-title font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-900">
         Zachytávam vaše najkrajšie spomienky
       </h1>
     </div>
