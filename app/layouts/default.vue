@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col">
-    <LayoutTheHeader />
+    <LayoutTheHeader :key="$route.path" />
     <main class="flex-grow pt-20 md:pt-24">
       <slot />
     </main>
@@ -8,3 +8,4 @@
     <LayoutTheFooter />
   </div>
 </template>
+  
