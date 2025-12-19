@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { fadeInUp, cleanup, refresh } = useGsapAnimations()
+const { fadeInUp, cleanup, initializeAnimations } = useGsapAnimations()
 
 const testimonials = [
   {
@@ -20,6 +20,9 @@ const testimonials = [
 ]
 
 const activeIndex = ref(0)
+const subtitleRef = ref<HTMLElement | null>(null)
+const titleRef = ref<HTMLElement | null>(null)
+const carouselRef = ref<HTMLElement | null>(null)
 
 const nextTestimonial = () => {
   activeIndex.value = (activeIndex.value + 1) % testimonials.length
@@ -40,11 +43,16 @@ const resume = () => {
 onMounted(() => {
   interval = setInterval(nextTestimonial, 6000)
   
-  nextTick(() => {
-    fadeInUp('.testimonials-subtitle', { y: 25, duration: 0.7 })
-    fadeInUp('.testimonials-title', { y: 25, duration: 0.7, delay: 0.1 })
-    fadeInUp('.testimonials-carousel', { y: 20, duration: 0.8, delay: 0.2 })
-    refresh()
+  initializeAnimations(() => {
+    if (subtitleRef.value) {
+        fadeInUp(subtitleRef.value, { y: 25, duration: 0.7 })
+    }
+    if (titleRef.value) {
+        fadeInUp(titleRef.value, { y: 25, duration: 0.7, delay: 0.1 })
+    }
+    if (carouselRef.value) {
+        fadeInUp(carouselRef.value, { y: 20, duration: 0.8, delay: 0.2 })
+    }
   })
 })
 
@@ -59,16 +67,17 @@ onUnmounted(() => {
     <div class="container-narrow">
       <!-- Section Header -->
       <div class="text-center mb-12">
-        <p class="testimonials-subtitle text-accent text-lg md:text-xl mb-3">
+        <p ref="subtitleRef" class="testimonials-subtitle text-accent text-lg md:text-xl mb-3">
           Milé slová od Vás
         </p>
-        <h2 class="testimonials-title text-3xl md:text-4xl font-display text-charcoal-900">
+        <h2 ref="titleRef" class="testimonials-title text-3xl md:text-4xl font-display text-charcoal-900">
           Čo hovoria klienti
         </h2>
       </div>
 
       <!-- Testimonial Carousel - pause on hover -->
       <div 
+        ref="carouselRef"
         class="testimonials-carousel relative max-w-3xl mx-auto"
         @mouseenter="pause"
         @mouseleave="resume"
