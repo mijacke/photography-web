@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 const { heroVideoUrl, serviceImages } = useSanityServices()
 const { fadeInUp, slideIn, staggerReveal, scaleIn3D, cleanup, refresh, initializeAnimations, gsap } = useGsapAnimations()
 
@@ -82,7 +83,6 @@ const parallaxInitialized = ref(false)
 watch(serviceImages, (newImages) => {
   if (!parallaxInitialized.value && Object.values(newImages).some(Boolean)) {
     nextTick(() => {
-      // Delay ensures images are fully rendered in DOM before ScrollTrigger calculates positions
       setTimeout(() => setupFrameAnimations(), 100)
     })
   }
@@ -91,116 +91,133 @@ watch(serviceImages, (newImages) => {
 function setupFrameAnimations() {
   if (parallaxInitialized.value) return
   if (serviceCardRefs.value.length === 0) return
-
-  let foundFrames = 0
-
-  serviceCardRefs.value.forEach((cardInstance) => {
-    const card = cardInstance instanceof Element ? cardInstance : (cardInstance as ComponentPublicInstance)?.$el
-    if (!card || !(card instanceof Element)) return
-
-    const imageWrapper = card.querySelector('.service-image-wrapper')
-    const frame = card.querySelector('.service-frame')
-
-    if (frame && imageWrapper) {
-      foundFrames++
-      // Frame-only parallax (no image movement) - matches About page for visual consistency
-      gsap.to(frame, {
-        y: 30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: imageWrapper,
-          start: 'top 30%',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-      })
+  
+  if (serviceCardRefs.value.length > 0) {
+    let foundFrames = 0
+    serviceCardRefs.value.forEach((cardInstance, index) => {
+      const card = cardInstance instanceof Element ? cardInstance : (cardInstance as ComponentPublicInstance)?.$el
+      if (!card || !(card instanceof Element)) return
+      
+      const imageWrapper = card.querySelector('.service-image-wrapper')
+      const frame = card.querySelector('.service-frame')
+      
+      // Frame animation - same as About page (start: 'top 30%')
+      // No image parallax - only the frame moves
+      if (frame && imageWrapper) {
+        foundFrames++
+        gsap.to(frame, {
+          y: 30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: imageWrapper,
+            start: 'top 30%',  // Same as About - only start when image is high on viewport
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        })
+      }
+    })
+    
+    if (foundFrames > 0) {
+      parallaxInitialized.value = true
+      refresh() // Refresh ScrollTriggers
     }
-  })
-
-  if (foundFrames > 0) {
-    parallaxInitialized.value = true
-    refresh()
   }
 }
 
+// Initialize GSAP animations on mount
 onMounted(() => {
   initializeAnimations(() => {
+    
+    // Hero text animations - run immediately (no scroll trigger), like home page
     const { gsap } = useGsapAnimations()
-
+    
     if (headerTextRef.value) {
-      gsap.from(headerTextRef.value, {
-        y: 20,
-        autoAlpha: 0,
-        duration: 0.8,
-        delay: 0.3,
-        stagger: 0.15,
-        ease: 'power3.out',
-      })
+        gsap.from(headerTextRef.value, { 
+          y: 20, 
+          autoAlpha: 0, 
+          duration: 0.8, 
+          delay: 0.3, 
+          stagger: 0.15,
+          ease: 'power3.out' 
+        })
     }
 
+    // Service cards - alternating slide-in with parallax
     if (serviceCardRefs.value.length > 0) {
-      serviceCardRefs.value.forEach((cardInstance, index) => {
-        const card = cardInstance instanceof Element ? cardInstance : (cardInstance as ComponentPublicInstance)?.$el
-        if (!card || !(card instanceof Element)) return
+        serviceCardRefs.value.forEach((cardInstance, index) => {
+            // Unwrapping the element from potential component instance
+            const card = cardInstance instanceof Element ? cardInstance : (cardInstance as ComponentPublicInstance)?.$el
+            
+            if (!card || !(card instanceof Element)) {
+                return
+            }
 
-        const imageWrapper = card.querySelector('.service-image-wrapper')
-        const content = card.querySelector('.service-content')
-        const features = card.querySelectorAll('.feature-item')
-        const frame = card.querySelector('.service-frame')
+            const imageWrapper = card.querySelector('.service-image-wrapper')
+            const image = card.querySelector('.service-image')
+            const content = card.querySelector('.service-content')
+            const features = card.querySelectorAll('.feature-item')
 
-        if (imageWrapper) {
-          slideIn(imageWrapper, {
-            direction: index % 2 === 0 ? 'left' : 'right',
-            distance: 80,
-            duration: 1,
-          })
-        }
+            if (imageWrapper) {
+                slideIn(imageWrapper, {
+                    direction: index % 2 === 0 ? 'left' : 'right',
+                    distance: 80,
+                    duration: 1,
+                })
+            }
 
-        if (frame && imageWrapper) {
-          // Frame-only parallax for visual depth - image stays static to avoid double-movement
-          gsap.to(frame, {
-            y: 30,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: imageWrapper,
-              start: 'top 30%',
-              end: 'bottom top',
-              scrub: 1.5,
-            },
-          })
-        }
+            // NOTE: No image parallax here - only frame parallax (like About page)
+            // The frame animation alone creates the visual effect
+            
+            // Frame animation - same as About page (start: 'top 30%')
+            const frame = card.querySelector('.service-frame')
+            if (frame && imageWrapper) {
+                gsap.to(frame, {
+                    y: 30,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: imageWrapper,
+                        start: 'top 30%',  // Same as About - only start when image is high
+                        end: 'bottom top',
+                        scrub: 1.5,
+                    },
+                })
+            }
 
-        if (content) {
-          fadeInUp(content, { y: 40, duration: 0.9, delay: 0.2 })
-        }
+            if (content) {
+                fadeInUp(content, { y: 40, duration: 0.9, delay: 0.2 })
+            }
 
-        if (features.length > 0) {
-          staggerReveal(content || card, features, { stagger: 0.08, y: 20 })
-        }
-      })
+            if (features.length > 0) {
+                staggerReveal(content || card, features, { stagger: 0.08, y: 20 })
+            }
+        })
     }
 
+    // FAQ section
     if (faqHeaderRef1.value) fadeInUp(faqHeaderRef1.value, { y: 40 })
     if (faqHeaderRef2.value) fadeInUp(faqHeaderRef2.value, { y: 40, delay: 0.1 })
-
+    
     if (faqContainerRef.value) {
-      const items = faqContainerRef.value.querySelectorAll('.faq-item')
-      if (items.length > 0) {
-        staggerReveal(faqContainerRef.value, items, { stagger: 0.12, y: 25 })
-      }
+        const items = faqContainerRef.value.querySelectorAll('.faq-item')
+        if (items.length > 0) {
+            staggerReveal(faqContainerRef.value, items, { stagger: 0.12, y: 25 })
+        }
     }
 
+    // CTA with 3D effect
     if (ctaSectionRef.value) {
-      scaleIn3D(ctaSectionRef.value, { scale: 0.95, rotateX: 3, duration: 1.1 })
+        scaleIn3D(ctaSectionRef.value, { scale: 0.95, rotateX: 3, duration: 1.1 })
     }
-
-    const ctaContents = [ctaContentRef1.value, ctaContentRef2.value, ctaContentRef3.value].filter(Boolean)
+    
+    const ctaContents = [ctaContentRef1.value, ctaContentRef2.value, ctaContentRef3.value].filter(el => el !== null)
     if (ctaContents.length > 0) {
-      fadeInUp(ctaContents, { y: 30, stagger: 0.15, delay: 0.1 })
+        fadeInUp(ctaContents, { y: 30, stagger: 0.15, delay: 0.1 })
     }
   })
 })
 
+// Cleanup on unmount
 onUnmounted(() => {
   cleanup()
 })
@@ -213,6 +230,8 @@ onUnmounted(() => {
       <!-- Video Container - 80% -->
       <div class="flex-[80] relative overflow-hidden">
         <video
+          v-if="videoSrc"
+          :key="videoSrc"
           autoplay
           muted
           loop
