@@ -1,7 +1,8 @@
 <script setup lang="ts">
-// Get portfolio images from Sanity to use for services
-const { portfolioImages } = useSanityHomepage()
-const { fadeInUp, slideIn, parallax, staggerReveal, scaleIn3D, cleanup, refresh } = useGsapAnimations()
+const { heroVideoUrl, serviceImages } = useSanityServices()
+const { fadeInUp, slideIn, staggerReveal, scaleIn3D, cleanup, refresh, initializeAnimations, gsap } = useGsapAnimations()
+
+const videoSrc = computed(() => heroVideoUrl.value || '')
 
 useSeoMeta({
   title: 'Služby | Fotografka',
@@ -20,7 +21,7 @@ const services = computed(() => [
       'Súbory vo vysokom rozlíšení pripravené na tlač',
       'Online galéria pre jednoduché zdieľanie',
     ],
-    image: portfolioImages.value.rodina || '',
+    image: serviceImages.value.rodina || '',
     cta: 'Mám záujem o rodinné fotenie',
   },
   {
@@ -34,7 +35,7 @@ const services = computed(() => [
       'Fotky s rodičmi a súrodencami v cene',
       'Rekvizity a zavinovačky zabezpečím',
     ],
-    image: portfolioImages.value.novorodenci || '',
+    image: serviceImages.value.novorodenci || '',
     cta: 'Mám záujem o novorodenecké fotenie',
   },
   {
@@ -48,7 +49,7 @@ const services = computed(() => [
       'Fotky s partnerom v cene',
       'Poradenstvo pri výbere oblečenia',
     ],
-    image: portfolioImages.value.tehotenstvo || '',
+    image: serviceImages.value.tehotenstvo || '',
     cta: 'Mám záujem o tehotenské fotenie',
   },
   {
@@ -62,72 +63,144 @@ const services = computed(() => [
       'Zásnubné fotenie v cene',
       'Prémiové svadobné albumy',
     ],
-    image: portfolioImages.value.svadby || '',
+    image: serviceImages.value.svadby || '',
     cta: 'Mám záujem o svadobné fotenie',
   },
 ])
 
-// Initialize GSAP animations on mount
-onMounted(() => {
-  // Wait for images to potentially load
-  nextTick(() => {
-    // Hero text animations - run immediately (no scroll trigger), like home page
-    const { gsap } = useGsapAnimations()
-    gsap.from('.header-animate', { 
-      y: 20, 
-      autoAlpha: 0, 
-      duration: 0.8, 
-      delay: 0.3, 
-      stagger: 0.15,
-      ease: 'power3.out' 
+const headerTextRef = ref<HTMLElement | null>(null)
+const serviceCardRefs = ref<(ComponentPublicInstance | Element | null)[]>([])
+const faqHeaderRef1 = ref<HTMLElement | null>(null)
+const faqHeaderRef2 = ref<HTMLElement | null>(null)
+const faqContainerRef = ref<HTMLElement | null>(null)
+const ctaSectionRef = ref<HTMLElement | null>(null)
+const ctaContentRef1 = ref<HTMLElement | null>(null)
+const ctaContentRef2 = ref<HTMLElement | null>(null)
+const ctaContentRef3 = ref<HTMLElement | null>(null)
+const parallaxInitialized = ref(false)
+
+watch(serviceImages, (newImages) => {
+  if (!parallaxInitialized.value && Object.values(newImages).some(Boolean)) {
+    nextTick(() => {
+      // Delay ensures images are fully rendered in DOM before ScrollTrigger calculates positions
+      setTimeout(() => setupFrameAnimations(), 100)
     })
+  }
+}, { deep: true })
 
-    // Service cards - alternating slide-in with parallax
-    document.querySelectorAll('.service-card').forEach((card, index) => {
-      const imageWrapper = card.querySelector('.service-image-wrapper')
-      const image = card.querySelector('.service-image')
-      const content = card.querySelector('.service-content')
-      const features = card.querySelectorAll('.feature-item')
+function setupFrameAnimations() {
+  if (parallaxInitialized.value) return
+  if (serviceCardRefs.value.length === 0) return
 
-      // Image slide in from opposite side
-      if (imageWrapper) {
-        slideIn(imageWrapper, {
-          direction: index % 2 === 0 ? 'left' : 'right',
-          distance: 80,
-          duration: 1,
-        })
-      }
+  let foundFrames = 0
 
-      // Parallax on image
-      if (image) {
-        parallax(image, { yPercent: -15 })
-      }
+  serviceCardRefs.value.forEach((cardInstance) => {
+    const card = cardInstance instanceof Element ? cardInstance : (cardInstance as ComponentPublicInstance)?.$el
+    if (!card || !(card instanceof Element)) return
 
-      // Content fade in
-      if (content) {
-        fadeInUp(content, { y: 40, duration: 0.9, delay: 0.2 })
-      }
+    const imageWrapper = card.querySelector('.service-image-wrapper')
+    const frame = card.querySelector('.service-frame')
 
-      // Stagger features - pass the actual elements, not a global selector
-      if (features.length > 0) {
-        staggerReveal(content || card, features, { stagger: 0.08, y: 20 })
-      }
-    })
+    if (frame && imageWrapper) {
+      foundFrames++
+      // Frame-only parallax (no image movement) - matches About page for visual consistency
+      gsap.to(frame, {
+        y: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: imageWrapper,
+          start: 'top 30%',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+      })
+    }
+  })
 
-    // FAQ section
-    fadeInUp('.faq-header', { y: 40, stagger: 0.1 })
-    staggerReveal('.faq-container', '.faq-item', { stagger: 0.12, y: 25 })
-
-    // CTA with 3D effect
-    scaleIn3D('.cta-section', { scale: 0.95, rotateX: 3, duration: 1.1 })
-    fadeInUp('.cta-content', { y: 30, stagger: 0.15, delay: 0.1 })
-
-    // Refresh ScrollTrigger after all animations are set up
+  if (foundFrames > 0) {
+    parallaxInitialized.value = true
     refresh()
+  }
+}
+
+onMounted(() => {
+  initializeAnimations(() => {
+    const { gsap } = useGsapAnimations()
+
+    if (headerTextRef.value) {
+      gsap.from(headerTextRef.value, {
+        y: 20,
+        autoAlpha: 0,
+        duration: 0.8,
+        delay: 0.3,
+        stagger: 0.15,
+        ease: 'power3.out',
+      })
+    }
+
+    if (serviceCardRefs.value.length > 0) {
+      serviceCardRefs.value.forEach((cardInstance, index) => {
+        const card = cardInstance instanceof Element ? cardInstance : (cardInstance as ComponentPublicInstance)?.$el
+        if (!card || !(card instanceof Element)) return
+
+        const imageWrapper = card.querySelector('.service-image-wrapper')
+        const content = card.querySelector('.service-content')
+        const features = card.querySelectorAll('.feature-item')
+        const frame = card.querySelector('.service-frame')
+
+        if (imageWrapper) {
+          slideIn(imageWrapper, {
+            direction: index % 2 === 0 ? 'left' : 'right',
+            distance: 80,
+            duration: 1,
+          })
+        }
+
+        if (frame && imageWrapper) {
+          // Frame-only parallax for visual depth - image stays static to avoid double-movement
+          gsap.to(frame, {
+            y: 30,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: imageWrapper,
+              start: 'top 30%',
+              end: 'bottom top',
+              scrub: 1.5,
+            },
+          })
+        }
+
+        if (content) {
+          fadeInUp(content, { y: 40, duration: 0.9, delay: 0.2 })
+        }
+
+        if (features.length > 0) {
+          staggerReveal(content || card, features, { stagger: 0.08, y: 20 })
+        }
+      })
+    }
+
+    if (faqHeaderRef1.value) fadeInUp(faqHeaderRef1.value, { y: 40 })
+    if (faqHeaderRef2.value) fadeInUp(faqHeaderRef2.value, { y: 40, delay: 0.1 })
+
+    if (faqContainerRef.value) {
+      const items = faqContainerRef.value.querySelectorAll('.faq-item')
+      if (items.length > 0) {
+        staggerReveal(faqContainerRef.value, items, { stagger: 0.12, y: 25 })
+      }
+    }
+
+    if (ctaSectionRef.value) {
+      scaleIn3D(ctaSectionRef.value, { scale: 0.95, rotateX: 3, duration: 1.1 })
+    }
+
+    const ctaContents = [ctaContentRef1.value, ctaContentRef2.value, ctaContentRef3.value].filter(Boolean)
+    if (ctaContents.length > 0) {
+      fadeInUp(ctaContents, { y: 30, stagger: 0.15, delay: 0.1 })
+    }
   })
 })
 
-// Cleanup on unmount
 onUnmounted(() => {
   cleanup()
 })
@@ -146,14 +219,14 @@ onUnmounted(() => {
           playsinline
           class="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/video/sluzby.mp4?v=2" type="video/mp4" />
+          <source :src="videoSrc" type="video/mp4" />
         </video>
         <div class="absolute inset-0 bg-gradient-to-b from-black/5 via-black/0 to-black/10 pointer-events-none" />
       </div>
 
       <!-- Text Content - 20% -->
       <div class="flex-[20] flex items-center justify-center text-center bg-cream-100 px-4">
-        <p class="header-animate text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600">
+        <p ref="headerTextRef" class="header-animate text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600">
           Každé fotenie je starostlivo pripravené, aby zachytilo váš jedinečný príbeh
         </p>
       </div>
@@ -161,71 +234,14 @@ onUnmounted(() => {
 
     <!-- Services List -->
     <section class="bg-cream-100">
-      <div 
-        v-for="(service, index) in services" 
+      <SectionsServicesServiceCard
+        v-for="(service, index) in services"
+        ref="serviceCardRefs"
         :key="service.id"
-        :id="service.id"
-        :class="[
-          'service-card section-padding border-b border-cream-200 last:border-b-0',
-          index % 2 === 0 ? 'bg-cream-200' : 'bg-cream-100'
-        ]"
-      >
-        <div class="container-wide">
-          <div 
-            :class="[
-              'grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center',
-              index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-            ]"
-          >
-            <!-- Image -->
-            <div 
-              :class="['service-image-wrapper overflow-hidden', index % 2 === 1 ? 'lg:order-2' : '']"
-              style="will-change: transform;"
-            >
-              <div class="aspect-[4/3] overflow-hidden">
-                <img
-                  v-if="service.image"
-                  :src="service.image"
-                  :alt="service.title"
-                  class="service-image w-full h-full object-cover"
-                  style="will-change: transform;"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
-            <!-- Content -->
-            <div :class="['service-content', index % 2 === 1 ? 'lg:order-1' : '']">
-              <h2 class="text-3xl md:text-4xl font-display text-charcoal-900 mb-4">
-                {{ service.title }}
-              </h2>
-              
-              <p class="text-charcoal-600 leading-relaxed mb-6">
-                {{ service.description }}
-              </p>
-              
-              <h3 class="font-sans text-sm font-semibold uppercase tracking-wider text-charcoal-800 mb-4">
-                Čo je v cene
-              </h3>
-              
-              <ul class="space-y-2 mb-8">
-                <li 
-                  v-for="feature in service.features" 
-                  :key="feature"
-                  class="feature-item flex items-start gap-3 text-charcoal-600"
-                >
-                  <img src="/svg/icons/check.svg" alt="" class="h-5 w-5 flex-shrink-0 mt-0.5" />
-                  {{ feature }}
-                </li>
-              </ul>
-              
-              <UiAppButton to="/contact" variant="outline">
-                {{ service.cta || 'Mám záujem' }}
-              </UiAppButton>
-            </div>
-          </div>
-        </div>
-      </div>
+        :service="service"
+        :index="index"
+        :is-reversed="index % 2 === 1"
+      />
     </section>
 
     <!-- FAQ Section -->
