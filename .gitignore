@@ -1,29 +1,49 @@
-# Nuxt dev/build outputs
+# Nuxt build outputs
 .output
-.data
 .nuxt
 .nitro
 .cache
 dist
 
-# Node dependencies
+# Dependencies
 node_modules
 
 # Logs
-logs
 *.log
+logs/
 
-# Misc
-.DS_Store
-.fleet
-.idea
-
-# Local env files
+# Environment files (contain secrets)
 .env
 .env.*
 !.env.example
 
-# VSCode settings
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editors
 .vscode
-.vscode/*
-.vscode/settings.json
+.idea
+.fleet
+*.swp
+*.swo
+*~
+
+# Sanity Studio
+studio/.sanity
+studio/dist
+studio/node_modules
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Package manager locks (optional - keep one)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Generated documentation
+docs/api/
+
+# Local data
+.data

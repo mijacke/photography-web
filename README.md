@@ -1,28 +1,88 @@
-# Photography Web (Nuxt 3)
+# Pauli Fotografka
 
-Jednoduchy fotoweb postaveny na Nuxt 3, @nuxt/content a Tailwind CSS. Markdown subory v `content/portfolio` sluzia ako „databaza”, fotky su v `public/images`.
+Profesionálna fotografická webstránka pre rodinnú, novorodeneckú, tehotenskú a svadobnú fotografiu.
 
-## Stack
-- Nuxt 3 (Vue 3 + Vite) s automatickym routovanim a SSG/SSR pre SEO
-- @nuxt/content na citanie markdown frontmatteru
-- Tailwind CSS na styling
+🌐 **Stránka:** _pripravuje sa_
 
-## Skripty
-- `npm install` – nainstaluje zavislosti
-- `npm run dev` – lokalny vyvoj na `http://localhost:3000`
-- `npm run build` – produkcny build
-- `npm run generate` – staticky export
+## 📸 Čo je to?
 
-## Struktura obsahu
-- Markdown galerie: `content/portfolio/*.md`
-- Fotky: `public/images/portfolio/...`
+Portfolio stránka pre fotografku Pauli z Galanty. Návštevníci môžu:
 
-Chces publikovat? Vytvor repo na GitHub-e, pridaj remote a pushni:
+- Prezerať si galérie podľa kategórií (rodina, svadby, novorodenci, tehotenstvo)
+- Pozrieť si služby a cenník
+- Kontaktovať fotografku cez formulár
+- Sledovať Instagram feed
+
+## 🛠 Technológie
+
+| Čo                                      | Na čo                 |
+| --------------------------------------- | --------------------- |
+| [Nuxt 4](https://nuxt.com)              | Vue 3 framework s SSR |
+| [Sanity.io](https://sanity.io)          | CMS na správu fotiek  |
+| [Tailwind CSS](https://tailwindcss.com) | Styling               |
+| [GSAP](https://greensock.com/gsap/)     | Animácie              |
+
+## 🚀 Spustenie
+
 ```bash
-git init
-git add .
-git commit -m "Initial photography site"
-git branch -M main
-git remote add origin git@github.com:mijacke/photography-web.git
-git push -u origin main
+# 1. Inštalácia
+npm install
+
+# 2. Lokálny vývoj
+npm run dev
+
+# 3. Otvor v prehliadači
+open http://localhost:3000
 ```
+
+### Sanity Studio (CMS)
+
+```bash
+cd studio
+npm install
+npm run dev
+# http://localhost:3333
+```
+
+## 📁 Štruktúra
+
+```
+app/
+├── pages/          # Stránky (home, about, contact, portfolio, services)
+├── components/     # Vue komponenty
+└── composables/    # Znovupoužiteľná logika
+
+server/api/         # API endpointy (Instagram, Sanity proxy)
+
+studio/             # Sanity CMS Studio
+└── schemaTypes/    # Definície obsahu
+
+docs/               # Dokumentácia
+├── ARCHITECTURE.md # Architektúra projektu
+└── adr/            # Architektonické rozhodnutia
+```
+
+## ⚙️ Konfigurácia
+
+Skopíruj `.env.example` do `.env` a vyplň:
+
+```bash
+# Sanity
+NUXT_PUBLIC_SANITY_PROJECT_ID=...
+NUXT_PUBLIC_SANITY_DATASET=production
+
+# Instagram (voliteľné)
+INSTAGRAM_ACCESS_TOKEN=...
+```
+
+## 📄 Skripty
+
+| Príkaz             | Popis           |
+| ------------------ | --------------- |
+| `npm run dev`      | Lokálny server  |
+| `npm run build`    | Produkčný build |
+| `npm run generate` | Statický export |
+
+## 📝 Licencia
+
+Súkromný projekt.
