@@ -1,103 +1,185 @@
 <script setup lang="ts">
 
 const { mainImage: aboutImage } = useSanityAbout()
-const { fadeInUp, slideIn, parallax, staggerReveal, scaleIn3D, cleanup, refresh, gsap, ScrollTrigger } = useGsapAnimations()
+const { fadeInUp, slideIn, parallax, staggerReveal, scaleIn3D, cleanup, refresh, gsap, ScrollTrigger, initializeAnimations } = useGsapAnimations()
 
 useSeoMeta({
   title: 'O mne | Fotografka',
   description: 'Spoznajte ma bližšie - môj príbeh, prístup a vášeň pre zachytávanie vzácnych momentov života.',
 })
 
+// Refs
+const heroAccentRef = ref<HTMLElement | null>(null)
+const heroMainLine1Ref = ref<HTMLElement | null>(null)
+const heroMainLine2Ref = ref<HTMLElement | null>(null)
+const heroMainLine3Ref = ref<HTMLElement | null>(null)
+const heroLineTopRef = ref<HTMLElement | null>(null)
+const heroCtaTextRef = ref<HTMLElement | null>(null)
+const heroLineBottomRef = ref<HTMLElement | null>(null)
+const aboutImageWrapperRef = ref<HTMLElement | null>(null)
+const aboutFrameRef = ref<HTMLElement | null>(null)
+const aboutTextWrapperRef = ref<HTMLElement | null>(null)
+const philosophyHeaderRef1 = ref<HTMLElement | null>(null)
+const philosophyHeaderRef2 = ref<HTMLElement | null>(null)
+const philosophyContainerRef = ref<HTMLElement | null>(null)
+const ctaSectionRef = ref<HTMLElement | null>(null)
+const ctaContentRef1 = ref<HTMLElement | null>(null)
+const ctaContentRef2 = ref<HTMLElement | null>(null)
+const ctaContentRef3 = ref<HTMLElement | null>(null)
+
+// Track if about image animations have been initialized
+const aboutImageAnimationsInitialized = ref(false)
+
+// Watch for aboutImage to become available and setup animations
+watch(aboutImage, (newImage) => {
+  if (!aboutImageAnimationsInitialized.value && newImage) {
+    // Wait for DOM to update with new image
+    nextTick(() => {
+      setTimeout(() => {
+        setupAboutImageAnimations()
+      }, 100) // Small delay to ensure image is rendered
+    })
+  }
+}, { immediate: true })
+
+// Separate function to set up about image animations
+function setupAboutImageAnimations() {
+  if (aboutImageAnimationsInitialized.value) return
+  
+  if (aboutImageWrapperRef.value) {
+    slideIn(aboutImageWrapperRef.value, { direction: 'left', distance: 80, duration: 1 })
+    
+    if (aboutFrameRef.value) {
+      gsap.to(aboutFrameRef.value, {
+        y: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: aboutImageWrapperRef.value,
+          start: 'top 30%',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+      })
+    }
+    
+    aboutImageAnimationsInitialized.value = true
+    refresh() // Refresh ScrollTriggers
+  }
+}
+
 onMounted(() => {
-  nextTick(() => {    
+  initializeAnimations(() => {    
     const heroTimeline = gsap.timeline({
       defaults: { 
         ease: 'cubic-bezier(0.22, 1, 0.36, 1)' // smooth editorial easing
       }
     })
     
-    heroTimeline.to('.hero-line-accent', {
-      opacity: 1,
-      y: 0,
-      duration: 0.5,
-    })
+    if (heroAccentRef.value) {
+        heroTimeline.to(heroAccentRef.value, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+        })
+    }
     
-    heroTimeline.to('.hero-line-main', {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.1, // rýchly stagger pre plynulosť
-    }, '-=0.3') // overlap pre flow
+    const lines = [heroMainLine1Ref.value, heroMainLine2Ref.value, heroMainLine3Ref.value].filter(el => el !== null)
+    if (lines.length > 0) {
+        heroTimeline.to(lines, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.1, // rýchly stagger pre plynulosť
+        }, '-=0.3') // overlap pre flow
+    }
     
     heroTimeline.to({}, { duration: 0.2 }) // intentional pause
     
-    heroTimeline.to('.hero-line-top', {
-      height: '32px',
-      opacity: 1,
-      duration: 0.3,
-      ease: 'power2.out',
-    })
-    
-    heroTimeline.to('.hero-cta-text', {
-      opacity: 1,
-      y: 0,
-      duration: 0.3,
-    }, '+=0.15')
-    
-    const isMobile = window.innerWidth < 768
-    heroTimeline.to('.hero-line-bottom', {
-      height: isMobile ? '12px' : '16px',
-      opacity: isMobile ? 0.7 : 1,
-      duration: 0.2,
-      ease: 'power2.out',
-    }, '+=0.15')
-
-    const aboutImageWrapper = document.querySelector('.about-image-wrapper')
-    const aboutFrame = document.querySelector('.about-frame')
-    if (aboutImageWrapper) {
-      slideIn(aboutImageWrapper, { direction: 'left', distance: 80, duration: 1 })
+    if (heroLineTopRef.value) {
+        heroTimeline.to(heroLineTopRef.value, {
+          height: '32px',
+          opacity: 1,
+          duration: 0.3,
+          ease: 'power2.out',
+        })
     }
     
-    if (aboutFrame) {
-      gsap.to(aboutFrame, {
-        y: 30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: aboutImageWrapper,
-          start: 'top 30%',  // Start only when image is high on viewport
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-      })
+    if (heroCtaTextRef.value) {
+        heroTimeline.to(heroCtaTextRef.value, {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+        }, '+=0.15')
+    }
+    
+    const isMobile = window.innerWidth < 768
+    if (heroLineBottomRef.value) {
+        heroTimeline.to(heroLineBottomRef.value, {
+          height: isMobile ? '12px' : '16px',
+          opacity: isMobile ? 0.7 : 1,
+          duration: 0.2,
+          ease: 'power2.out',
+        }, '+=0.15')
+    }
+
+    // About image section - only run if not already initialized by watcher
+    if (!aboutImageAnimationsInitialized.value && aboutImageWrapperRef.value) {
+      slideIn(aboutImageWrapperRef.value, { direction: 'left', distance: 80, duration: 1 })
+      
+      if (aboutFrameRef.value) {
+        gsap.to(aboutFrameRef.value, {
+          y: 30,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: aboutImageWrapperRef.value,
+            start: 'top 30%',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        })
+      }
+      aboutImageAnimationsInitialized.value = true
     }
 
     // About text content - slide in from right with ScrollTrigger
-    const aboutTextWrapper = document.querySelector('.about-text-wrapper')
-    if (aboutTextWrapper) {
-      gsap.from('.about-content', {
-        x: 40,
-        autoAlpha: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: aboutTextWrapper,
-          start: 'top 75%',
-          toggleActions: 'play none none none',
-        },
-      })
+    if (aboutTextWrapperRef.value) {
+      const contents = aboutTextWrapperRef.value.querySelectorAll('.about-content')
+      if (contents.length > 0) {
+          gsap.from(contents, {
+            x: 40,
+            autoAlpha: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: aboutTextWrapperRef.value,
+              start: 'top 75%',
+              toggleActions: 'play none none none',
+            },
+          })
+      }
     }
 
     // Philosophy section
-    fadeInUp('.philosophy-header', { y: 40, stagger: 0.12 })
-    staggerReveal('.philosophy-container', '.philosophy-item', { stagger: 0.15, y: 30 })
+    if (philosophyHeaderRef1.value) fadeInUp(philosophyHeaderRef1.value, { y: 40 })
+    if (philosophyHeaderRef2.value) fadeInUp(philosophyHeaderRef2.value, { y: 40, delay: 0.12 })
+    
+    if (philosophyContainerRef.value) {
+        const items = philosophyContainerRef.value.querySelectorAll('.philosophy-item')
+        if (items.length > 0) {
+             staggerReveal(philosophyContainerRef.value, items, { stagger: 0.15, y: 30 })
+        }
+    }
 
     // CTA with 3D effect
-    scaleIn3D('.cta-section', { scale: 0.95, rotateX: 3, duration: 1.1 })
-    fadeInUp('.cta-content', { y: 30, stagger: 0.15, delay: 0.1 })
-
-    // Refresh ScrollTrigger
-    refresh()
+    if (ctaSectionRef.value) {
+        scaleIn3D(ctaSectionRef.value, { scale: 0.95, rotateX: 3, duration: 1.1 })
+    }
+    
+    const ctaContents = [ctaContentRef1.value, ctaContentRef2.value, ctaContentRef3.value].filter(el => el !== null)
+    if (ctaContents.length > 0) {
+        fadeInUp(ctaContents, { y: 30, stagger: 0.15, delay: 0.1 })
+    }
   })
 })
 
@@ -118,33 +200,33 @@ onUnmounted(() => {
         <!-- Editorial headline - split into dramatic lines -->
         <div class="editorial-text-wrapper mt-[-22vh] md:mt-[-15vh]">
           <!-- Small accent intro - tighter on mobile -->
-          <p class="hero-line hero-line-accent font-script italic text-warm-400 text-base md:text-lg lg:text-xl tracking-[0.18em] mb-6 md:mb-10 lg:mb-12 opacity-0">
+          <p ref="heroAccentRef" class="hero-line hero-line-accent font-script italic text-warm-400 text-base md:text-lg lg:text-xl tracking-[0.18em] mb-6 md:mb-10 lg:mb-12 opacity-0">
             Za každým záberom
           </p>
           
           <!-- Main headline - oversized, split -->
           <h1 class="hero-headline">
-            <span class="hero-line hero-line-main block font-hero font-light text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0" style="color: #1a1718;">
+            <span ref="heroMainLine1Ref" class="hero-line hero-line-main block font-hero font-light text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0" style="color: #1a1718;">
               je príbeh,
             </span>
-            <span class="hero-line hero-line-main block font-hero font-light text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0" style="color: #1a1718;">
+            <span ref="heroMainLine2Ref" class="hero-line hero-line-main block font-hero font-light text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0" style="color: #1a1718;">
               ktorý čaká
             </span>
-            <span class="hero-line hero-line-main block font-hero font-medium text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0" style="color: #1a1718;">
+            <span ref="heroMainLine3Ref" class="hero-line hero-line-main block font-hero font-medium text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0" style="color: #1a1718;">
               <em style="color: #b8944d;">na zachytenie.</em>
             </span>
           </h1>
           
           <!-- Top vertical line (nádych) - tighter on mobile -->
-          <div class="hero-line-top w-[1px] h-0 opacity-0 mx-auto mt-6 md:mt-10 lg:mt-12 origin-top" style="background-color: #b8944d;"></div>
+          <div ref="heroLineTopRef" class="hero-line-top w-[1px] h-0 opacity-0 mx-auto mt-6 md:mt-10 lg:mt-12 origin-top" style="background-color: #b8944d;"></div>
           
           <!-- CTA "Spoznajte ma" - underline only on desktop hover (lg+) -->
           <div class="flex flex-col items-center mt-3 md:mt-4 lg:mt-5">
-            <span class="hero-cta-text font-script italic text-[1.0625rem] tracking-wide cursor-pointer opacity-0 translate-y-[6px] transition-all duration-200 lg:hover:text-warm-500 relative lg:after:absolute lg:after:bottom-0 lg:after:left-1/2 lg:after:-translate-x-1/2 lg:after:h-[1px] lg:after:bg-warm-400 lg:after:transition-all lg:after:duration-200 lg:after:w-0 lg:hover:after:w-full" style="color: #7a756f;">Spoznajte ma</span>
+            <span ref="heroCtaTextRef" class="hero-cta-text font-script italic text-[1.0625rem] tracking-wide cursor-pointer opacity-0 translate-y-[6px] transition-all duration-200 lg:hover:text-warm-500 relative lg:after:absolute lg:after:bottom-0 lg:after:left-1/2 lg:after:-translate-x-1/2 lg:after:h-[1px] lg:after:bg-warm-400 lg:after:transition-all lg:after:duration-200 lg:after:w-0 lg:hover:after:w-full" style="color: #7a756f;">Spoznajte ma</span>
           </div>
           
           <!-- Bottom vertical line (uzavretie) - shorter/lighter on mobile -->
-          <div class="hero-line-bottom w-[1px] h-0 mx-auto mt-2 md:mt-3 origin-top animate-scroll-hint opacity-0 md:opacity-0" style="background-color: #b8944d;" data-mobile-opacity="0.7"></div>
+          <div ref="heroLineBottomRef" class="hero-line-bottom w-[1px] h-0 mx-auto mt-2 md:mt-3 origin-top animate-scroll-hint opacity-0 md:opacity-0" style="background-color: #b8944d;" data-mobile-opacity="0.7"></div>
         </div>
       </div>
     </section>
@@ -155,7 +237,7 @@ onUnmounted(() => {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           <!-- Image -->
-          <div v-if="aboutImage" class="relative about-image-wrapper" style="will-change: transform;">
+          <div v-if="aboutImage" ref="aboutImageWrapperRef" class="relative about-image-wrapper" style="will-change: transform;">
             <div class="aspect-[4/5] overflow-hidden">
               <img
                 :src="aboutImage"
@@ -164,11 +246,11 @@ onUnmounted(() => {
                 style="will-change: transform;"
               />
             </div>
-            <div class="about-frame absolute -bottom-6 -right-6 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"></div>
+            <div ref="aboutFrameRef" class="about-frame absolute -bottom-6 -right-6 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"></div>
           </div>
 
           <!-- Text -->
-          <div class="about-text-wrapper lg:pl-8">
+          <div ref="aboutTextWrapperRef" class="about-text-wrapper lg:pl-8">
             <h2 class="about-content text-3xl md:text-4xl font-display text-charcoal-900 mb-6">
               Ahoj, som Pauli
             </h2>
@@ -204,11 +286,11 @@ onUnmounted(() => {
 
     <!-- My Approach / Philosophy -->
     <section class="section-padding bg-white">
-      <div class="container-narrow text-center philosophy-container">
-        <p class="philosophy-header text-accent text-lg md:text-xl mb-3">
+      <div ref="philosophyContainerRef" class="container-narrow text-center philosophy-container">
+        <p ref="philosophyHeaderRef1" class="philosophy-header text-accent text-lg md:text-xl mb-3">
           Moja filozofia
         </p>
-        <h2 class="philosophy-header text-3xl md:text-4xl font-display text-charcoal-900 mb-8">
+        <h2 ref="philosophyHeaderRef2" class="philosophy-header text-3xl md:text-4xl font-display text-charcoal-900 mb-8">
           Čo robí moju prácu výnimočnou
         </h2>
         
@@ -247,15 +329,15 @@ onUnmounted(() => {
     </section>
 
     <!-- CTA -->
-    <section class="cta-section py-16 md:py-20 bg-cream-200" style="perspective: 1000px;">
+    <section ref="ctaSectionRef" class="cta-section py-16 md:py-20 bg-cream-200" style="perspective: 1000px;">
       <div class="container-narrow text-center">
-        <h2 class="cta-content text-2xl md:text-3xl font-display text-charcoal-900 mb-4">
+        <h2 ref="ctaContentRef1" class="cta-content text-2xl md:text-3xl font-display text-charcoal-900 mb-4">
           Poďme spolupracovať
         </h2>
-        <p class="cta-content text-charcoal-600 mb-8 max-w-xl mx-auto">
+        <p ref="ctaContentRef2" class="cta-content text-charcoal-600 mb-8 max-w-xl mx-auto">
           Rada by som počula váš príbeh a vytvorila niečo krásne.
         </p>
-        <div class="cta-content">
+        <div ref="ctaContentRef3" class="cta-content">
           <UiAppButton 
             to="/contact" 
             variant="outline"
