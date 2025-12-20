@@ -38,9 +38,13 @@ const buildOptimizedUrl = (url: string, width: number = 800, quality: number = 8
 }
 
 export const useSanityServices = () => {
-    const { data, pending, error } = useFetch<SanityServices | null>(
+    const { data, pending, error, refresh } = useFetch<SanityServices | null>(
         '/api/sanity/services',
-        { key: 'services' }
+        {
+            key: 'services',
+            // Ensure fresh data on each page visit
+            getCachedData: () => undefined as any,
+        }
     )
 
     // Hero video URL
