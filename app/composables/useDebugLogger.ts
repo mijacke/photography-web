@@ -1,17 +1,43 @@
+/**
+ * Composable for conditional debug logging with color-coded categories.
+ *
+ * @remarks
+ * Each category has its own enable flag (e.g., `isHeroDebugEnabled`).
+ * Set flags to `true` during development to see logs for specific areas.
+ * All flags should be `false` in production.
+ *
+ * @returns Object containing the `log` function for category-based debug output
+ *
+ * @example
+ * ```ts
+ * const { log } = useDebugLogger()
+ * log('SANITY', 'Fetched data', data)
+ * ```
+ */
 export const useDebugLogger = () => {
-    const isDebugEnabled = false // Set to false to disable general logs
-    const isHeroDebugEnabled = false // Hero-specific debugging - DISABLED
-    const isServicesDebugEnabled = false // Services page debugging - DISABLED
-    const isAboutDebugEnabled = false // About page debugging - DISABLED
-    const isRouterDebugEnabled = false // Router/navigation debugging - DISABLED
+    const isDebugEnabled = false
+    const isHeroDebugEnabled = false
+    const isServicesDebugEnabled = false
+    const isAboutDebugEnabled = false
+    const isRouterDebugEnabled = false
 
-    const log = (category: 'SANITY' | 'ROUTER' | 'GSAP' | 'APP' | 'HERO' | 'SERVICES' | 'ABOUT', message: string, data?: any) => {
-        // Only show enabled categories
+    const log = (
+        category: 'SANITY' | 'ROUTER' | 'GSAP' | 'APP' | 'HERO' | 'SERVICES' | 'ABOUT',
+        message: string,
+        data?: any
+    ) => {
         if (category === 'HERO' && !isHeroDebugEnabled) return
         if (category === 'SERVICES' && !isServicesDebugEnabled) return
         if (category === 'ABOUT' && !isAboutDebugEnabled) return
         if (category === 'ROUTER' && !isRouterDebugEnabled) return
-        if (category !== 'HERO' && category !== 'SERVICES' && category !== 'ABOUT' && category !== 'ROUTER' && !isDebugEnabled) return
+        if (
+            category !== 'HERO' &&
+            category !== 'SERVICES' &&
+            category !== 'ABOUT' &&
+            category !== 'ROUTER' &&
+            !isDebugEnabled
+        )
+            return
 
         const timestamp = new Date().toISOString().split('T')[1]?.slice(0, -1) ?? ''
         const styles = {
@@ -33,6 +59,6 @@ export const useDebugLogger = () => {
     }
 
     return {
-        log
+        log,
     }
 }

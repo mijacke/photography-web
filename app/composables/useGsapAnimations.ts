@@ -2,17 +2,39 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 /**
- * Composable for GSAP ScrollTrigger animations
- * Provides utility functions for common animation patterns
+ * Composable providing GSAP ScrollTrigger animation utilities.
+ *
+ * @remarks
+ * **Client-only**: Uses `gsap.context` which requires browser APIs.
+ *
+ * **Cleanup required**: Call `cleanup()` in `onUnmounted()` to prevent
+ * memory leaks and animation conflicts on page transitions.
+ *
+ * **Initialization**: Use `initializeAnimations()` to ensure DOM is ready
+ * after page transitions (uses double-rAF + 50ms delay for stability).
+ *
+ * @returns Animation helpers and GSAP/ScrollTrigger instances
+ *
+ * @example
+ * ```ts
+ * const { fadeInUp, cleanup, initializeAnimations } = useGsapAnimations()
+ *
+ * onMounted(() => {
+ *   initializeAnimations(() => {
+ *     fadeInUp('.my-element')
+ *   })
+ * })
+ *
+ * onUnmounted(() => cleanup())
+ * ```
  */
 export function useGsapAnimations() {
     let ctx: gsap.Context | undefined
     let isCleanedUp = false
 
-    /**
-     * Check if element exists in DOM
-     */
-    function elementExists(selector: string | Element | Element[] | NodeList | null | undefined): boolean {
+    function elementExists(
+        selector: string | Element | Element[] | NodeList | null | undefined
+    ): boolean {
         if (!selector) return false
         if (typeof selector === 'string') return document.querySelector(selector) !== null
         if (Array.isArray(selector)) return selector.length > 0
@@ -20,9 +42,6 @@ export function useGsapAnimations() {
         return true
     }
 
-    /**
-     * Fade in elements from bottom with optional stagger
-     */
     function fadeInUp(
         elements: string | Element | Element[] | NodeList | null,
         options: {
@@ -36,7 +55,14 @@ export function useGsapAnimations() {
     ) {
         if (!elementExists(elements)) return null
 
-        const { y = 30, duration = 0.8, stagger = 0.15, delay = 0, start = 'top 90%', ease = 'power3.out' } = options
+        const {
+            y = 30,
+            duration = 0.8,
+            stagger = 0.15,
+            delay = 0,
+            start = 'top 90%',
+            ease = 'power3.out',
+        } = options
         const target = typeof elements === 'string' ? elements : elements
 
         gsap.set(target, { autoAlpha: 0, y })
@@ -50,17 +76,14 @@ export function useGsapAnimations() {
                     stagger,
                     delay,
                     ease,
-                    overwrite: 'auto'
+                    overwrite: 'auto',
                 })
             },
             start,
-            once: true
+            once: true,
         })
     }
 
-    /**
-     * Slide in from left or right
-     */
     function slideIn(
         element: string | Element | null,
         options: {
@@ -73,7 +96,13 @@ export function useGsapAnimations() {
     ) {
         if (!elementExists(element)) return null
 
-        const { direction = 'left', distance = 60, duration = 1, start = 'top 85%', ease = 'power3.out' } = options
+        const {
+            direction = 'left',
+            distance = 60,
+            duration = 1,
+            start = 'top 85%',
+            ease = 'power3.out',
+        } = options
         const xOffset = direction === 'left' ? -distance : distance
 
         return gsap.from(element, {
@@ -89,9 +118,6 @@ export function useGsapAnimations() {
         })
     }
 
-    /**
-     * Parallax effect for images - tied to scroll position
-     */
     function parallax(
         element: string | Element | null,
         options: {
@@ -116,9 +142,6 @@ export function useGsapAnimations() {
         })
     }
 
-    /**
-     * Staggered reveal for list items
-     */
     function staggerReveal(
         container: string | Element | null,
         items: string | Element[] | NodeList | Array<any>,
@@ -132,7 +155,13 @@ export function useGsapAnimations() {
     ) {
         if (!elementExists(container)) return null
 
-        const { y = 20, stagger = 0.1, duration = 0.6, start = 'top 85%', ease = 'power2.out' } = options
+        const {
+            y = 20,
+            stagger = 0.1,
+            duration = 0.6,
+            start = 'top 85%',
+            ease = 'power2.out',
+        } = options
 
         return gsap.from(items, {
             y,
@@ -148,9 +177,6 @@ export function useGsapAnimations() {
         })
     }
 
-    /**
-     * Scale in with subtle 3D perspective effect
-     */
     function scaleIn3D(
         element: string | Element | null,
         options: {
@@ -179,23 +205,18 @@ export function useGsapAnimations() {
         })
     }
 
-    /**
-     * Cleanup all ScrollTrigger instances
-     */
     function cleanup() {
         isCleanedUp = true
         ctx?.revert()
     }
 
-    /**
-     * Refresh ScrollTrigger calculations
-     */
     function refresh() {
         ScrollTrigger.refresh()
     }
 
     /**
-     * Initialize animations safely after page transition and layout are stable
+     * Initializes animations after layout is stable.
+     * Uses double-rAF + timeout to ensure DOM is fully rendered after page transitions.
      */
     function initializeAnimations(callback: () => void) {
         isCleanedUp = false
@@ -212,9 +233,6 @@ export function useGsapAnimations() {
         })
     }
 
-    /**
-     * Add safe async animation to the context
-     */
     function add(callback: () => void) {
         if (ctx) {
             ctx.add(callback)
