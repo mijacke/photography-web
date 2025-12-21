@@ -1,28 +1,34 @@
 {
-  "name": "photography-web",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@nuxt/image": "^2.0.0",
-    "@nuxtjs/tailwindcss": "^6.14.0",
-    "@sanity/client": "^7.13.2",
-    "@splidejs/splide": "^4.1.4",
-    "@splidejs/vue-splide": "^0.6.12",
-    "@yeger/vue-masonry-wall": "^5.1.4",
-    "gsap": "^3.14.2",
-    "nuxt": "^4.2.1",
-    "vue": "^3.5.25",
-    "vue-router": "^4.6.3"
-  },
-  "devDependencies": {
-    "@nuxtjs/critters": "^0.9.0",
-    "@types/node": "^24.10.1"
-  }
+    "name": "photography-web",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "@nuxt/image": "^2.0.0",
+        "@nuxtjs/tailwindcss": "^6.14.0",
+        "@sanity/client": "^7.13.2",
+        "@splidejs/splide": "^4.1.4",
+        "@splidejs/vue-splide": "^0.6.12",
+        "@yeger/vue-masonry-wall": "^5.1.4",
+        "gsap": "^3.14.2",
+        "nuxt": "^4.2.1",
+        "vue": "^3.5.25",
+        "vue-router": "^4.6.3"
+    },
+    "devDependencies": {
+        "@nuxt/eslint": "^1.12.1",
+        "@nuxtjs/critters": "^0.9.0",
+        "@types/node": "^24.10.1",
+        "eslint-config-prettier": "^10.1.8",
+        "prettier": "^3.7.4"
+    }
 }
