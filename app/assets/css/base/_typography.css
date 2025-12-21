@@ -4,7 +4,6 @@
    ========================================================================== */
 
 @layer base {
-
     h1,
     h2,
     h3,
@@ -27,7 +26,6 @@
 }
 
 @layer components {
-
     /* Font families */
     .font-display {
         font-family: 'Playfair Display', Georgia, serif;
