@@ -1,7 +1,21 @@
+/**
+ * Navigation transition plugin with GSAP cleanup.
+ *
+ * @remarks
+ * **Client-only**: Uses DOM APIs and must run after hydration.
+ *
+ * **Purpose**:
+ * 1. Shows a white overlay during page transitions to prevent layout jumps
+ * 2. Cleans up GSAP animations before navigation to prevent conflicts
+ * 3. Scrolls to top immediately (while overlay is visible) for smooth UX
+ * 4. Refreshes ScrollTrigger after new page settles
+ *
+ * **Overlay timing**: Appears instantly on navigation start, fades out
+ * after `page:transition:finish` hook fires.
+ */
 export default defineNuxtPlugin((nuxtApp) => {
     const router = useRouter()
 
-    // Create the navigation overlay element
     let overlay: HTMLDivElement | null = null
 
     if (typeof window !== 'undefined') {
@@ -21,7 +35,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     function showOverlay() {
         if (overlay) {
             overlay.classList.remove('hiding')
-            overlay.offsetHeight // Force reflow
+            overlay.offsetHeight
             overlay.classList.add('active')
         }
     }
@@ -37,18 +51,15 @@ export default defineNuxtPlugin((nuxtApp) => {
 
     router.beforeEach((to, from, next) => {
         if (from.path !== to.path) {
-            // Show overlay instantly
             showOverlay()
 
-            // GSAP cleanup
             try {
                 const { cleanup } = useGsapAnimations()
                 cleanup()
             } catch (e) {
-                // ignore
+                // Composable may not be available in all contexts
             }
 
-            // Scroll to top while overlay is covering
             window.scrollTo(0, 0)
         }
 
@@ -56,18 +67,16 @@ export default defineNuxtPlugin((nuxtApp) => {
     })
 
     router.afterEach(() => {
-        // Refresh ScrollTrigger after page settles
         setTimeout(() => {
             try {
                 const { refresh } = useGsapAnimations()
                 refresh()
             } catch (e) {
-                // ignore
+                // Composable may not be available in all contexts
             }
         }, 100)
     })
 
-    // Hide overlay when transition is complete
     nuxtApp.hook('page:transition:finish', () => {
         requestAnimationFrame(() => {
             hideOverlay()

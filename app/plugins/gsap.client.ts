@@ -1,20 +1,27 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+/**
+ * GSAP and ScrollTrigger registration plugin.
+ *
+ * @remarks
+ * **Client-only**: Registers GSAP plugins and sets animation defaults.
+ *
+ * **Reduced motion**: Respects `prefers-reduced-motion` by setting
+ * `gsap.globalTimeline.timeScale(0)` to effectively disable animations.
+ *
+ * **Provides**: `$gsap` and `$ScrollTrigger` globally via Nuxt's provide system.
+ */
 export default defineNuxtPlugin(() => {
-    // Only run on client
     if (import.meta.server) return
 
-    // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger)
 
-    // Configure defaults for smooth animations
     gsap.defaults({
         ease: 'power3.out',
         duration: 1,
     })
 
-    // Respect reduced motion preferences
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
         gsap.globalTimeline.timeScale(0)
