@@ -45,7 +45,9 @@
 
 /* Only fade out when hiding (after new page is ready) */
 .nav-overlay.hiding {
-    transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
+    transition:
+        opacity 0.15s ease-out,
+        visibility 0.15s ease-out;
     opacity: 0;
     visibility: hidden;
 }
