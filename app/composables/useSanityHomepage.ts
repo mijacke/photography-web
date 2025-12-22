@@ -13,43 +13,49 @@ interface SanityHomepage {
     portfolioTehotenstvoImage?: { asset: SanityImageAsset }
 }
 
-// Helper to build optimized Sanity image URL
 const buildOptimizedUrl = (url: string, width: number = 1200, quality: number = 85) => {
     if (!url) return null
     return `${url}?w=${width}&q=${quality}&auto=format&fit=max`
 }
 
+/**
+ * Composable for fetching homepage content from Sanity.
+ *
+ * @remarks
+ * **SSR-compatible**: Uses `useFetch` with caching (key: 'homepage').
+ *
+ * @returns Object containing:
+ * - `heroImages`: Array of hero carousel images (1200px)
+ * - `galleryCarouselImages`: Gallery section images (1920px)
+ * - `aboutImage`: About section portrait (600px)
+ * - `portfolioImages`: Category preview thumbnails (400px)
+ * - `pending`, `error`: Loading and error states
+ */
 export const useSanityHomepage = () => {
-    // Fetch from our server API route
-    const { data, pending, error } = useFetch<SanityHomepage | null>(
-        '/api/sanity/homepage',
-        { key: 'homepage' }
-    )
+    const { data, pending, error } = useFetch<SanityHomepage | null>('/api/sanity/homepage', {
+        key: 'homepage',
+    })
 
-    // Hero carousel images - optimized for large screens
     const heroImages = computed(() => {
         if (!data.value?.heroImages) return []
-        return data.value.heroImages.map((img) =>
-            buildOptimizedUrl(img.asset.url, 1200, 85)
-        ).filter(Boolean) as string[]
+        return data.value.heroImages
+            .map((img) => buildOptimizedUrl(img.asset.url, 1200, 85))
+            .filter(Boolean) as string[]
     })
 
-    // Gallery carousel images - full width display
     const galleryCarouselImages = computed(() => {
         if (!data.value?.galleryCarouselImages) return []
-        return data.value.galleryCarouselImages.map((img) =>
-            buildOptimizedUrl(img.asset.url, 1920, 85)
-        ).filter(Boolean) as string[]
+        return data.value.galleryCarouselImages
+            .map((img) => buildOptimizedUrl(img.asset.url, 1920, 85))
+            .filter(Boolean) as string[]
     })
 
-    // About section image - portrait format
     const aboutImage = computed(() =>
         data.value?.aboutImage?.asset.url
             ? buildOptimizedUrl(data.value.aboutImage.asset.url, 600, 85)
             : null
     )
 
-    // Portfolio preview images
     const portfolioImages = computed(() => ({
         rodina: data.value?.portfolioRodinaImage?.asset.url
             ? buildOptimizedUrl(data.value.portfolioRodinaImage.asset.url, 400, 85)

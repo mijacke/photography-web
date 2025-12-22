@@ -27,11 +27,15 @@ interface Photo {
     orientation: 'portrait' | 'landscape'
 }
 
-// Helper to build Sanity image URL with optimization
-const buildImageUrl = (projectId: string, dataset: string, imageRef: string, options?: {
-    width?: number
-    quality?: number
-}) => {
+const buildImageUrl = (
+    projectId: string,
+    dataset: string,
+    imageRef: string,
+    options?: {
+        width?: number
+        quality?: number
+    }
+) => {
     const refParts = imageRef.replace('image-', '').split('-')
     const id = refParts[0]
     const dimensions = refParts[1] || ''
@@ -48,12 +52,28 @@ const buildImageUrl = (projectId: string, dataset: string, imageRef: string, opt
     return `${baseUrl}?${params.join('&')}`
 }
 
-// Helper to build optimized URL from direct URL
 const buildOptimizedUrl = (url: string, width: number = 1200, quality: number = 85) => {
     if (!url) return null
     return `${url}?w=${width}&q=${quality}&auto=format&fit=max`
 }
 
+/**
+ * Composable for fetching category data (hero images, intro, gallery) from Sanity.
+ *
+ * @param categorySlug - URL slug identifying the category (e.g., 'rodina', 'svadby')
+ *
+ * @remarks
+ * **SSR-compatible**: Uses `useFetch` with category-specific cache key.
+ *
+ * **Photo interleaving**: Portrait and landscape photos are alternated
+ * for visual variety in the masonry grid layout.
+ *
+ * @returns Object containing:
+ * - `heroLeftUrl`, `heroRightUrl`: Hero section images (1600px)
+ * - `introImageUrl`: Intro section image (1000px)
+ * - `photos`: Interleaved portrait/landscape photos (1200px)
+ * - `pending`, `error`: Loading and error states
+ */
 export const useSanityCategory = (categorySlug: string) => {
     const config = useRuntimeConfig()
     const projectId = config.public.sanityProjectId as string
@@ -64,27 +84,29 @@ export const useSanityCategory = (categorySlug: string) => {
         { key: `category-${categorySlug}` }
     )
 
-    // Hero images - optimized for large screens (1600px wide)
     const heroLeftUrl = computed(() =>
         data.value?.heroLeftImage
-            ? buildImageUrl(projectId, dataset, data.value.heroLeftImage.asset._ref, { width: 1600 })
+            ? buildImageUrl(projectId, dataset, data.value.heroLeftImage.asset._ref, {
+                  width: 1600,
+              })
             : null
     )
 
     const heroRightUrl = computed(() =>
         data.value?.heroRightImage
-            ? buildImageUrl(projectId, dataset, data.value.heroRightImage.asset._ref, { width: 1600 })
+            ? buildImageUrl(projectId, dataset, data.value.heroRightImage.asset._ref, {
+                  width: 1600,
+              })
             : null
     )
 
-    // Intro image - optimized for content width (1000px)
     const introImageUrl = computed(() =>
         data.value?.introImage
             ? buildImageUrl(projectId, dataset, data.value.introImage.asset._ref, { width: 1000 })
             : null
     )
 
-    // Interleaved photos from portrait and landscape for better grid layout
+    // Interleave portrait and landscape photos for visual variety in masonry grid
     const photos = computed<Photo[]>(() => {
         const allPhotos: Photo[] = []
         let id = 1

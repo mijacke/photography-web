@@ -31,26 +31,36 @@ interface SanityServices {
     }
 }
 
-// Helper to build optimized Sanity image URL
 const buildOptimizedUrl = (url: string, width: number = 800, quality: number = 85) => {
     if (!url) return null
     return `${url}?w=${width}&q=${quality}&auto=format&fit=max`
 }
 
+/**
+ * Composable for fetching Services page content from Sanity.
+ *
+ * @remarks
+ * **SSR-compatible**: Uses `useFetch` but with cache bypass
+ * (`getCachedData: () => undefined`) to ensure fresh data on each navigation.
+ * This prevents stale video URLs after CMS updates.
+ *
+ * @returns Object containing:
+ * - `heroVideoUrl`: Direct URL to the hero video asset
+ * - `serviceImages`: Optimized URLs for service card images (800px)
+ * - `pending`, `error`: Loading and error states
+ */
 export const useSanityServices = () => {
     const { data, pending, error, refresh } = useFetch<SanityServices | null>(
         '/api/sanity/services',
         {
             key: 'services',
-            // Ensure fresh data on each page visit
+            // Bypass cache to ensure fresh data on each navigation
             getCachedData: () => undefined as any,
         }
     )
 
-    // Hero video URL
     const heroVideoUrl = computed(() => data.value?.heroVideo?.asset.url || null)
 
-    // Service images
     const serviceImages = computed(() => ({
         rodina: data.value?.rodinaImage?.asset.url
             ? buildOptimizedUrl(data.value.rodinaImage.asset.url, 800, 85)

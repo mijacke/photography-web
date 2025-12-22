@@ -15,8 +15,12 @@ interface Photo {
     alt: string
 }
 
-// Helper to build Sanity image URL with optimizations
-const buildImageUrl = (projectId: string, dataset: string, imageRef: string, params?: { w?: number; q?: number }) => {
+const buildImageUrl = (
+    projectId: string,
+    dataset: string,
+    imageRef: string,
+    params?: { w?: number; q?: number }
+) => {
     const refParts = imageRef.replace('image-', '').split('-')
     const id = refParts[0]
     const dimensions = refParts[1] || ''
@@ -33,18 +37,30 @@ const buildImageUrl = (projectId: string, dataset: string, imageRef: string, par
     return `${baseUrl}?${queryParams.join('&')}`
 }
 
+/**
+ * Composable for fetching individual photos for a category from Sanity.
+ *
+ * @param categorySlug - URL slug identifying the category
+ *
+ * @remarks
+ * **SSR-compatible**: Uses `useFetch` with category-specific cache key.
+ *
+ * Uses the legacy `photo` document type. For new implementations,
+ * prefer `useSanityCategory` which includes gallery photos directly.
+ *
+ * @returns Object containing:
+ * - `photos`: Array of optimized photo URLs with alt text
+ * - `pending`, `error`: Loading and error states
+ */
 export const useSanityPhotos = (categorySlug: string) => {
     const config = useRuntimeConfig()
     const projectId = config.public.sanityProjectId as string
     const dataset = config.public.sanityDataset as string
 
-    const { data, pending, error } = useFetch<SanityPhoto[]>(
-        `/api/sanity/photos/${categorySlug}`,
-        {
-            key: `photos-${categorySlug}`,
-            default: () => [],
-        }
-    )
+    const { data, pending, error } = useFetch<SanityPhoto[]>(`/api/sanity/photos/${categorySlug}`, {
+        key: `photos-${categorySlug}`,
+        default: () => [],
+    })
 
     const photos = computed<Photo[]>(() => {
         if (!data.value || data.value.length === 0) return []
