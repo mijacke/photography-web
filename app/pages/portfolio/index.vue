@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Redirect /portfolio to /portfolio/rodina
 definePageMeta({
-  redirect: '/portfolio/rodina'
+    redirect: '/portfolio/rodina',
 })
 </script>
