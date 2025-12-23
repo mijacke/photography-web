@@ -25,7 +25,7 @@ export default defineEventHandler(async () => {
             error: 'No access token configured',
             expiresAt: null,
             daysUntilExpiry: null,
-            needsRefresh: true
+            needsRefresh: true,
         }
     }
 
@@ -42,7 +42,7 @@ export default defineEventHandler(async () => {
                 error: data.error.message,
                 expiresAt: null,
                 daysUntilExpiry: null,
-                needsRefresh: true
+                needsRefresh: true,
             }
         }
 
@@ -54,17 +54,17 @@ export default defineEventHandler(async () => {
                 error: 'Token is invalid or expired',
                 expiresAt: null,
                 daysUntilExpiry: null,
-                needsRefresh: true
+                needsRefresh: true,
             }
         }
 
         // Check both expires_at and data_access_expires_at
         // For USER tokens, data_access_expires_at is more relevant (90 days for long-lived)
         // expires_at = 0 means the token doesn't expire (page tokens, app tokens)
-        const expiresAtTimestamp = tokenData.type === 'USER'
-            ? (tokenData.data_access_expires_at || tokenData.expires_at || 0)
-            : (tokenData.expires_at || tokenData.data_access_expires_at || 0)
-
+        const expiresAtTimestamp =
+            tokenData.type === 'USER'
+                ? tokenData.data_access_expires_at || tokenData.expires_at || 0
+                : tokenData.expires_at || tokenData.data_access_expires_at || 0
 
         let expiresAt: Date | null = null
         let daysUntilExpiry: number | null = null
@@ -78,7 +78,9 @@ export default defineEventHandler(async () => {
         } else {
             expiresAt = new Date(expiresAtTimestamp * 1000)
             const now = new Date()
-            daysUntilExpiry = Math.floor((expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+            daysUntilExpiry = Math.floor(
+                (expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+            )
 
             // Recommend refresh if less than 7 days remaining
             needsRefresh = daysUntilExpiry < 7
@@ -99,7 +101,7 @@ export default defineEventHandler(async () => {
             needsRefresh,
             scopes: tokenData.scopes || [],
             appId: tokenData.app_id,
-            message
+            message,
         }
     } catch (error: any) {
         return {
@@ -107,7 +109,7 @@ export default defineEventHandler(async () => {
             error: error.message || 'Failed to check token',
             expiresAt: null,
             daysUntilExpiry: null,
-            needsRefresh: true
+            needsRefresh: true,
         }
     }
 })

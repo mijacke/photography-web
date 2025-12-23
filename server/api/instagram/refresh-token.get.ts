@@ -12,14 +12,14 @@ export default defineEventHandler(async () => {
     if (!accessToken) {
         throw createError({
             statusCode: 501,
-            message: 'Missing INSTAGRAM_ACCESS_TOKEN in .env'
+            message: 'Missing INSTAGRAM_ACCESS_TOKEN in .env',
         })
     }
 
     if (!appId || !appSecret) {
         throw createError({
             statusCode: 502,
-            message: 'Missing FACEBOOK_APP_ID or FACEBOOK_APP_SECRET in .env'
+            message: 'Missing FACEBOOK_APP_ID or FACEBOOK_APP_SECRET in .env',
         })
     }
 
@@ -48,14 +48,14 @@ export default defineEventHandler(async () => {
 
             throw createError({
                 statusCode,
-                message: `[${errorCode || 'ERROR'}] ${errorMessage}`
+                message: `[${errorCode || 'ERROR'}] ${errorMessage}`,
             })
         }
 
         if (!data.access_token) {
             throw createError({
                 statusCode: 422,
-                message: 'No access token returned from Facebook API'
+                message: 'No access token returned from Facebook API',
             })
         }
 
@@ -72,8 +72,8 @@ export default defineEventHandler(async () => {
                 '1. Copy the newToken value above',
                 '2. Replace INSTAGRAM_ACCESS_TOKEN in your .env file',
                 '3. Restart npm run dev',
-                '4. Set reminder for ~50 days to refresh again'
-            ]
+                '4. Set reminder for ~50 days to refresh again',
+            ],
         }
     } catch (error: any) {
         if (error.statusCode) {
@@ -82,7 +82,7 @@ export default defineEventHandler(async () => {
 
         throw createError({
             statusCode: 500,
-            message: `Unexpected error: ${error.message}`
+            message: `Unexpected error: ${error.message}`,
         })
     }
 })
