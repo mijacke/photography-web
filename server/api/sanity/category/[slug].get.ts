@@ -1,6 +1,5 @@
 import { createClient } from '@sanity/client'
 
-// Create Sanity client on server-side (no CORS issues)
 const getSanityClient = () => {
     const config = useRuntimeConfig()
     return createClient({
@@ -11,6 +10,16 @@ const getSanityClient = () => {
     })
 }
 
+/**
+ * Fetches category data including associated gallery from Sanity CMS.
+ *
+ * @param slug - Category URL slug (e.g., 'rodina', 'svadby')
+ *
+ * @returns Category object with hero images, intro image, and nested gallery photos
+ *
+ * @throws 400 - Missing slug parameter
+ * @throws 500 - Sanity fetch error
+ */
 export default defineEventHandler(async (event) => {
     const slug = getRouterParam(event, 'slug')
 

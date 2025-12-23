@@ -8,6 +8,11 @@ const client = createClient({
     useCdn: true,
 })
 
+/**
+ * Fetches Services page content from Sanity CMS.
+ *
+ * @returns Object with `heroVideo` and service-specific images (rodina, novorodenci, tehotenstvo, svadby)
+ */
 export default defineEventHandler(async () => {
     const query = `*[_type == "services" && _id == "services"][0]{
         heroVideo{

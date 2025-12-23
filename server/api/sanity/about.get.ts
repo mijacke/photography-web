@@ -1,6 +1,5 @@
 import { createClient } from '@sanity/client'
 
-// Create Sanity client on server-side (no CORS issues)
 const getSanityClient = () => {
     const config = useRuntimeConfig()
     return createClient({
@@ -11,6 +10,13 @@ const getSanityClient = () => {
     })
 }
 
+/**
+ * Fetches About page data from Sanity CMS.
+ *
+ * @returns `{ mainImage: { asset: { _id, url } } }` or `null`
+ *
+ * @throws 500 - Sanity fetch error
+ */
 export default defineEventHandler(async () => {
     const client = getSanityClient()
 
