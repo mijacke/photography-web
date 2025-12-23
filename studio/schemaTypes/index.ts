@@ -6,12 +6,9 @@ import { galleryType } from './galleryType'
 import { servicesType } from './servicesType'
 
 export const schemaTypes = [
-    // Singleton stránky
     homepageType,
     aboutType,
     servicesType,
-
-    // Portfólio
     categoryType,
     photoType,
     galleryType,
