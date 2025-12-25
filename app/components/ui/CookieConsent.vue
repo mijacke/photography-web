@@ -85,9 +85,11 @@ const loadGoogleAnalytics = (gaId: string) => {
     
     if (!window.gtag) {
         console.log('[GA DEBUG] Creating gtag function')
-        window.gtag = function (...args: any[]) {
-            console.log('[GA DEBUG] gtag push:', JSON.stringify(args))
-            window.dataLayer.push(args)
+        // CRITICAL: Must use function() syntax and push `arguments` object, not an array
+        // This is how gtag.js expects data to be formatted in dataLayer
+        window.gtag = function () {
+            console.log('[GA DEBUG] gtag push:', JSON.stringify(Array.prototype.slice.call(arguments)))
+            window.dataLayer.push(arguments)
         }
     } else {
         console.log('[GA DEBUG] gtag function already exists')
