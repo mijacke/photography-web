@@ -12,6 +12,7 @@ const form = reactive({
     eventType: '',
     eventDate: '',
     message: '',
+    honeypot: '', // Bot trap - hidden field
 })
 
 const eventTypes = [
@@ -32,8 +33,18 @@ const handleSubmit = async () => {
     errorMessage.value = ''
 
     try {
-        // TODO: Replace with actual API endpoint
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        await $fetch('/api/contact', {
+            method: 'POST',
+            body: {
+                name: form.name,
+                email: form.email,
+                phone: form.phone || undefined,
+                service: form.eventType || undefined,
+                date: form.eventDate || undefined,
+                message: form.message,
+                honeypot: form.honeypot,
+            },
+        })
 
         isSubmitted.value = true
 
@@ -44,9 +55,13 @@ const handleSubmit = async () => {
             eventType: '',
             eventDate: '',
             message: '',
+            honeypot: '',
         })
-    } catch {
-        errorMessage.value = 'Niečo sa pokazilo. Skúste to znova alebo mi napíšte priamo na email.'
+    } catch (err: unknown) {
+        const error = err as { data?: { message?: string } }
+        errorMessage.value =
+            error.data?.message ||
+            'Niečo sa pokazilo. Skúste to znova alebo mi napíšte priamo na email.'
     } finally {
         isSubmitting.value = false
     }
@@ -85,6 +100,16 @@ const handleSubmit = async () => {
         </div>
 
         <form v-else class="space-y-8" @submit.prevent="handleSubmit">
+            <!-- Honeypot field - hidden from users, bots fill it -->
+            <input
+                v-model="form.honeypot"
+                type="text"
+                name="website"
+                autocomplete="off"
+                tabindex="-1"
+                class="absolute -left-[9999px] opacity-0 h-0 w-0"
+            >
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                     <label
