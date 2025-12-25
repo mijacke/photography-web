@@ -7,7 +7,6 @@
     html {
         scroll-behavior: auto;
         overflow-x: hidden;
-        /* Scale base font for large displays: 16px → 18px at 1920px → 20px at 2560px+ */
         font-size: clamp(16px, calc(14px + 0.25vw), 22px);
     }
 
@@ -27,5 +26,10 @@
     ::selection {
         background-color: rgba(196, 165, 116, 0.3);
         color: #231f20;
+    }
+
+    input:focus,
+    textarea:focus {
+        outline: none !important;
     }
 }
