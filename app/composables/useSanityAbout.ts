@@ -30,7 +30,6 @@ interface SanityAbout {
     ctaButtonText?: string
 }
 
-// Fallback content for when Sanity data is missing
 const FALLBACKS = {
     heroAccent: 'Za každým záberom',
     heroLine1: 'je príbeh,',

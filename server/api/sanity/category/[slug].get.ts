@@ -6,7 +6,7 @@ const getSanityClient = () => {
         projectId: config.public.sanityProjectId as string,
         dataset: config.public.sanityDataset as string,
         apiVersion: '2024-01-01',
-        useCdn: true,
+        useCdn: false, // Disable CDN for immediate content updates
     })
 }
 
