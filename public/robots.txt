@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://paulifotografka.sk/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /_nuxt/
