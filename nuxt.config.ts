@@ -43,7 +43,8 @@ export default defineNuxtConfig({
         public: {
             googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
             gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',
-            sanityProjectId: process.env.NUXT_PUBLIC_SANITY_PROJECT_ID || '',
+            // Sanity - public credentials, safe to hardcode
+            sanityProjectId: process.env.NUXT_PUBLIC_SANITY_PROJECT_ID || 'm42prcjy',
             sanityDataset: process.env.NUXT_PUBLIC_SANITY_DATASET || 'production',
         },
     },
