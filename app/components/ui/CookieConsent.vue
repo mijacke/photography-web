@@ -67,53 +67,36 @@ const loadGoogleAnalytics = (gaId: string) => {
 
     ;(window as unknown as Record<string, boolean>)[`ga-disable-${gaId}`] = false
 
-    // If script already loaded, just update consent and send page view
+    window.dataLayer = window.dataLayer || []
+    
+    if (!window.gtag) {
+        window.gtag = function (...args: any[]) {
+            window.dataLayer.push(args)
+        }
+    }
+
+    window.gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: consent.externalMedia ? 'granted' : 'denied',
+        ad_user_data: consent.externalMedia ? 'granted' : 'denied',
+        ad_personalization: consent.externalMedia ? 'granted' : 'denied',
+    })
+
     if (document.querySelector(`script[src*="googletagmanager.com/gtag"]`)) {
-        window.gtag?.('consent', 'update', { analytics_storage: 'granted' })
-        window.gtag?.('event', 'page_view', {
+        window.gtag('event', 'page_view', {
             page_path: window.location.pathname,
             page_title: document.title,
         })
         return
     }
 
-    // Initialize dataLayer and gtag function FIRST
-    window.dataLayer = window.dataLayer || []
-    function gtag(...args: unknown[]) {
-        window.dataLayer.push(args)
-    }
-    window.gtag = gtag
-
-    // Set DEFAULT consent state BEFORE loading script (required by GA4)
-    gtag('consent', 'default', {
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
-        analytics_storage: 'denied',
+    window.gtag('js', new Date())
+    window.gtag('config', gaId, {
+        send_page_view: true,
     })
-
-    // Now load the script
     const script = document.createElement('script')
     script.async = true
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
-    script.onload = () => {
-        window.gtag?.('js', new Date())
-        window.gtag?.('config', gaId, {
-            send_page_view: false,
-        })
-        // UPDATE consent to granted AFTER script loads
-        window.gtag?.('consent', 'update', {
-            ad_storage: 'denied',
-            ad_user_data: 'denied',
-            ad_personalization: 'denied',
-            analytics_storage: 'granted',
-        })
-        // Now send page view
-        window.gtag?.('event', 'page_view', {
-            page_path: window.location.pathname,
-            page_title: document.title,
-        })
-    }
     document.head.appendChild(script)
 }
 
