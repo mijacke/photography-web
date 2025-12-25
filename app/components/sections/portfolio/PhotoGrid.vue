@@ -75,15 +75,17 @@ onMounted(() => {
     }
     window.addEventListener('keydown', handleKeydown)
 
-    initializeAnimations(() => {
-        isMounted.value = true
+    // Set mounted immediately for masonry to render
+    isMounted.value = true
 
+    initializeAnimations(() => {
         const { gsap, ScrollTrigger } = useGsapAnimations()
 
         if (titleRef.value) {
             fadeInUp(titleRef.value, { y: 30, duration: 0.8 })
         }
 
+        // Wait for masonry to render items
         setTimeout(() => {
             add(() => {
                 const validItems = itemRefs.value.filter((el) => el instanceof HTMLElement)
@@ -101,12 +103,23 @@ onMounted(() => {
                                 ease: 'power3.out',
                             })
                         },
-                        start: 'top 90%',
+                        start: 'top 95%',
                         once: true,
                     })
+
+                    // Fallback: make all items visible after 2 seconds
+                    // This ensures items are visible even if ScrollTrigger fails
+                    setTimeout(() => {
+                        gsap.to(validItems, {
+                            autoAlpha: 1,
+                            y: 0,
+                            duration: 0.5,
+                            overwrite: 'auto',
+                        })
+                    }, 2000)
                 }
             })
-        }, 200)
+        }, 300)
     })
 
     onUnmounted(() => {
