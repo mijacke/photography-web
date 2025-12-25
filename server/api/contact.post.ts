@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     if (!emailRegex.test(body.email)) {
         throw createError({
             statusCode: 400,

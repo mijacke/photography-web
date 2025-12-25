@@ -31,7 +31,11 @@ interface ConsentRecord {
 }
 
 const createSignature = (data: Omit<ConsentRecord, 'signature'>): string => {
-    const secret = process.env.CONSENT_HMAC_SECRET || 'default-dev-secret'
+    const secret = process.env.CONSENT_HMAC_SECRET
+    if (!secret) {
+        console.error('[CONSENT] CRITICAL: Missing CONSENT_HMAC_SECRET - signatures disabled')
+        return 'hmac-secret-not-configured'
+    }
     return createHmac('sha256', secret).update(JSON.stringify(data)).digest('hex')
 }
 

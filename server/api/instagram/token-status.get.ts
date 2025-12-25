@@ -1,4 +1,4 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getHeader, createError } from 'h3'
 
 interface TokenDebugData {
     is_valid: boolean
@@ -13,10 +13,19 @@ interface TokenDebugData {
     }
 }
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+    const authHeader = getHeader(event, 'authorization')
+    const cronSecret = process.env.CRON_SECRET
+
+    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+        throw createError({
+            statusCode: 401,
+            message: 'Unauthorized',
+        })
+    }
+
     const config = useRuntimeConfig()
 
-    // Support both naming conventions
     const accessToken = config.instagramAccessToken || config.instagramToken
 
     if (!accessToken) {
@@ -30,7 +39,6 @@ export default defineEventHandler(async () => {
     }
 
     try {
-        // Debug token to check validity and expiration
         const debugUrl = `https://graph.facebook.com/debug_token?input_token=${accessToken}&access_token=${accessToken}`
 
         const response = await fetch(debugUrl)
@@ -58,13 +66,7 @@ export default defineEventHandler(async () => {
             }
         }
 
-        // Check both expires_at and data_access_expires_at
-        // For USER tokens, data_access_expires_at is more relevant (90 days for long-lived)
-        // expires_at = 0 means the token doesn't expire (page tokens, app tokens)
-        const expiresAtTimestamp =
-            tokenData.type === 'USER'
-                ? tokenData.data_access_expires_at || tokenData.expires_at || 0
-                : tokenData.expires_at || tokenData.data_access_expires_at || 0
+        const expiresAtTimestamp = tokenData.expires_at || tokenData.data_access_expires_at || 0
 
         let expiresAt: Date | null = null
         let daysUntilExpiry: number | null = null
@@ -72,7 +74,6 @@ export default defineEventHandler(async () => {
         let message = ''
 
         if (expiresAtTimestamp === 0) {
-            // Token doesn't expire (long-lived page token or app token)
             message = 'Token does not expire (long-lived token)'
             needsRefresh = false
         } else {
@@ -82,7 +83,6 @@ export default defineEventHandler(async () => {
                 (expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
             )
 
-            // Recommend refresh if less than 7 days remaining
             needsRefresh = daysUntilExpiry < 7
 
             message = needsRefresh

@@ -1,6 +1,16 @@
-import { defineEventHandler, createError } from 'h3'
+import { defineEventHandler, createError, getHeader } from 'h3'
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
+    const authHeader = getHeader(event, 'authorization')
+    const cronSecret = process.env.CRON_SECRET
+
+    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+        throw createError({
+            statusCode: 401,
+            message: 'Unauthorized',
+        })
+    }
+
     const config = useRuntimeConfig()
 
     // Support both naming conventions
@@ -61,19 +71,17 @@ export default defineEventHandler(async () => {
 
         const expiresInDays = Math.round((data.expires_in || 5184000) / 86400)
 
+        // Log full token server-side only for manual retrieval
+        console.log('[INSTAGRAM] New token (copy to env):', data.access_token)
+
         return {
             success: true,
             message: 'Token refreshed successfully via Facebook Graph API!',
-            newToken: data.access_token,
+            newTokenPreview: `${data.access_token.substring(0, 20)}...`,
             expiresIn: data.expires_in,
             expiresInDays: expiresInDays,
             expiresAt: new Date(Date.now() + (data.expires_in || 5184000) * 1000).toISOString(),
-            instructions: [
-                '1. Copy the newToken value above',
-                '2. Replace INSTAGRAM_ACCESS_TOKEN in your .env file',
-                '3. Restart npm run dev',
-                '4. Set reminder for ~50 days to refresh again',
-            ],
+            note: 'Full token logged to server console. Update INSTAGRAM_ACCESS_TOKEN in Vercel.',
         }
     } catch (error: unknown) {
         if (error && typeof error === 'object' && 'statusCode' in error) {

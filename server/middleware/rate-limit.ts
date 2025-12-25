@@ -9,7 +9,7 @@ const ratelimit = new Ratelimit({
     analytics: true,
 })
 
-const PROTECTED_PATHS = ['/api/instagram', '/api/consent']
+const PROTECTED_PATHS = ['/api/instagram', '/api/consent', '/api/contact']
 
 export default defineEventHandler(async (event) => {
     const path = getRequestURL(event).pathname
