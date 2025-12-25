@@ -14,13 +14,17 @@
     },
     "dependencies": {
         "@nuxt/image": "^2.0.0",
+        "@nuxtjs/sitemap": "^7.5.0",
         "@nuxtjs/tailwindcss": "^6.14.0",
         "@sanity/client": "^7.13.2",
         "@splidejs/splide": "^4.1.4",
         "@splidejs/vue-splide": "^0.6.12",
+        "@upstash/ratelimit": "^2.0.7",
+        "@vercel/kv": "^1.0.1",
         "@yeger/vue-masonry-wall": "^5.1.4",
         "gsap": "^3.14.2",
         "nuxt": "^4.2.1",
+        "resend": "^6.6.0",
         "vue": "^3.5.25",
         "vue-router": "^4.6.3"
     },

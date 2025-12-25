@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
-    modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/critters', '@nuxt/eslint'],
+    modules: ['@nuxtjs/tailwindcss', '@nuxt/image', '@nuxtjs/critters', '@nuxt/eslint', '@nuxtjs/sitemap'],
     css: ['~/assets/css/tailwind.css'],
     critters: {
         config: {
@@ -34,8 +34,12 @@ export default defineNuxtConfig({
         instagramApiVersion: process.env.INSTAGRAM_API_VERSION || 'v19.0',
         facebookAppId: process.env.FACEBOOK_APP_ID || '',
         facebookAppSecret: process.env.FACEBOOK_APP_SECRET || '',
+        resendApiKey: process.env.RESEND_API_KEY || '',
+        resendFromEmail: process.env.RESEND_FROM_EMAIL || '',
+        contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || '',
         public: {
             googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+            gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',
             sanityProjectId: process.env.NUXT_PUBLIC_SANITY_PROJECT_ID || '',
             sanityDataset: process.env.NUXT_PUBLIC_SANITY_DATASET || 'production',
         },
