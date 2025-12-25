@@ -39,9 +39,17 @@ export default defineEventHandler(async (event) => {
         _id,
         title,
         slug,
+        // Hero section
+        heroSubtitle,
+        heroTitle,
         heroLeftImage,
         heroRightImage,
+        // Intro section
+        introSubtitle,
+        introTitle,
+        introParagraphs,
         introImage,
+        // Gallery
         "gallery": *[_type == "gallery" && category._ref == ^._id][0] {
             portraitPhotos[] {
                 asset-> { _id, url }

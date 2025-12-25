@@ -6,38 +6,36 @@ useSeoMeta({
     ogDescription: 'Zachytávam magické obdobie očakávania nového života.',
 })
 
-const { heroLeftUrl, heroRightUrl, introImageUrl, photos } = useSanityCategory('tehotenstvo')
+const {
+    heroSubtitle,
+    heroTitle,
+    heroLeftUrl,
+    heroRightUrl,
+    introSubtitle,
+    introTitle,
+    introParagraphs,
+    introImageUrl,
+    photos,
+} = useSanityCategory('tehotenstvo')
 </script>
 
 <template>
     <div>
         <SectionsPortfolioHero
-            title="tehotenské fotografie"
-            subtitle="PORTFÓLIO"
+            :title="heroTitle"
+            :subtitle="heroSubtitle"
             :left-image="heroLeftUrl || ''"
             :right-image="heroRightUrl || ''"
         />
 
         <SectionsPortfolioIntroSection
-            subtitle="O tehotenskom fotení"
-            title="Tehotenské Fotografie"
+            :subtitle="introSubtitle"
+            :title="introTitle"
             :image="introImageUrl || ''"
             image-alt="Tehotenská fotografia"
         >
-            <p>
-                Ponúkam jemné, nadčasové a umelecké fotografie, ktoré s citom zachytia krásu,
-                očakávanie a radosť z tohto výnimočného obdobia vášho života. Každý záber je
-                vytvorený tak, aby vyzdvihol prirodzenosť, emócie a jedinečný príbeh budúcej mamy.
-            </p>
-            <p>
-                Či už uprednostníte intímnu atmosféru štúdia alebo prirodzené svetlo a pokoj
-                prírody, postarám sa o uvoľnenú atmosféru a spoločne navrhneme fotenie presne podľa
-                vašich predstáv. Mojím cieľom je, aby ste sa počas fotenia cítili príjemne,
-                sebavedomo a samy sebou.
-            </p>
-            <p>
-                Tehotenské fotenie je ideálne absolvovať v období medzi 32. až 34. týždňom
-                tehotenstva, kedy je bruško krásne viditeľné a vy sa ešte cítite komfortne.
+            <p v-for="(paragraph, index) in introParagraphs" :key="index">
+                {{ paragraph }}
             </p>
         </SectionsPortfolioIntroSection>
 

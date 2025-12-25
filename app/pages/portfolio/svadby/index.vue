@@ -7,38 +7,36 @@ useSeoMeta({
     ogDescription: 'Váš svadobný deň si zaslúži byť zachytený v celej svojej kráse.',
 })
 
-const { heroLeftUrl, heroRightUrl, introImageUrl, photos } = useSanityCategory('svadby')
+const {
+    heroSubtitle,
+    heroTitle,
+    heroLeftUrl,
+    heroRightUrl,
+    introSubtitle,
+    introTitle,
+    introParagraphs,
+    introImageUrl,
+    photos,
+} = useSanityCategory('svadby')
 </script>
 
 <template>
     <div>
         <SectionsPortfolioHero
-            title="svadobné fotografie"
-            subtitle="PORTFÓLIO"
+            :title="heroTitle"
+            :subtitle="heroSubtitle"
             :left-image="heroLeftUrl || ''"
             :right-image="heroRightUrl || ''"
         />
 
         <SectionsPortfolioIntroSection
-            subtitle="O svadobnom fotení"
-            title="Svadobné Fotografie"
+            :subtitle="introSubtitle"
+            :title="introTitle"
             :image="introImageUrl || ''"
             image-alt="Svadobná fotografia"
         >
-            <p>
-                Svadobný deň je jedinečný príbeh plný lásky, emócií a neopakovateľných momentov.
-                Mojím cieľom je zachytiť ho autenticky, s citom a dôrazom na detaily, ktoré z tohto
-                dňa robia výnimočnú spomienku na celý život.
-            </p>
-            <p>
-                Počas svadobného fotenia pracujem nenápadne a prirodzene, aby ste si mohli svoj deň
-                naplno užiť bez stresu a pózovania. Zachytím skutočné emócie – úsmevy, slzy šťastia,
-                dotyky a pohľady, ktoré hovoria viac než slová.
-            </p>
-            <p>
-                Vytvoríme spolu nadčasové svadobné fotografie, ktoré budú verne rozprávať váš príbeh
-                aj po rokoch. Fotografie, ku ktorým sa budete s radosťou vracať a ktoré sa stanú
-                cennou súčasťou vášho rodinného archívu.
+            <p v-for="(paragraph, index) in introParagraphs" :key="index">
+                {{ paragraph }}
             </p>
         </SectionsPortfolioIntroSection>
 

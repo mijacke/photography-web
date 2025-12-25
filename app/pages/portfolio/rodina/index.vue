@@ -8,39 +8,36 @@ useSeoMeta({
         'Každá rodina má svoj jedinečný príbeh. Pomôžem vám ho zachytiť v krásnych fotografiách.',
 })
 
-const { heroLeftUrl, heroRightUrl, introImageUrl, photos } = useSanityCategory('rodina')
+const {
+    heroSubtitle,
+    heroTitle,
+    heroLeftUrl,
+    heroRightUrl,
+    introSubtitle,
+    introTitle,
+    introParagraphs,
+    introImageUrl,
+    photos,
+} = useSanityCategory('rodina')
 </script>
 
 <template>
     <div>
         <SectionsPortfolioHero
-            title="rodinné fotografie"
-            subtitle="PORTFÓLIO"
+            :title="heroTitle"
+            :subtitle="heroSubtitle"
             :left-image="heroLeftUrl || ''"
             :right-image="heroRightUrl || ''"
         />
 
         <SectionsPortfolioIntroSection
-            subtitle="O rodinnom fotení"
-            title="Rodinné Fotografie"
+            :subtitle="introSubtitle"
+            :title="introTitle"
             :image="introImageUrl || ''"
             image-alt="Rodinná fotografia"
         >
-            <p>
-                Rodinné fotenie je o láske, blízkosti a skutočných emóciách. O chvíľach, ktoré sú na
-                prvý pohľad obyčajné, no s odstupom času sa stanú tými najvzácnejšími spomienkami.
-            </p>
-            <p>
-                Spoločne vytvoríme prirodzené a uvoľnené fotografie, ktoré zachytia váš rodinný
-                príbeh taký, aký naozaj je – plný smiechu, objatí, jemných dotykov a autentických
-                momentov. Či už si vyberiete fotenie v prírode, u vás doma alebo v štúdiu, postarám
-                sa o príjemnú atmosféru, v ktorej sa budú dobre cítiť deti aj dospelí.
-            </p>
-            <p>
-                Počas fotenia vás budem jemne viesť, no zároveň ponechám priestor spontánnosti, aby
-                vznikli fotografie, ku ktorým sa budete radi vracať aj o mnoho rokov. Spoločne
-                vytvoríme nadčasové spomienky, ktoré sa stanú prirodzenou súčasťou vášho rodinného
-                albumu.
+            <p v-for="(paragraph, index) in introParagraphs" :key="index">
+                {{ paragraph }}
             </p>
         </SectionsPortfolioIntroSection>
 
