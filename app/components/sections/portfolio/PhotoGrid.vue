@@ -160,7 +160,7 @@ onMounted(() => {
                             :alt="item.alt"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             loading="lazy"
-                        />
+                        >
 
                         <div
                             class="absolute inset-0 bg-charcoal-900/0 group-hover:bg-charcoal-900/20 transition-colors duration-300"
@@ -245,7 +245,7 @@ onMounted(() => {
                             :src="selectedPhoto.src"
                             :alt="selectedPhoto.alt"
                             class="max-w-full max-h-[85vh] object-contain"
-                        />
+                        >
                     </div>
                     <div
                         v-else

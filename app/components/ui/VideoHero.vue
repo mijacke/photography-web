@@ -91,7 +91,7 @@ const handleError = () => {
                 :alt="alt"
                 class="w-full h-full object-cover"
                 loading="lazy"
-            />
+            >
         </div>
 
         <video
@@ -107,7 +107,7 @@ const handleError = () => {
             @canplaythrough="handleCanPlayThrough"
             @error="handleError"
         >
-            <source :src="src" type="video/mp4" />
+            <source :src="src" type="video/mp4" >
         </video>
 
         <div class="video-overlay" :style="{ opacity: overlayOpacity }" />

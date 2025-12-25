@@ -51,7 +51,7 @@ const contactInfo = {
                             rel="noopener noreferrer"
                             class="hover:opacity-70 transition-opacity"
                         >
-                            <img :src="social.icon" :alt="social.label" class="h-6 w-6" />
+                            <img :src="social.icon" :alt="social.label" class="h-6 w-6" >
                         </a>
                     </div>
                 </div>
@@ -64,7 +64,7 @@ const contactInfo = {
                                 src="/svg/icons/mail.svg"
                                 alt=""
                                 class="h-5 w-5 opacity-60 flex-shrink-0"
-                            />
+                            >
                             <a
                                 :href="`mailto:${contactInfo.email}`"
                                 class="text-charcoal-600 hover:text-warm-500 transition-colors"
@@ -77,7 +77,7 @@ const contactInfo = {
                                 src="/svg/icons/phone.svg"
                                 alt=""
                                 class="h-5 w-5 opacity-60 flex-shrink-0"
-                            />
+                            >
                             <a
                                 :href="`tel:${contactInfo.phone.replace(/\s/g, '')}`"
                                 class="text-charcoal-600 hover:text-warm-500 transition-colors"

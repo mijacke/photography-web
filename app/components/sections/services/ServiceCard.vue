@@ -42,7 +42,7 @@ defineProps<{
                             class="service-image w-full h-full object-cover"
                             style="will-change: transform"
                             loading="lazy"
-                        />
+                        >
                     </div>
                     <div
                         class="service-frame absolute -bottom-6 -right-6 w-full h-full border-2 border-warm-400 z-0 hidden lg:block"
@@ -74,7 +74,7 @@ defineProps<{
                                 src="/svg/icons/check.svg"
                                 alt=""
                                 class="h-5 w-5 flex-shrink-0 mt-0.5"
-                            />
+                            >
                             {{ feature }}
                         </li>
                     </ul>

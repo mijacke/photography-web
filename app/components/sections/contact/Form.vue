@@ -125,7 +125,7 @@ const handleSubmit = async () => {
                         required
                         class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300"
                         placeholder="Vaše meno"
-                    />
+                    >
                 </div>
                 <div>
                     <label
@@ -141,7 +141,7 @@ const handleSubmit = async () => {
                         required
                         class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300"
                         placeholder="vas@email.sk"
-                    />
+                    >
                 </div>
             </div>
 
@@ -158,7 +158,7 @@ const handleSubmit = async () => {
                     type="tel"
                     class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300"
                     placeholder="+421 ..."
-                />
+                >
             </div>
 
             <div class="grid grid-cols-1 gap-8">
@@ -193,7 +193,7 @@ const handleSubmit = async () => {
                         v-model="form.eventDate"
                         type="date"
                         class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 focus:border-warm-400 focus:outline-none transition-all duration-300"
-                    />
+                    >
                 </div>
             </div>
 

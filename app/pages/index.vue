@@ -8,12 +8,12 @@ useSeoMeta({
     ogTitle: 'Pauli Fotografka | Zachytávam vaše najkrajšie spomienky',
     ogDescription:
         'Profesionálna fotografka zachytávajúca najvzácnejšie momenty života. Pôsobím v Galante, dostupná po celom Slovensku.',
-    ogImage: () => heroImages.value[0] || '',
+    ogImage: () => heroImages.value[0] || '/images/brand_logo/logo.png',
     twitterCard: 'summary_large_image',
     twitterTitle: 'Pauli Fotografka | Zachytávam vaše najkrajšie spomienky',
     twitterDescription:
         'Profesionálna fotografka zachytávajúca najvzácnejšie momenty života. Tehotenské, novorodenecké, rodinné a svadobné fotografie.',
-    twitterImage: () => heroImages.value[0] || '',
+    twitterImage: () => heroImages.value[0] || '/images/brand_logo/logo.png',
 })
 </script>
 

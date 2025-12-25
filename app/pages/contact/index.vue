@@ -38,7 +38,7 @@ useSeoMeta({
                                         src="/svg/icons/mail.svg"
                                         alt="Email"
                                         class="h-4 w-4 opacity-40"
-                                    />
+                                    >
                                 </div>
                                 <div>
                                     <h3
@@ -61,7 +61,7 @@ useSeoMeta({
                                         src="/svg/icons/phone.svg"
                                         alt="Telefón"
                                         class="h-4 w-4 opacity-40"
-                                    />
+                                    >
                                 </div>
                                 <div>
                                     <h3
@@ -84,7 +84,7 @@ useSeoMeta({
                                         src="/svg/icons/location.svg"
                                         alt="Lokácia"
                                         class="h-4 w-4 opacity-40"
-                                    />
+                                    >
                                 </div>
                                 <div>
                                     <h3
@@ -102,7 +102,7 @@ useSeoMeta({
                                         src="/svg/icons/clock.svg"
                                         alt="Čas odpovede"
                                         class="h-4 w-4 opacity-40"
-                                    />
+                                    >
                                 </div>
                                 <div>
                                     <h3

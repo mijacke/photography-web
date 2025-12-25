@@ -94,7 +94,7 @@ onUnmounted(() => {
                             class="intro-image w-full h-full object-cover"
                             style="will-change: transform"
                             loading="lazy"
-                        />
+                        >
                     </div>
                     <div
                         ref="frameRef"

@@ -75,12 +75,12 @@ onUnmounted(() => {
                             src="/svg/icons/arrow-right.svg"
                             alt=""
                             class="absolute inset-0 h-full w-full transition-opacity duration-300 group-hover:opacity-0"
-                        />
+                        >
                         <img
                             src="/svg/icons/arrow-right-warm.svg"
                             alt=""
                             class="absolute inset-0 h-full w-full transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-                        />
+                        >
                     </span>
                 </NuxtLink>
             </div>

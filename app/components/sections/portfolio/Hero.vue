@@ -136,7 +136,7 @@ onUnmounted(() => {
                     class="w-full h-full object-cover"
                     loading="eager"
                     @load="onLeftLoad"
-                />
+                >
             </div>
             <div
                 v-if="rightImage"
@@ -151,7 +151,7 @@ onUnmounted(() => {
                     class="w-full h-full object-cover"
                     loading="eager"
                     @load="onRightLoad"
-                />
+                >
             </div>
         </div>
 

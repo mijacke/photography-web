@@ -86,7 +86,7 @@ onUnmounted(() => {
                             :alt="`Galéria obrázok ${index + 1}`"
                             class="w-full h-full object-cover"
                             :loading="index < 3 ? 'eager' : 'lazy'"
-                        />
+                        >
                     </div>
                 </SplideSlide>
             </Splide>

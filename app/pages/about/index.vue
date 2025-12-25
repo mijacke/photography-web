@@ -297,7 +297,7 @@ onUnmounted(() => {
                                 alt="Fotografka portrét"
                                 class="about-image w-full h-full object-cover"
                                 style="will-change: transform"
-                            />
+                            >
                         </div>
                         <div
                             ref="aboutFrameRef"
@@ -369,7 +369,7 @@ onUnmounted(() => {
                                 src="/svg/icons/heart.svg"
                                 alt="Autentické momenty"
                                 class="h-8 w-8"
-                            />
+                            >
                         </div>
                         <h3 class="font-display text-xl text-charcoal-900 mb-2">
                             Autentické momenty
@@ -384,7 +384,7 @@ onUnmounted(() => {
                         <div
                             class="w-16 h-16 mx-auto mb-4 bg-warm-400 bg-opacity-10 flex items-center justify-center rounded-full"
                         >
-                            <img src="/svg/icons/camera.svg" alt="Nadčasový štýl" class="h-8 w-8" />
+                            <img src="/svg/icons/camera.svg" alt="Nadčasový štýl" class="h-8 w-8" >
                         </div>
                         <h3 class="font-display text-xl text-charcoal-900 mb-2">Nadčasový štýl</h3>
                         <p class="text-charcoal-600 text-sm">
@@ -400,7 +400,7 @@ onUnmounted(() => {
                                 src="/svg/icons/clock.svg"
                                 alt="Uvoľnený zážitok"
                                 class="h-8 w-8"
-                            />
+                            >
                         </div>
                         <h3 class="font-display text-xl text-charcoal-900 mb-2">
                             Uvoľnený zážitok

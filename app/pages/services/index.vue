@@ -249,7 +249,7 @@ onUnmounted(() => {
                     playsinline
                     class="absolute inset-0 w-full h-full object-cover"
                 >
-                    <source :src="videoSrc" type="video/mp4" />
+                    <source :src="videoSrc" type="video/mp4" >
                 </video>
                 <div
                     class="absolute inset-0 bg-gradient-to-b from-black/5 via-black/0 to-black/10 pointer-events-none"

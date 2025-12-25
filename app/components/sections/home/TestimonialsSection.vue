@@ -153,14 +153,14 @@ onUnmounted(() => {
                     aria-label="Predchádzajúce odporúčanie"
                     @click="prevTestimonial"
                 >
-                    <img src="/svg/icons/chevron-left.svg" alt="" class="h-8 w-8" />
+                    <img src="/svg/icons/chevron-left.svg" alt="" class="h-8 w-8" >
                 </button>
                 <button
                     class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 hidden lg:block text-charcoal-400 hover:text-warm-500 transition-colors"
                     aria-label="Ďalšie odporúčanie"
                     @click="nextTestimonial"
                 >
-                    <img src="/svg/icons/chevron-right.svg" alt="" class="h-8 w-8" />
+                    <img src="/svg/icons/chevron-right.svg" alt="" class="h-8 w-8" >
                 </button>
             </div>
         </div>

@@ -24,7 +24,7 @@ defineProps<Props>()
                 :alt="item.title"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
-            />
+            >
             <div v-else class="w-full h-full bg-cream-300 flex items-center justify-center">
                 <span class="text-charcoal-500">No image</span>
             </div>

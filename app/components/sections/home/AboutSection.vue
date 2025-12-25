@@ -82,7 +82,7 @@ onUnmounted(() => {
                             class="about-image w-full h-full object-cover"
                             style="will-change: transform"
                             loading="lazy"
-                        />
+                        >
                         <div v-else class="w-full h-full bg-cream-300 animate-pulse" />
                     </div>
                     <div

@@ -183,7 +183,7 @@ const handleClickOutside = (event: Event) => {
                                         'h-4 w-4 transition-transform duration-200',
                                         isPortfolioDropdownOpen ? 'rotate-180' : '',
                                     ]"
-                                />
+                                >
                             </button>
 
                             <div class="absolute top-full left-0 w-48 pt-2">
@@ -248,7 +248,7 @@ const handleClickOutside = (event: Event) => {
                         type="checkbox"
                         :checked="isMobileMenuOpen"
                         @change="isMobileMenuOpen = !isMobileMenuOpen"
-                    />
+                    >
                     <svg viewBox="0 0 32 32" aria-hidden="true">
                         <path
                             class="line line-top-bottom"

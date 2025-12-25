@@ -28,7 +28,7 @@ const splideOptions = {
                         :alt="`Galéria obrázok ${index + 1}`"
                         class="w-full h-full object-cover object-center"
                         :loading="index === 0 ? 'eager' : 'lazy'"
-                    />
+                    >
                 </div>
             </SplideSlide>
         </Splide>
