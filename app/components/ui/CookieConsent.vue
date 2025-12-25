@@ -63,18 +63,37 @@ const isPolicyChanged = (storedVersion: string): boolean => {
  * This is the cleanest ePrivacy approach - no tags before consent means no pings at all.
  */
 const loadGoogleAnalytics = (gaId: string) => {
-    if (typeof window === 'undefined' || !gaId) return
-
-    ;(window as unknown as Record<string, boolean>)[`ga-disable-${gaId}`] = false
-
-    window.dataLayer = window.dataLayer || []
+    console.log('[GA DEBUG] loadGoogleAnalytics called with gaId:', gaId)
+    console.log('[GA DEBUG] consent state:', JSON.stringify(consent))
     
-    if (!window.gtag) {
-        window.gtag = function (...args: any[]) {
-            window.dataLayer.push(args)
-        }
+    if (typeof window === 'undefined') {
+        console.log('[GA DEBUG] window is undefined, aborting')
+        return
+    }
+    
+    if (!gaId) {
+        console.log('[GA DEBUG] gaId is empty/falsy, aborting')
+        return
     }
 
+    console.log('[GA DEBUG] Setting ga-disable flag to false')
+    ;(window as unknown as Record<string, boolean>)[`ga-disable-${gaId}`] = false
+
+    console.log('[GA DEBUG] Initializing dataLayer')
+    window.dataLayer = window.dataLayer || []
+    console.log('[GA DEBUG] dataLayer exists:', !!window.dataLayer, 'length:', window.dataLayer.length)
+    
+    if (!window.gtag) {
+        console.log('[GA DEBUG] Creating gtag function')
+        window.gtag = function (...args: any[]) {
+            console.log('[GA DEBUG] gtag push:', JSON.stringify(args))
+            window.dataLayer.push(args)
+        }
+    } else {
+        console.log('[GA DEBUG] gtag function already exists')
+    }
+
+    console.log('[GA DEBUG] Sending consent update: analytics_storage=granted')
     window.gtag('consent', 'update', {
         analytics_storage: 'granted',
         ad_storage: consent.externalMedia ? 'granted' : 'denied',
@@ -82,22 +101,40 @@ const loadGoogleAnalytics = (gaId: string) => {
         ad_personalization: consent.externalMedia ? 'granted' : 'denied',
     })
 
-    if (document.querySelector(`script[src*="googletagmanager.com/gtag"]`)) {
+    const existingScript = document.querySelector(`script[src*="googletagmanager.com/gtag"]`)
+    console.log('[GA DEBUG] Existing gtag script found:', !!existingScript)
+    
+    if (existingScript) {
+        console.log('[GA DEBUG] Script already loaded, sending page_view event')
         window.gtag('event', 'page_view', {
             page_path: window.location.pathname,
             page_title: document.title,
         })
+        console.log('[GA DEBUG] dataLayer after page_view:', JSON.stringify(window.dataLayer))
         return
     }
 
+    console.log('[GA DEBUG] Setting up gtag js and config BEFORE loading script')
     window.gtag('js', new Date())
     window.gtag('config', gaId, {
         send_page_view: true,
     })
+    
+    console.log('[GA DEBUG] Creating and appending script tag')
     const script = document.createElement('script')
     script.async = true
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
+    script.onload = () => {
+        console.log('[GA DEBUG] Script loaded successfully!')
+        console.log('[GA DEBUG] dataLayer after script load:', JSON.stringify(window.dataLayer))
+        console.log('[GA DEBUG] window.gtag exists:', typeof window.gtag)
+    }
+    script.onerror = (e) => {
+        console.error('[GA DEBUG] Script failed to load!', e)
+    }
     document.head.appendChild(script)
+    console.log('[GA DEBUG] Script tag appended to head')
+    console.log('[GA DEBUG] dataLayer state:', JSON.stringify(window.dataLayer))
 }
 
 
@@ -166,17 +203,23 @@ const emitConsentEvent = () => {
 }
 
 onMounted(() => {
+    console.log('[GA DEBUG] onMounted triggered')
+    console.log('[GA DEBUG] GA_MEASUREMENT_ID:', GA_MEASUREMENT_ID)
+    
     const stored = localStorage.getItem(CONSENT_KEY)
+    console.log('[GA DEBUG] Stored consent:', stored)
 
     if (stored) {
         try {
             const parsed = JSON.parse(stored) as CookieConsent
+            console.log('[GA DEBUG] Parsed consent:', JSON.stringify(parsed))
 
             if ('marketing' in parsed && !('externalMedia' in parsed)) {
                 (parsed as CookieConsent & { marketing?: boolean }).externalMedia =
                     (parsed as CookieConsent & { marketing?: boolean }).marketing || false
             }
             if (isConsentExpired(parsed.timestamp) || isPolicyChanged(parsed.policyVersion)) {
+                console.log('[GA DEBUG] Consent expired or policy changed, showing banner')
                 deleteTrackingCookies()
                 disableGoogleAnalytics(GA_MEASUREMENT_ID)
 
@@ -187,42 +230,61 @@ onMounted(() => {
                 emitConsentEvent()
                 isVisible.value = true
             } else {
+                console.log('[GA DEBUG] Consent valid, applying stored consent')
                 Object.assign(consent, parsed)
+                console.log('[GA DEBUG] consent.analytics:', consent.analytics)
+                console.log('[GA DEBUG] GA_MEASUREMENT_ID truthy:', !!GA_MEASUREMENT_ID)
                 if (consent.analytics && GA_MEASUREMENT_ID) {
+                    console.log('[GA DEBUG] Calling loadGoogleAnalytics from onMounted')
                     loadGoogleAnalytics(GA_MEASUREMENT_ID)
+                } else {
+                    console.log('[GA DEBUG] NOT loading GA - analytics:', consent.analytics, 'gaId:', GA_MEASUREMENT_ID)
                 }
                 emitConsentEvent()
             }
-        } catch {
+        } catch (e) {
+            console.error('[GA DEBUG] Error parsing stored consent:', e)
             consent.consentId = generateConsentId()
             isVisible.value = true
         }
     } else {
+        console.log('[GA DEBUG] No stored consent found, showing banner')
         consent.consentId = generateConsentId()
         isVisible.value = true
     }
 })
 
 const saveConsent = async (action: 'grant' | 'update' | 'withdraw', method: 'banner' | 'settings') => {
+    console.log('[GA DEBUG] saveConsent called - action:', action, 'method:', method)
+    console.log('[GA DEBUG] consent.analytics:', consent.analytics)
+    console.log('[GA DEBUG] GA_MEASUREMENT_ID:', GA_MEASUREMENT_ID)
+    
     isLoading.value = true
 
     consent.timestamp = new Date().toISOString()
     consent.policyVersion = POLICY_VERSION
 
     if (action === 'withdraw' || !consent.analytics) {
+        console.log('[GA DEBUG] Disabling GA (withdraw or analytics=false)')
         disableGoogleAnalytics(GA_MEASUREMENT_ID)
         deleteTrackingCookies()
     } else if (consent.analytics && GA_MEASUREMENT_ID) {
+        console.log('[GA DEBUG] Calling loadGoogleAnalytics from saveConsent')
         loadGoogleAnalytics(GA_MEASUREMENT_ID)
+    } else {
+        console.log('[GA DEBUG] NOT loading GA in saveConsent - analytics:', consent.analytics, 'gaId:', GA_MEASUREMENT_ID)
     }
 
     localStorage.setItem(CONSENT_KEY, JSON.stringify(consent))
+    console.log('[GA DEBUG] Consent saved to localStorage')
+    
     await logConsentToBackend(action, method)
     emitConsentEvent()
 
     isLoading.value = false
     isVisible.value = false
     showSettings.value = false
+    console.log('[GA DEBUG] saveConsent completed')
 }
 
 const acceptAll = () => {
