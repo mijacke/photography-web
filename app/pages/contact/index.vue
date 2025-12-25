@@ -10,26 +10,26 @@ useSeoMeta({
 
 <template>
     <div>
-        <section class="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream-100">
+        <section class="pt-32 pb-16 md:pt-40 md:pb-20 3xl:pt-48 3xl:pb-28 4xl:pt-56 4xl:pb-32 bg-cream-100">
             <div class="container-narrow text-center">
-                <p class="text-accent text-lg md:text-xl mb-3">Kontakt</p>
-                <h1 class="text-4xl md:text-5xl font-display text-charcoal-900 mb-6">Napíšte mi</h1>
+                <p class="text-accent text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl mb-3">Kontakt</p>
+                <h1 class="text-4xl md:text-5xl 3xl:text-6xl 4xl:text-7xl font-display text-charcoal-900 mb-6 3xl:mb-8">Napíšte mi</h1>
                 <p class="text-charcoal-600 max-w-xl mx-auto">Rada si vypočujem váš príbeh</p>
             </div>
         </section>
 
         <section class="section-padding bg-cream-100">
             <div class="container-wide">
-                <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
+                <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 3xl:gap-24 4xl:gap-32">
                     <div>
-                        <p class="font-script italic text-warm-500 text-lg mb-6">
+                        <p class="font-script italic text-warm-500 text-lg 3xl:text-xl 4xl:text-2xl mb-6 3xl:mb-8">
                             Každý príbeh začína správou.
                         </p>
                         <SectionsContactForm />
                     </div>
 
                     <div class="bg-cream-200/40 p-6 md:p-8 border border-cream-200">
-                        <h2 class="font-display text-xl text-charcoal-900 mb-8">Kontaktné údaje</h2>
+                        <h2 class="font-display text-xl 3xl:text-2xl 4xl:text-3xl text-charcoal-900 mb-8 3xl:mb-10">Kontaktné údaje</h2>
 
                         <div class="space-y-6">
                             <div class="flex items-start gap-3">

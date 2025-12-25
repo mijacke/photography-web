@@ -5,14 +5,14 @@
 
 @layer components {
     .section-padding {
-        @apply py-16 md:py-24 lg:py-32;
+        @apply py-16 md:py-24 lg:py-32 3xl:py-40 4xl:py-48;
     }
 
     .container-narrow {
-        @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+        @apply max-w-5xl 3xl:max-w-6xl 4xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 3xl:px-12 4xl:px-16;
     }
 
     .container-wide {
-        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+        @apply max-w-7xl 3xl:max-w-8xl 4xl:max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 3xl:px-12 4xl:px-16;
     }
 }

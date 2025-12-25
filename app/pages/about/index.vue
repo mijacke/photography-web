@@ -243,7 +243,7 @@ onUnmounted(() => {
                 <div class="editorial-text-wrapper mt-[-22vh] md:mt-[-15vh]">
                     <p
                         ref="heroAccentRef"
-                        class="hero-line hero-line-accent font-script italic text-warm-400 text-base md:text-lg lg:text-xl tracking-[0.18em] mb-6 md:mb-10 lg:mb-12 opacity-0"
+                        class="hero-line hero-line-accent font-script italic text-warm-400 text-base md:text-lg lg:text-xl 3xl:text-2xl 4xl:text-3xl tracking-[0.18em] mb-6 md:mb-10 lg:mb-12 3xl:mb-16 opacity-0"
                     >
                         {{ heroAccent }}
                     </p>
@@ -299,7 +299,7 @@ onUnmounted(() => {
 
         <section class="section-padding bg-cream-200">
             <div class="container-wide">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 3xl:gap-24 4xl:gap-32 items-center">
                     <div
                         v-if="aboutImage"
                         ref="aboutImageWrapperRef"
@@ -322,7 +322,7 @@ onUnmounted(() => {
 
                     <div ref="aboutTextWrapperRef" class="about-text-wrapper lg:pl-8">
                         <h2
-                            class="about-content text-3xl md:text-4xl font-display text-charcoal-900 mb-6"
+                            class="about-content text-3xl md:text-4xl 3xl:text-5xl 4xl:text-6xl font-display text-charcoal-900 mb-6 3xl:mb-8"
                         >
                             {{ mainTitle }}
                         </h2>
@@ -348,18 +348,18 @@ onUnmounted(() => {
             >
                 <p
                     ref="philosophyHeaderRef1"
-                    class="philosophy-header text-accent text-lg md:text-xl mb-3"
+                    class="philosophy-header text-accent text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl mb-3"
                 >
                     {{ philosophyAccent }}
                 </p>
                 <h2
                     ref="philosophyHeaderRef2"
-                    class="philosophy-header text-3xl md:text-4xl font-display text-charcoal-900 mb-8"
+                    class="philosophy-header text-3xl md:text-4xl 3xl:text-5xl 4xl:text-6xl font-display text-charcoal-900 mb-8 3xl:mb-12"
                 >
                     {{ philosophyTitle }}
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 3xl:gap-12 4xl:gap-16 mt-12 3xl:mt-16">
                     <div
                         v-for="(item, index) in philosophyItems"
                         :key="index"
@@ -374,10 +374,10 @@ onUnmounted(() => {
                                 class="h-8 w-8"
                             >
                         </div>
-                        <h3 class="font-display text-xl text-charcoal-900 mb-2">
+                        <h3 class="font-display text-xl 3xl:text-2xl 4xl:text-3xl text-charcoal-900 mb-2 3xl:mb-3">
                             {{ item.title }}
                         </h3>
-                        <p class="text-charcoal-600 text-sm">
+                        <p class="text-charcoal-600 text-sm 3xl:text-base 4xl:text-lg">
                             {{ item.description }}
                         </p>
                     </div>
@@ -387,13 +387,13 @@ onUnmounted(() => {
 
         <section
             ref="ctaSectionRef"
-            class="cta-section py-16 md:py-20 bg-cream-200"
+            class="cta-section py-16 md:py-20 3xl:py-28 4xl:py-32 bg-cream-200"
             style="perspective: 1000px"
         >
             <div class="container-narrow text-center">
                 <h2
                     ref="ctaContentRef1"
-                    class="cta-content text-2xl md:text-3xl font-display text-charcoal-900 mb-4"
+                    class="cta-content text-2xl md:text-3xl 3xl:text-4xl 4xl:text-5xl font-display text-charcoal-900 mb-4 3xl:mb-6"
                 >
                     {{ ctaTitle }}
                 </h2>

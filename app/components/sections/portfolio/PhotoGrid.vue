@@ -186,11 +186,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section class="py-16 md:py-24 bg-white">
+    <section class="py-16 md:py-24 3xl:py-32 4xl:py-40 bg-white">
         <div class="container-wide">
             <h2
                 ref="titleRef"
-                class="gallery-title text-2xl md:text-3xl font-display text-charcoal-900 text-center mb-12"
+                class="gallery-title text-2xl md:text-3xl 3xl:text-4xl 4xl:text-5xl font-display text-charcoal-900 text-center mb-12 3xl:mb-16 4xl:mb-20"
             >
                 Galéria fotiek
             </h2>
@@ -199,8 +199,8 @@ onUnmounted(() => {
                 v-if="isMounted && photos.length > 0"
                 :items="photos"
                 :ssr-columns="3"
-                :column-width="300"
-                :gap="16"
+                :column-width="400"
+                :gap="24"
             >
                 <template #default="{ item, index }">
                     <div
@@ -307,7 +307,7 @@ onUnmounted(() => {
 
                     <div
                         v-if="selectedPhoto.src && selectedPhoto.src !== 'placeholder'"
-                        class="max-w-5xl max-h-[85vh] relative"
+                        class="max-w-5xl 3xl:max-w-6xl 4xl:max-w-7xl max-h-[85vh] relative"
                         @click.stop
                     >
                         <img

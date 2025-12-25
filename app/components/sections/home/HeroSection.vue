@@ -80,7 +80,7 @@ onUnmounted(() => {
         <div v-if="heroImages.length > 0" class="relative w-full">
             <Splide ref="splideRef" :options="splideOptions" @splide:move="onMove">
                 <SplideSlide v-for="(image, index) in heroImages" :key="index">
-                    <div class="h-[calc(100vh-320px)] md:h-[calc(100vh-290px)]">
+                    <div class="h-[calc(100vh-220px)] md:h-[calc(100vh-290px)] 3xl:h-[calc(100vh-420px)] 4xl:h-[calc(100vh-520px)]">
                         <img
                             :src="image"
                             :alt="`Galéria obrázok ${index + 1}`"
@@ -106,23 +106,23 @@ onUnmounted(() => {
         </div>
 
         <div v-else class="relative w-full">
-            <div
-                class="h-[calc(100vh-320px)] md:h-[calc(100vh-290px)] bg-cream-200 animate-pulse flex items-center justify-center"
-            >
+        <div 
+                class="h-[calc(100vh-220px)] md:h-[calc(100vh-290px)] 3xl:h-[calc(100vh-420px)] 4xl:h-[calc(100vh-520px)] bg-cream-200 animate-pulse flex items-center justify-center"
+        >
                 <span class="text-charcoal-400">Načítavam...</span>
             </div>
         </div>
 
-        <div class="py-10 md:py-14 text-center bg-cream-100">
+        <div class="py-10 md:py-14 3xl:py-20 4xl:py-24 text-center bg-cream-100">
             <p
                 ref="subtitleRef"
-                class="hero-subtitle text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600 mb-3"
+                class="hero-subtitle text-xs md:text-sm 3xl:text-base 4xl:text-lg tracking-[0.25em] uppercase text-charcoal-600 mb-3"
             >
                 Tehotenské, novorodencké a rodinné fotografie v Bratislave
             </p>
             <h1
                 ref="titleRef"
-                class="hero-title font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-900"
+                class="hero-title font-script text-2xl md:text-3xl lg:text-4xl 3xl:text-5xl 4xl:text-6xl italic text-charcoal-900"
             >
                 Zachytávam vaše najkrajšie spomienky
             </h1>

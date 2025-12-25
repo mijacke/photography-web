@@ -209,7 +209,7 @@ onUnmounted(() => {
             <div class="flex-[20] flex items-center justify-center text-center bg-cream-100 px-4">
                 <p
                     ref="headerTextRef"
-                    class="header-animate text-xs md:text-sm tracking-[0.25em] uppercase text-charcoal-600"
+                    class="header-animate text-xs md:text-sm 3xl:text-base 4xl:text-lg tracking-[0.25em] uppercase text-charcoal-600"
                 >
                     {{ heroText }}
                 </p>
@@ -229,21 +229,21 @@ onUnmounted(() => {
 
         <section class="section-padding bg-cream-200">
             <div class="container-narrow faq-container">
-                <div class="text-center mb-12">
-                    <p class="faq-header text-accent text-lg md:text-xl mb-3">{{ faqAccent }}</p>
-                    <h2 class="faq-header text-3xl md:text-4xl font-display text-charcoal-900">
+                <div class="text-center mb-12 3xl:mb-16">
+                    <p class="faq-header text-accent text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl mb-3">{{ faqAccent }}</p>
+                    <h2 class="faq-header text-3xl md:text-4xl 3xl:text-5xl 4xl:text-6xl font-display text-charcoal-900">
                         {{ faqTitle }}
                     </h2>
                 </div>
 
-                <div class="space-y-6">
+                <div class="space-y-6 3xl:space-y-8 4xl:space-y-10">
                     <details
                         v-for="(item, index) in faqItems"
                         :key="index"
-                        class="faq-item group bg-cream-100 p-6"
+                        class="faq-item group bg-cream-100 p-6 3xl:p-8 4xl:p-10"
                     >
                         <summary
-                            class="font-display text-lg text-charcoal-900 cursor-pointer list-none flex justify-between items-center"
+                            class="font-display text-lg 3xl:text-xl 4xl:text-2xl text-charcoal-900 cursor-pointer list-none flex justify-between items-center"
                         >
                             {{ item.question }}
                             <span class="text-warm-500 group-open:rotate-45 transition-transform">+</span>

@@ -6,6 +6,9 @@
 @layer base {
     html {
         scroll-behavior: auto;
+        overflow-x: hidden;
+        /* Scale base font for large displays: 16px → 18px at 1920px → 20px at 2560px+ */
+        font-size: clamp(16px, calc(14px + 0.25vw), 22px);
     }
 
     body {
@@ -14,6 +17,7 @@
         font-family: 'Inter', system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
     }
 
     a {

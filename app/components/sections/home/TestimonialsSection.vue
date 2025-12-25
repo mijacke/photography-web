@@ -47,16 +47,16 @@ onUnmounted(() => {
 <template>
     <section class="section-padding bg-warm-400/10">
         <div class="container-narrow">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 3xl:mb-16">
                 <p
                     ref="subtitleRef"
-                    class="testimonials-subtitle text-accent text-lg md:text-xl mb-3"
+                    class="testimonials-subtitle text-accent text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl mb-3"
                 >
                     {{ testimonialsSubtitle }}
                 </p>
                 <h2
                     ref="titleRef"
-                    class="testimonials-title text-3xl md:text-4xl font-display text-charcoal-900"
+                    class="testimonials-title text-3xl md:text-4xl 3xl:text-5xl 4xl:text-6xl font-display text-charcoal-900"
                 >
                     {{ testimonialsTitle }}
                 </h2>
@@ -64,14 +64,14 @@ onUnmounted(() => {
 
             <div
                 ref="carouselRef"
-                class="testimonials-carousel relative max-w-3xl mx-auto"
+                class="testimonials-carousel relative max-w-3xl 3xl:max-w-4xl 4xl:max-w-5xl mx-auto"
                 @mouseenter="pause"
                 @mouseleave="resume"
             >
                 <div class="text-center mb-6">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-10 w-10 text-warm-400 mx-auto"
+                        class="h-10 w-10 3xl:h-14 3xl:w-14 4xl:h-16 4xl:w-16 text-warm-400 mx-auto"
                         viewBox="0 0 24 24"
                         fill="currentColor"
                         aria-hidden="true"
@@ -98,16 +98,16 @@ onUnmounted(() => {
                             class="text-center"
                         >
                             <blockquote
-                                class="text-lg md:text-xl text-charcoal-700 leading-relaxed mb-8 font-light italic"
+                                class="text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl text-charcoal-700 leading-relaxed mb-8 font-light italic"
                             >
                                 "{{ testimonial.quote }}"
                             </blockquote>
                             <footer>
                                 <cite class="not-italic">
-                                    <p class="font-display text-charcoal-900 text-lg">
+                                    <p class="font-display text-charcoal-900 text-lg 3xl:text-xl 4xl:text-2xl">
                                         — {{ testimonial.author }}
                                     </p>
-                                    <p class="text-warm-500 text-sm">
+                                    <p class="text-warm-500 text-sm 3xl:text-base 4xl:text-lg">
                                         {{ testimonial.occasion }}
                                     </p>
                                 </cite>
@@ -136,14 +136,14 @@ onUnmounted(() => {
                     aria-label="Predchádzajúce odporúčanie"
                     @click="prevTestimonial"
                 >
-                    <img src="/svg/icons/chevron-left.svg" alt="" class="h-8 w-8" >
+                    <img src="/svg/icons/chevron-left.svg" alt="" class="h-8 w-8 3xl:h-10 3xl:w-10 4xl:h-12 4xl:w-12" >
                 </button>
                 <button
                     class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 hidden lg:block text-charcoal-400 hover:text-warm-500 transition-colors"
                     aria-label="Ďalšie odporúčanie"
                     @click="nextTestimonial"
                 >
-                    <img src="/svg/icons/chevron-right.svg" alt="" class="h-8 w-8" >
+                    <img src="/svg/icons/chevron-right.svg" alt="" class="h-8 w-8 3xl:h-10 3xl:w-10 4xl:h-12 4xl:w-12" >
                 </button>
             </div>
         </div>

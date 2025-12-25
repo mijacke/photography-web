@@ -2,6 +2,16 @@ import type { Config } from 'tailwindcss'
 
 export default {
     theme: {
+        // Add custom breakpoints for large displays
+        screens: {
+            'sm': '640px',
+            'md': '810px',
+            'lg': '1024px',
+            'xl': '1280px',
+            '2xl': '1536px',
+            '3xl': '1920px',  // Full HD+
+            '4xl': '2560px',  // 4K / QHD
+        },
         extend: {
             colors: {
                 cream: {
@@ -40,6 +50,11 @@ export default {
             spacing: {
                 '18': '4.5rem',
                 '22': '5.5rem',
+            },
+            maxWidth: {
+                '8xl': '88rem',  // 1408px
+                '9xl': '100rem', // 1600px
+                '10xl': '120rem', // 1920px - for 4K displays
             },
             transitionDuration: {
                 '400': '400ms',

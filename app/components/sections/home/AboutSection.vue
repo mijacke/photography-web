@@ -67,7 +67,7 @@ onUnmounted(() => {
 <template>
     <section class="section-padding bg-cream-200">
         <div class="container-wide">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 3xl:gap-24 4xl:gap-32 items-center">
                 <div class="relative">
                     <div
                         ref="imageWrapper"
@@ -94,14 +94,14 @@ onUnmounted(() => {
                 <div ref="contentGroup" class="about-content-group lg:pl-8">
                     <p
                         ref="subtitleRef"
-                        class="about-subtitle text-accent text-xl md:text-2xl mb-3"
+                        class="about-subtitle text-accent text-xl md:text-2xl 3xl:text-3xl 4xl:text-4xl mb-3 3xl:mb-4"
                     >
                         Ahoj, som
                     </p>
 
                     <h2
                         ref="titleRef"
-                        class="about-title text-3xl md:text-4xl font-display text-charcoal-900 mb-6"
+                        class="about-title text-3xl md:text-4xl 3xl:text-5xl 4xl:text-6xl font-display text-charcoal-900 mb-6 3xl:mb-8"
                     >
                         Pauli Drahošová
                     </h2>

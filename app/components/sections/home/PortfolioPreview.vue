@@ -49,7 +49,7 @@ onUnmounted(() => {
     <section class="bg-cream-200">
         <div class="py-2.5 text-center">
             <h2
-                class="portfolio-header text-lg md:text-xl lg:text-2xl tracking-[0.3em] uppercase text-charcoal-700"
+                class="portfolio-header text-lg md:text-xl lg:text-2xl 3xl:text-3xl 4xl:text-4xl tracking-[0.3em] uppercase text-charcoal-700"
             >
                 Krásne okamihy
             </h2>
@@ -58,16 +58,16 @@ onUnmounted(() => {
                 <img
                     src="/images/sigmoid/sigmoid.png"
                     alt="Dekoratívny ornament"
-                    class="w-auto h-24 md:h-30 lg:h-36"
+                    class="w-auto h-24 md:h-30 lg:h-36 3xl:h-44 4xl:h-52"
                 >
             </div>
 
             <NuxtLink
                 to="/portfolio/rodina"
-                class="portfolio-link group font-script text-2xl md:text-3xl lg:text-4xl italic text-charcoal-700 hover:text-warm-500 transition-colors inline-flex items-center gap-3"
+                class="portfolio-link group font-script text-2xl md:text-3xl lg:text-4xl 3xl:text-5xl 4xl:text-6xl italic text-charcoal-700 hover:text-warm-500 transition-colors inline-flex items-center gap-3 3xl:gap-4"
             >
                 Prezrite si moje portfólio
-                <span class="relative h-6 w-6 md:h-8 md:w-8">
+                <span class="relative h-6 w-6 md:h-8 md:w-8 3xl:h-10 3xl:w-10 4xl:h-12 4xl:w-12">
                     <img
                         src="/svg/icons/arrow-right.svg"
                         alt=""
@@ -82,8 +82,8 @@ onUnmounted(() => {
             </NuxtLink>
         </div>
 
-        <div class="portfolio-grid px-8 md:px-16 lg:px-24 pt-32 pb-32">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div class="portfolio-grid px-8 md:px-16 lg:px-24 3xl:px-32 4xl:px-40 pt-32 pb-32 3xl:pt-40 3xl:pb-40">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 3xl:gap-6 4xl:gap-8">
                 <NuxtLink
                     v-for="category in categories"
                     :key="category.href"
@@ -104,7 +104,7 @@ onUnmounted(() => {
                     </div>
 
                     <p
-                        class="mt-5 text-center text-xs md:text-sm tracking-[0.2em] uppercase text-charcoal-600 group-hover:text-warm-500 transition-colors"
+                        class="mt-5 3xl:mt-8 text-center text-xs md:text-sm 3xl:text-base 4xl:text-lg tracking-[0.2em] uppercase text-charcoal-600 group-hover:text-warm-500 transition-colors"
                     >
                         {{ category.title }}
                     </p>

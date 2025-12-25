@@ -46,11 +46,21 @@ const buildOptimizedUrl = (url: string, width: number = 1200, quality: number = 
 /**
  * Composable for fetching homepage content from Sanity.
  * All text fields have fallback values for when Sanity data is missing.
+ * 
+ * Uses useAsyncData with getCachedData to prevent duplicate requests
+ * when multiple components call this composable simultaneously.
  */
 export const useSanityHomepage = () => {
-    const { data, pending, error } = useFetch<SanityHomepage | null>('/api/sanity/homepage', {
-        key: 'homepage',
-    })
+    const nuxtApp = useNuxtApp()
+
+    const { data, pending, error } = useAsyncData<SanityHomepage | null>(
+        'homepage',
+        () => $fetch('/api/sanity/homepage'),
+        {
+            // Return cached data immediately if available, preventing duplicate requests
+            getCachedData: (key) => nuxtApp.payload.data[key] ?? nuxtApp.static.data[key],
+        }
+    )
 
     const heroImages = computed(() => {
         if (!data.value?.heroImages) return []

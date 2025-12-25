@@ -27,9 +27,9 @@ const classes = computed(() => {
     }
 
     const sizes = {
-        sm: 'px-4 py-2 text-xs',
-        md: 'px-6 py-3 text-sm',
-        lg: 'px-8 py-4 text-sm',
+        sm: 'px-4 py-2 text-xs 3xl:px-5 3xl:py-2.5 3xl:text-sm 4xl:px-6 4xl:py-3 4xl:text-base',
+        md: 'px-6 py-3 text-sm 3xl:px-8 3xl:py-4 3xl:text-base 4xl:px-10 4xl:py-5 4xl:text-lg',
+        lg: 'px-8 py-4 text-sm 3xl:px-10 3xl:py-5 3xl:text-base 4xl:px-12 4xl:py-6 4xl:text-lg',
     }
 
     return `${base} ${variants[props.variant]} ${sizes[props.size]}`

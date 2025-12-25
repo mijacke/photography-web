@@ -35,18 +35,18 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section class="py-20 md:py-28 bg-cream-100">
-        <div class="container-wide max-w-5xl mx-auto">
-            <div class="text-center mb-12 md:mb-16">
+    <section class="py-20 md:py-28 3xl:py-36 4xl:py-44 bg-cream-100">
+        <div class="container-wide max-w-5xl 3xl:max-w-6xl 4xl:max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 3xl:mb-20">
                 <h2
                     ref="headerRef"
-                    class="services-header text-sm md:text-base tracking-[0.3em] uppercase text-charcoal-700"
+                    class="services-header text-sm md:text-base 3xl:text-lg 4xl:text-xl tracking-[0.3em] uppercase text-charcoal-700"
                 >
                     Fotografické služby, ktoré ponúkam
                 </h2>
             </div>
 
-            <div class="space-y-8 text-center leading-relaxed">
+            <div class="space-y-8 3xl:space-y-12 4xl:space-y-16 text-center leading-relaxed text-base md:text-lg 3xl:text-xl 4xl:text-2xl">
                 <p
                     v-for="(paragraph, index) in servicesParagraphs"
                     :key="index"
@@ -57,13 +57,13 @@ onUnmounted(() => {
                 </p>
             </div>
 
-            <div ref="ctaRef" class="services-cta text-center mt-14">
+            <div ref="ctaRef" class="services-cta text-center mt-14 3xl:mt-20">
                 <NuxtLink
                     to="/portfolio"
-                    class="group font-script text-xl md:text-2xl italic text-charcoal-700 hover:text-warm-500 transition-colors inline-flex items-center gap-2"
+                    class="group font-script text-xl md:text-2xl 3xl:text-3xl 4xl:text-4xl italic text-charcoal-700 hover:text-warm-500 transition-colors inline-flex items-center gap-2 3xl:gap-3"
                 >
                     Prezrieť moje portfólio
-                    <span class="relative h-5 w-5 md:h-6 md:w-6">
+                    <span class="relative h-5 w-5 md:h-6 md:w-6 3xl:h-8 3xl:w-8 4xl:h-10 4xl:w-10">
                         <img
                             src="/svg/icons/arrow-right.svg"
                             alt=""
