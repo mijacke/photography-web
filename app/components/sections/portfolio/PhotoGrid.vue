@@ -64,7 +64,7 @@ const getPhotoOrientation = (photo: Photo) => {
     return photo.id % 2 === 0 ? 'portrait' : 'landscape'
 }
 
-const { fadeInUp, cleanup, refresh, initializeAnimations, add } = useGsapAnimations()
+const { fadeInUp, cleanup, initializeAnimations, add } = useGsapAnimations()
 
 onMounted(() => {
     const handleKeydown = (e: KeyboardEvent) => {
@@ -164,7 +164,7 @@ onMounted(() => {
 
                         <div
                             class="absolute inset-0 bg-charcoal-900/0 group-hover:bg-charcoal-900/20 transition-colors duration-300"
-                        ></div>
+                        />
                     </div>
                 </template>
             </MasonryWall>

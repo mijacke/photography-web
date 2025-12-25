@@ -36,7 +36,7 @@ const splideOptions = {
     },
 }
 
-const onMove = (splide: any, newIndex: number) => {
+const onMove = (_splide: unknown, newIndex: number) => {
     currentIndex.value = newIndex
 }
 
@@ -75,7 +75,7 @@ onUnmounted(() => {
 
 <template>
     <section class="relative bg-cream-100">
-        <div class="h-2 bg-cream-100"></div>
+        <div class="h-2 bg-cream-100" />
 
         <div v-if="heroImages.length > 0" class="relative w-full">
             <Splide ref="splideRef" :options="splideOptions" @splide:move="onMove">
@@ -95,12 +95,12 @@ onUnmounted(() => {
                 <button
                     v-for="(_, index) in heroImages"
                     :key="index"
-                    @click="goToSlide(index)"
                     :class="[
                         'w-2 h-2 rounded-full transition-all duration-300',
                         index === currentIndex ? 'bg-warm-500 w-6' : 'bg-white/80 hover:bg-white',
                     ]"
                     :aria-label="`Prejsť na snímku ${index + 1}`"
+                    @click="goToSlide(index)"
                 />
             </div>
         </div>

@@ -83,12 +83,12 @@ onUnmounted(() => {
                             style="will-change: transform"
                             loading="lazy"
                         />
-                        <div v-else class="w-full h-full bg-cream-300 animate-pulse"></div>
+                        <div v-else class="w-full h-full bg-cream-300 animate-pulse" />
                     </div>
                     <div
                         ref="frameRef"
                         class="about-frame absolute -bottom-4 -right-4 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"
-                    ></div>
+                    />
                 </div>
 
                 <div ref="contentGroup" class="about-content-group lg:pl-8">

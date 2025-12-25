@@ -4,8 +4,10 @@ import { visionTool } from '@sanity/vision'
 import { media } from 'sanity-plugin-media'
 import { schemaTypes } from './schemaTypes'
 
+import type { StructureBuilder } from 'sanity/structure'
+
 // Custom desk structure for organized navigation
-const deskStructure = (S: any) =>
+const deskStructure = (S: StructureBuilder) =>
   S.list()
     .title('Obsah')
     .items([

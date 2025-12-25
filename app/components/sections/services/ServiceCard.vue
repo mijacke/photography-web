@@ -8,7 +8,7 @@ interface Service {
     cta: string
 }
 
-const props = defineProps<{
+defineProps<{
     service: Service
     index: number
     isReversed: boolean
@@ -46,7 +46,7 @@ const props = defineProps<{
                     </div>
                     <div
                         class="service-frame absolute -bottom-6 -right-6 w-full h-full border-2 border-warm-400 z-0 hidden lg:block"
-                    ></div>
+                    />
                 </div>
 
                 <div :class="['service-content', isReversed ? 'lg:order-1' : '']">

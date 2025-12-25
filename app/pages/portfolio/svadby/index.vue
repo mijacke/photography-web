@@ -7,8 +7,7 @@ useSeoMeta({
     ogDescription: 'Váš svadobný deň si zaslúži byť zachytený v celej svojej kráse.',
 })
 
-const { heroLeftUrl, heroRightUrl, introImageUrl, photos, pending, error } =
-    useSanityCategory('svadby')
+const { heroLeftUrl, heroRightUrl, introImageUrl, photos } = useSanityCategory('svadby')
 </script>
 
 <template>

@@ -8,8 +8,7 @@ useSeoMeta({
         'Každá rodina má svoj jedinečný príbeh. Pomôžem vám ho zachytiť v krásnych fotografiách.',
 })
 
-const { heroLeftUrl, heroRightUrl, introImageUrl, photos, pending, error } =
-    useSanityCategory('rodina')
+const { heroLeftUrl, heroRightUrl, introImageUrl, photos } = useSanityCategory('rodina')
 </script>
 
 <template>

@@ -103,10 +103,10 @@ export default defineEventHandler(async () => {
             appId: tokenData.app_id,
             message,
         }
-    } catch (error: any) {
+    } catch (error: unknown) {
         return {
             valid: false,
-            error: error.message || 'Failed to check token',
+            error: error instanceof Error ? error.message : 'Failed to check token',
             expiresAt: null,
             daysUntilExpiry: null,
             needsRefresh: true,

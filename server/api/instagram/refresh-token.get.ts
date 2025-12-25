@@ -75,14 +75,14 @@ export default defineEventHandler(async () => {
                 '4. Set reminder for ~50 days to refresh again',
             ],
         }
-    } catch (error: any) {
-        if (error.statusCode) {
+    } catch (error: unknown) {
+        if (error && typeof error === 'object' && 'statusCode' in error) {
             throw error
         }
 
         throw createError({
             statusCode: 500,
-            message: `Unexpected error: ${error.message}`,
+            message: `Unexpected error: ${error instanceof Error ? error.message : 'Unknown error'}`,
         })
     }
 })

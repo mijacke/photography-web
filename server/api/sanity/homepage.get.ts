@@ -56,10 +56,10 @@ export default defineEventHandler(async () => {
     try {
         const homepage = await client.fetch(HOMEPAGE_QUERY)
         return homepage || null
-    } catch (error: any) {
+    } catch (error: unknown) {
         throw createError({
             statusCode: 500,
-            statusMessage: error.message || 'Failed to fetch homepage',
+            statusMessage: error instanceof Error ? error.message : 'Failed to fetch homepage',
         })
     }
 })

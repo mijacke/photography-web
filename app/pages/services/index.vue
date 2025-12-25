@@ -111,7 +111,7 @@ function setupFrameAnimations() {
 
     if (serviceCardRefs.value.length > 0) {
         let foundFrames = 0
-        serviceCardRefs.value.forEach((cardInstance, index) => {
+        serviceCardRefs.value.forEach((cardInstance, _index) => {
             const card =
                 cardInstance instanceof Element
                     ? cardInstance
@@ -170,7 +170,7 @@ onMounted(() => {
                 }
 
                 const imageWrapper = card.querySelector('.service-image-wrapper')
-                const image = card.querySelector('.service-image')
+                const _image = card.querySelector('.service-image')
                 const content = card.querySelector('.service-content')
                 const features = card.querySelectorAll('.feature-item')
 

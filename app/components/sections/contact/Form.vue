@@ -45,7 +45,7 @@ const handleSubmit = async () => {
             eventDate: '',
             message: '',
         })
-    } catch (error) {
+    } catch {
         errorMessage.value = 'Niečo sa pokazilo. Skúste to znova alebo mi napíšte priamo na email.'
     } finally {
         isSubmitting.value = false
@@ -77,14 +77,14 @@ const handleSubmit = async () => {
                 Vaša správa bola odoslaná. Ozvem sa vám čo najskôr!
             </p>
             <button
-                @click="isSubmitted = false"
                 class="text-warm-500 hover:text-warm-600 underline underline-offset-4"
+                @click="isSubmitted = false"
             >
                 Poslať ďalšiu správu
             </button>
         </div>
 
-        <form v-else @submit.prevent="handleSubmit" class="space-y-8">
+        <form v-else class="space-y-8" @submit.prevent="handleSubmit">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                     <label
@@ -186,7 +186,7 @@ const handleSubmit = async () => {
                     rows="4"
                     class="w-full px-0 py-5 bg-transparent border-b border-cream-200 text-charcoal-900 placeholder-charcoal-400/50 focus:border-warm-400 focus:outline-none transition-all duration-300 resize-none"
                     placeholder="Povedzte mi o vašom príbehu..."
-                ></textarea>
+                />
             </div>
 
             <div v-if="errorMessage" class="text-red-600 text-sm">
@@ -215,12 +215,12 @@ const handleSubmit = async () => {
                                 r="10"
                                 stroke="currentColor"
                                 stroke-width="4"
-                            ></circle>
+                            />
                             <path
                                 class="opacity-75"
                                 fill="currentColor"
                                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
+                            />
                         </svg>
                         Odosielam...
                     </span>

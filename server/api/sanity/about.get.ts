@@ -32,10 +32,10 @@ export default defineEventHandler(async () => {
     try {
         const about = await client.fetch(ABOUT_QUERY)
         return about || null
-    } catch (error: any) {
+    } catch (error: unknown) {
         throw createError({
             statusCode: 500,
-            statusMessage: error.message || 'Failed to fetch about page',
+            statusMessage: error instanceof Error ? error.message : 'Failed to fetch about page',
         })
     }
 })

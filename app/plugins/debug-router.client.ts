@@ -35,7 +35,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     function showOverlay() {
         if (overlay) {
             overlay.classList.remove('hiding')
-            overlay.offsetHeight
+            void overlay.offsetHeight
             overlay.classList.add('active')
         }
     }
@@ -56,7 +56,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             try {
                 const { cleanup } = useGsapAnimations()
                 cleanup()
-            } catch (e) {
+            } catch {
                 // Composable may not be available in all contexts
             }
 
@@ -71,7 +71,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             try {
                 const { refresh } = useGsapAnimations()
                 refresh()
-            } catch (e) {
+            } catch {
                 // Composable may not be available in all contexts
             }
         }, 100)

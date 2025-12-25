@@ -67,7 +67,7 @@ export function useGsapAnimations() {
 
         gsap.set(target, { autoAlpha: 0, y })
 
-        return ScrollTrigger.batch(target as any, {
+        return ScrollTrigger.batch(target as Element | Element[], {
             onEnter: (batch) => {
                 gsap.to(batch, {
                     autoAlpha: 1,
@@ -144,7 +144,7 @@ export function useGsapAnimations() {
 
     function staggerReveal(
         container: string | Element | null,
-        items: string | Element[] | NodeList | Array<any>,
+        items: string | Element[] | NodeList | Array<Element>,
         options: {
             y?: number
             stagger?: number

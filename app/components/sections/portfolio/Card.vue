@@ -31,7 +31,7 @@ defineProps<Props>()
 
             <div
                 class="absolute inset-0 bg-charcoal-900/0 group-hover:bg-charcoal-900/20 transition-colors duration-300"
-            ></div>
+            />
         </div>
 
         <div class="p-4 md:p-5">

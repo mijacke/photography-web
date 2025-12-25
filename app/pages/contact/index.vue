@@ -129,7 +129,7 @@ useSeoMeta({
                                     loading="lazy"
                                     referrerpolicy="no-referrer-when-downgrade"
                                     class="w-full h-full"
-                                ></iframe>
+                                />
                             </div>
                         </div>
                     </div>

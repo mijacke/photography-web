@@ -137,7 +137,6 @@ onUnmounted(() => {
                     <button
                         v-for="(testimonial, index) in testimonials"
                         :key="testimonial.author"
-                        @click="activeIndex = index"
                         :class="[
                             'w-2 h-2 rounded-full transition-all duration-300',
                             index === activeIndex
@@ -145,20 +144,21 @@ onUnmounted(() => {
                                 : 'bg-warm-400/50 hover:bg-warm-400',
                         ]"
                         :aria-label="`Prejsť na odporúčanie ${index + 1}`"
+                        @click="activeIndex = index"
                     />
                 </div>
 
                 <button
-                    @click="prevTestimonial"
                     class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 hidden lg:block text-charcoal-400 hover:text-warm-500 transition-colors"
                     aria-label="Predchádzajúce odporúčanie"
+                    @click="prevTestimonial"
                 >
                     <img src="/svg/icons/chevron-left.svg" alt="" class="h-8 w-8" />
                 </button>
                 <button
-                    @click="nextTestimonial"
                     class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 hidden lg:block text-charcoal-400 hover:text-warm-500 transition-colors"
                     aria-label="Ďalšie odporúčanie"
+                    @click="nextTestimonial"
                 >
                     <img src="/svg/icons/chevron-right.svg" alt="" class="h-8 w-8" />
                 </button>

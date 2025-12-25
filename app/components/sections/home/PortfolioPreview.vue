@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { portfolioImages } = useSanityHomepage()
-const { fadeInUp, staggerReveal, scaleIn3D, cleanup, refresh } = useGsapAnimations()
+const { fadeInUp, staggerReveal, cleanup, refresh } = useGsapAnimations()
 
 const categories = computed(() => [
     {

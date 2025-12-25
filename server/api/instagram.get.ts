@@ -61,8 +61,18 @@ export default defineEventHandler(async () => {
             }
         }
 
+        interface InstagramMediaItem {
+            id: string
+            caption?: string
+            media_type: string
+            media_url: string
+            thumbnail_url?: string
+            permalink: string
+            timestamp: string
+        }
+
         const posts =
-            data.data?.map((post: any) => ({
+            data.data?.map((post: InstagramMediaItem) => ({
                 id: post.id,
                 caption: post.caption || '',
                 mediaType: post.media_type,

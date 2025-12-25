@@ -55,10 +55,10 @@ export default defineEventHandler(async (event) => {
     try {
         const category = await client.fetch(CATEGORY_QUERY, { categorySlug: slug })
         return category || null
-    } catch (error: any) {
+    } catch (error: unknown) {
         throw createError({
             statusCode: 500,
-            statusMessage: error.message || 'Failed to fetch category',
+            statusMessage: error instanceof Error ? error.message : 'Failed to fetch category',
         })
     }
 })

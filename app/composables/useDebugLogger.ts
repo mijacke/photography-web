@@ -24,7 +24,7 @@ export const useDebugLogger = () => {
     const log = (
         category: 'SANITY' | 'ROUTER' | 'GSAP' | 'APP' | 'HERO' | 'SERVICES' | 'ABOUT',
         message: string,
-        data?: any
+        data?: unknown
     ) => {
         if (category === 'HERO' && !isHeroDebugEnabled) return
         if (category === 'SERVICES' && !isServicesDebugEnabled) return

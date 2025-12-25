@@ -3,13 +3,11 @@ const { mainImage: aboutImage } = useSanityAbout()
 const {
     fadeInUp,
     slideIn,
-    parallax,
     staggerReveal,
     scaleIn3D,
     cleanup,
     refresh,
     gsap,
-    ScrollTrigger,
     initializeAnimations,
 } = useGsapAnimations()
 
@@ -224,7 +222,7 @@ onUnmounted(() => {
                 style="
                     background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');
                 "
-            ></div>
+            />
 
             <div class="container-wide relative z-10 text-center px-4">
                 <div class="editorial-text-wrapper mt-[-22vh] md:mt-[-15vh]">
@@ -263,7 +261,7 @@ onUnmounted(() => {
                         ref="heroLineTopRef"
                         class="hero-line-top w-[1px] h-0 opacity-0 mx-auto mt-6 md:mt-10 lg:mt-12 origin-top"
                         style="background-color: #b8944d"
-                    ></div>
+                    />
 
                     <div class="flex flex-col items-center mt-3 md:mt-4 lg:mt-5">
                         <span
@@ -279,7 +277,7 @@ onUnmounted(() => {
                         class="hero-line-bottom w-[1px] h-0 mx-auto mt-2 md:mt-3 origin-top animate-scroll-hint opacity-0 md:opacity-0"
                         style="background-color: #b8944d"
                         data-mobile-opacity="0.7"
-                    ></div>
+                    />
                 </div>
             </div>
         </section>
@@ -304,7 +302,7 @@ onUnmounted(() => {
                         <div
                             ref="aboutFrameRef"
                             class="about-frame absolute -bottom-6 -right-6 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"
-                        ></div>
+                        />
                     </div>
 
                     <div ref="aboutTextWrapperRef" class="about-text-wrapper lg:pl-8">

@@ -99,7 +99,7 @@ onUnmounted(() => {
                     <div
                         ref="frameRef"
                         class="intro-frame absolute -bottom-4 -right-4 w-full h-full border-2 border-warm-400 -z-10 hidden lg:block"
-                    ></div>
+                    />
                 </div>
 
                 <div ref="contentRef" class="intro-content lg:pl-8">

@@ -7,8 +7,7 @@ useSeoMeta({
     ogDescription: 'Zachytávam krehkú krásu prvých dní života.',
 })
 
-const { heroLeftUrl, heroRightUrl, introImageUrl, photos, pending, error } =
-    useSanityCategory('novorodenci')
+const { heroLeftUrl, heroRightUrl, introImageUrl, photos } = useSanityCategory('novorodenci')
 </script>
 
 <template>

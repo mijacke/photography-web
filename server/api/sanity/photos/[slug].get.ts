@@ -51,10 +51,10 @@ export default defineEventHandler(async (event) => {
     try {
         const photos = await client.fetch(PHOTOS_QUERY, { categorySlug: slug })
         return photos || []
-    } catch (error: any) {
+    } catch (error: unknown) {
         throw createError({
             statusCode: 500,
-            statusMessage: error.message || 'Failed to fetch photos',
+            statusMessage: error instanceof Error ? error.message : 'Failed to fetch photos',
         })
     }
 })

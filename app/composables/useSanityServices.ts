@@ -50,14 +50,11 @@ const buildOptimizedUrl = (url: string, width: number = 800, quality: number = 8
  * - `pending`, `error`: Loading and error states
  */
 export const useSanityServices = () => {
-    const { data, pending, error, refresh } = useFetch<SanityServices | null>(
-        '/api/sanity/services',
-        {
-            key: 'services',
-            // Bypass cache to ensure fresh data on each navigation
-            getCachedData: () => undefined as any,
-        }
-    )
+    const { data, pending, error } = useFetch<SanityServices | null>('/api/sanity/services', {
+        key: 'services',
+        // Bypass cache to ensure fresh data on each navigation
+        getCachedData: () => undefined as SanityServices | undefined,
+    })
 
     const heroVideoUrl = computed(() => data.value?.heroVideo?.asset.url || null)
 
