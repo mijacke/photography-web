@@ -7,23 +7,27 @@ const getSanityClient = () => {
         projectId: config.public.sanityProjectId as string,
         dataset: config.public.sanityDataset as string,
         apiVersion: '2024-01-01',
-        useCdn: false, // Disable CDN for immediate content updates
+        useCdn: false,
     })
 }
 
 /**
  * Fetches Services page content from Sanity CMS.
  *
- * @returns Object with `heroVideo` and service-specific images (rodina, novorodenci, tehotenstvo, svadby)
+ * @returns Object with hero, service images, services content, and FAQ
  */
 export default defineEventHandler(async () => {
     const query = `*[_type == "services" && _id == "services"][0]{
+        // Hero section
         heroVideo{
             asset->{
                 _id,
                 url
             }
         },
+        heroText,
+        
+        // Service images
         rodinaImage{
             asset->{
                 _id,
@@ -47,6 +51,23 @@ export default defineEventHandler(async () => {
                 _id,
                 url
             }
+        },
+        
+        // Services content
+        servicesContent[]{
+            id,
+            title,
+            description,
+            features,
+            cta
+        },
+        
+        // FAQ
+        faqAccent,
+        faqTitle,
+        faqItems[]{
+            question,
+            answer
         }
     }`
 
