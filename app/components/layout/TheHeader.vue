@@ -48,12 +48,15 @@ onMounted(() => {
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('resize', checkTablet)
+    document.addEventListener('click', handleClickOutside)
+    
     handleScroll()
     checkTablet()
 
     onUnmounted(() => {
         window.removeEventListener('scroll', handleScroll)
         window.removeEventListener('resize', checkTablet)
+        document.removeEventListener('click', handleClickOutside)
     })
 })
 
@@ -121,13 +124,6 @@ const handleClickOutside = (event: Event) => {
         isPortfolioDropdownOpen.value = false
     }
 }
-
-onMounted(() => {
-    document.addEventListener('click', handleClickOutside)
-    onUnmounted(() => {
-        document.removeEventListener('click', handleClickOutside)
-    })
-})
 </script>
 
 <template>

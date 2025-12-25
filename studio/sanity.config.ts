@@ -92,8 +92,8 @@ export default defineConfig({
   title: 'Photography Web',
   basePath: '/structure', // Opens Structure view by default
 
-  projectId: 'm42prcjy',
-  dataset: 'production',
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || process.env.NUXT_PUBLIC_SANITY_PROJECT_ID || '',
+  dataset: process.env.SANITY_STUDIO_DATASET || process.env.NUXT_PUBLIC_SANITY_DATASET || 'production',
 
   plugins: [
     structureTool({

@@ -37,13 +37,7 @@ studio/node_modules
 # TypeScript cache
 *.tsbuildinfo
 
-# Package manager locks (optional - keep one)
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
-
-# Generated documentation
 docs/api/
 
 # Local data
-.data
+.data.data/

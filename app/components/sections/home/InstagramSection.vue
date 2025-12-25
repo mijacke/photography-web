@@ -39,7 +39,6 @@ const gridClass = computed(() => {
     return 'grid-cols-2 md:grid-cols-5'
 })
 
-const _instagramHandle = '@paulifotografka'
 const instagramUrl = 'https://www.instagram.com/paulifotografka/'
 </script>
 

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 const currentYear = new Date().getFullYear()
 
-const documentLinks = [
-    { label: 'Nastaviť cookies', href: '#', action: 'cookies' },
-    { label: 'Ochrana súkromia', href: '/privacy' },
-]
+const openCookieSettings = () => {
+    window.dispatchEvent(new CustomEvent('open-cookie-settings'))
+}
 
 const socialLinks = [
     {
@@ -20,8 +19,8 @@ const socialLinks = [
 ]
 
 const contactInfo = {
-    email: 'info@paulifotografka.sk',
-    phone: '+421 900 000 000',
+    email: 'mitchie369@gmail.com',
+    phone: '+421 903 830 347',
 }
 </script>
 
@@ -122,13 +121,29 @@ const contactInfo = {
                 <div>
                     <h4 class="font-display text-lg text-charcoal-900 mb-4">Dokumenty</h4>
                     <ul class="space-y-3">
-                        <li v-for="link in documentLinks" :key="link.label">
-                            <a
-                                :href="link.href"
+                        <li>
+                            <button
+                                class="text-charcoal-600 hover:text-warm-500 transition-colors"
+                                @click="openCookieSettings"
+                            >
+                                Nastaviť cookies
+                            </button>
+                        </li>
+                        <li>
+                            <NuxtLink
+                                to="/cookies"
                                 class="text-charcoal-600 hover:text-warm-500 transition-colors"
                             >
-                                {{ link.label }}
-                            </a>
+                                Zásady cookies
+                            </NuxtLink>
+                        </li>
+                        <li>
+                            <NuxtLink
+                                to="/privacy"
+                                class="text-charcoal-600 hover:text-warm-500 transition-colors"
+                            >
+                                Ochrana súkromia
+                            </NuxtLink>
                         </li>
                     </ul>
                 </div>

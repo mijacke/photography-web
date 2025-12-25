@@ -1,12 +1,15 @@
 import { defineEventHandler } from 'h3'
 import { createClient } from '@sanity/client'
 
-const client = createClient({
-    projectId: process.env.NUXT_PUBLIC_SANITY_PROJECT_ID || 'm42prcjy',
-    dataset: process.env.NUXT_PUBLIC_SANITY_DATASET || 'production',
-    apiVersion: '2024-01-01',
-    useCdn: true,
-})
+const getSanityClient = () => {
+    const config = useRuntimeConfig()
+    return createClient({
+        projectId: config.public.sanityProjectId as string,
+        dataset: config.public.sanityDataset as string,
+        apiVersion: '2024-01-01',
+        useCdn: true,
+    })
+}
 
 /**
  * Fetches Services page content from Sanity CMS.
@@ -47,6 +50,7 @@ export default defineEventHandler(async () => {
         }
     }`
 
+    const client = getSanityClient()
     const data = await client.fetch(query)
     return data
 })
