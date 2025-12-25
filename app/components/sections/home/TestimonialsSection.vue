@@ -1,23 +1,6 @@
 <script setup lang="ts">
 const { fadeInUp, cleanup, initializeAnimations } = useGsapAnimations()
-
-const testimonials = [
-    {
-        quote: 'Spolupráca s touto fotografkou bola absolútny sen. Celá naša rodina sa cítila tak pohodlne a fotografie predčili všetky naše očakávania. Tieto spomienky si budeme vážiť navždy!',
-        author: 'Sára a Michal',
-        occasion: 'Rodinné fotenie',
-    },
-    {
-        quote: 'Bola som nervózna zo svojho tehotenského fotenia, ale od prvého momentu som sa cítila úplne v pohode. Fotky sú úžasné a krásne zachytávajú toto špeciálne obdobie.',
-        author: 'Emma',
-        occasion: 'Tehotenské fotenie',
-    },
-    {
-        quote: 'Novorodenecké fotky nášho malíčka sú absolútne úžasné. Taká trpezlivosť a starostlivosť bola venovaná získaniu dokonalých záberov. Vrelo odporúčame!',
-        author: 'Dávid a Lívia',
-        occasion: 'Novorodenecké fotenie',
-    },
-]
+const { testimonialsSubtitle, testimonialsTitle, testimonials } = useSanityHomepage()
 
 const activeIndex = ref(0)
 const subtitleRef = ref<HTMLElement | null>(null)
@@ -25,11 +8,11 @@ const titleRef = ref<HTMLElement | null>(null)
 const carouselRef = ref<HTMLElement | null>(null)
 
 const nextTestimonial = () => {
-    activeIndex.value = (activeIndex.value + 1) % testimonials.length
+    activeIndex.value = (activeIndex.value + 1) % testimonials.value.length
 }
 
 const prevTestimonial = () => {
-    activeIndex.value = (activeIndex.value - 1 + testimonials.length) % testimonials.length
+    activeIndex.value = (activeIndex.value - 1 + testimonials.value.length) % testimonials.value.length
 }
 
 let interval: ReturnType<typeof setInterval>
@@ -69,13 +52,13 @@ onUnmounted(() => {
                     ref="subtitleRef"
                     class="testimonials-subtitle text-accent text-lg md:text-xl mb-3"
                 >
-                    Milé slová od Vás
+                    {{ testimonialsSubtitle }}
                 </p>
                 <h2
                     ref="titleRef"
                     class="testimonials-title text-3xl md:text-4xl font-display text-charcoal-900"
                 >
-                    Čo hovoria klienti
+                    {{ testimonialsTitle }}
                 </h2>
             </div>
 

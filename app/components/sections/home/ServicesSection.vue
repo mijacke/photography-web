@@ -1,11 +1,17 @@
 <script setup lang="ts">
 const { fadeInUp, cleanup, initializeAnimations } = useGsapAnimations()
+const { servicesParagraphs } = useSanityHomepage()
 
 const headerRef = ref<HTMLElement | null>(null)
-const textRef1 = ref<HTMLElement | null>(null)
-const textRef2 = ref<HTMLElement | null>(null)
-const textRef3 = ref<HTMLElement | null>(null)
+const paragraphRefs = ref<HTMLElement[]>([])
 const ctaRef = ref<HTMLElement | null>(null)
+
+// Styles for each paragraph position
+const paragraphStyles = [
+    'font-medium text-charcoal-800',
+    'text-charcoal-600',
+    'font-light italic text-charcoal-700',
+]
 
 onMounted(() => {
     initializeAnimations(() => {
@@ -13,9 +19,8 @@ onMounted(() => {
             fadeInUp(headerRef.value, { y: 30, duration: 0.8 })
         }
 
-        const texts = [textRef1.value, textRef2.value, textRef3.value].filter((el) => el !== null)
-        if (texts.length > 0) {
-            fadeInUp(texts, { y: 25, stagger: 0.15, duration: 0.7 })
+        if (paragraphRefs.value.length > 0) {
+            fadeInUp(paragraphRefs.value, { y: 25, stagger: 0.15, duration: 0.7 })
         }
 
         if (ctaRef.value) {
@@ -42,25 +47,13 @@ onUnmounted(() => {
             </div>
 
             <div class="space-y-8 text-center leading-relaxed">
-                <p ref="textRef1" class="services-text font-medium text-charcoal-800">
-                    Každá etapa rodinného života nesie svoj vlastný príbeh – od tichého očakávania
-                    počas tehotenstva až po teplo a blízkosť, ktoré s rokmi ešte viac rastú. Je pre
-                    mňa veľkou cťou, keď mi rodiny dovolia vstúpiť do ich sveta a môžem pre nich
-                    zachytiť tieto výnimočné momenty.
-                </p>
-
-                <p ref="textRef2" class="services-text text-charcoal-600">
-                    Fotím tehotenské portréty, ktoré oslavujú krásu a silu materstva, novorodenecké
-                    fotografie plné tých najjemnejších prvých detailov, svadobné príbehy nabité
-                    emóciami a láskou, aj rodinné fotenia, ktoré zachytávajú vaše skutočné spojenie
-                    – prirodzene, úprimne a s dôrazom na emóciu.
-                </p>
-
-                <p ref="textRef3" class="services-text font-light italic text-charcoal-700">
-                    Každé fotenie je jednoduché, nadčasové a sústredené na skutočné chvíle. Žiadne
-                    ťažké rekvizity ani zbytočné rozptýlenia – len vy, vaše emócie a jemné svetlo.
-                    Práve tento premyslený, prirodzený prístup viedol mnohé rodiny k tomu, aby mi
-                    dlhodobo zverovali svoje najvzácnejšie spomienky a vracali sa ku mne rok čo rok.
+                <p
+                    v-for="(paragraph, index) in servicesParagraphs"
+                    :key="index"
+                    :ref="(el) => { if (el) paragraphRefs[index] = el as HTMLElement }"
+                    :class="['services-text', paragraphStyles[index] || 'text-charcoal-600']"
+                >
+                    {{ paragraph }}
                 </p>
             </div>
 

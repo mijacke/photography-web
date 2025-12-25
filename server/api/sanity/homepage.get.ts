@@ -21,6 +21,7 @@ export default defineEventHandler(async () => {
     const client = getSanityClient()
 
     const HOMEPAGE_QUERY = `*[_type == "homepage"][0] {
+        // Images
         heroImages[] {
             asset-> {
                 _id,
@@ -50,6 +51,18 @@ export default defineEventHandler(async () => {
         },
         portfolioTehotenstvoImage {
             asset-> { _id, url }
+        },
+        
+        // Services section
+        servicesParagraphs,
+        
+        // Testimonials section
+        testimonialsSubtitle,
+        testimonialsTitle,
+        testimonials[]{
+            quote,
+            author,
+            occasion
         }
     }`
 
