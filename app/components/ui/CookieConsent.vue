@@ -67,6 +67,7 @@ const loadGoogleAnalytics = (gaId: string) => {
 
     ;(window as unknown as Record<string, boolean>)[`ga-disable-${gaId}`] = false
 
+    // If script already loaded, just update consent and send page view
     if (document.querySelector(`script[src*="googletagmanager.com/gtag"]`)) {
         window.gtag?.('consent', 'update', { analytics_storage: 'granted' })
         window.gtag?.('event', 'page_view', {
@@ -76,19 +77,22 @@ const loadGoogleAnalytics = (gaId: string) => {
         return
     }
 
+    // Initialize dataLayer and gtag function FIRST
     window.dataLayer = window.dataLayer || []
     function gtag(...args: unknown[]) {
         window.dataLayer.push(args)
     }
     window.gtag = gtag
 
-    gtag('consent', 'update', {
+    // Set DEFAULT consent state BEFORE loading script (required by GA4)
+    gtag('consent', 'default', {
         ad_storage: 'denied',
         ad_user_data: 'denied',
         ad_personalization: 'denied',
-        analytics_storage: 'granted',
+        analytics_storage: 'denied',
     })
 
+    // Now load the script
     const script = document.createElement('script')
     script.async = true
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
@@ -97,6 +101,14 @@ const loadGoogleAnalytics = (gaId: string) => {
         window.gtag?.('config', gaId, {
             send_page_view: false,
         })
+        // UPDATE consent to granted AFTER script loads
+        window.gtag?.('consent', 'update', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'granted',
+        })
+        // Now send page view
         window.gtag?.('event', 'page_view', {
             page_path: window.location.pathname,
             page_title: document.title,
@@ -104,6 +116,7 @@ const loadGoogleAnalytics = (gaId: string) => {
     }
     document.head.appendChild(script)
 }
+
 
 /**
  * Disable GA tracking - used when user withdraws consent after GA was loaded.
