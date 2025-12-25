@@ -71,8 +71,8 @@ const loadGoogleAnalytics = (gaId: string) => {
     window.dataLayer = window.dataLayer || []
     
     if (!window.gtag) {
-        window.gtag = function () {
-            window.dataLayer.push(arguments)
+        window.gtag = function (...args: unknown[]) {
+            window.dataLayer.push(args)
         }
     }
 
@@ -197,7 +197,7 @@ onMounted(() => {
                 }
                 emitConsentEvent()
             }
-        } catch (e) {
+        } catch {
             consent.consentId = generateConsentId()
             isVisible.value = true
         }
