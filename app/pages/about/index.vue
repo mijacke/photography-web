@@ -1,5 +1,20 @@
 <script setup lang="ts">
-const { mainImage: aboutImage } = useSanityAbout()
+const {
+    mainImage: aboutImage,
+    heroAccent,
+    heroLine1,
+    heroLine2,
+    heroLine3,
+    heroCta,
+    mainTitle,
+    paragraphs,
+    philosophyAccent,
+    philosophyTitle,
+    philosophyItems,
+    ctaTitle,
+    ctaText,
+    ctaButtonText,
+} = useSanityAbout()
 const {
     fadeInUp,
     slideIn,
@@ -230,7 +245,7 @@ onUnmounted(() => {
                         ref="heroAccentRef"
                         class="hero-line hero-line-accent font-script italic text-warm-400 text-base md:text-lg lg:text-xl tracking-[0.18em] mb-6 md:mb-10 lg:mb-12 opacity-0"
                     >
-                        Za každým záberom
+                        {{ heroAccent }}
                     </p>
 
                     <h1 class="hero-headline">
@@ -239,21 +254,21 @@ onUnmounted(() => {
                             class="hero-line hero-line-main block font-hero font-light text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0"
                             style="color: #1a1718"
                         >
-                            je príbeh,
+                            {{ heroLine1 }}
                         </span>
                         <span
                             ref="heroMainLine2Ref"
                             class="hero-line hero-line-main block font-hero font-light text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0"
                             style="color: #1a1718"
                         >
-                            ktorý čaká
+                            {{ heroLine2 }}
                         </span>
                         <span
                             ref="heroMainLine3Ref"
                             class="hero-line hero-line-main block font-hero font-medium text-[clamp(2.5rem,10vw,7rem)] leading-[0.95] tracking-[-0.02em] opacity-0"
                             style="color: #1a1718"
                         >
-                            <em style="color: #b8944d">na zachytenie.</em>
+                            <em style="color: #b8944d">{{ heroLine3 }}</em>
                         </span>
                     </h1>
 
@@ -268,7 +283,7 @@ onUnmounted(() => {
                             ref="heroCtaTextRef"
                             class="hero-cta-text font-script italic text-[1.0625rem] tracking-wide cursor-pointer opacity-0 translate-y-[6px] transition-all duration-200 lg:hover:text-warm-500 relative lg:after:absolute lg:after:bottom-0 lg:after:left-1/2 lg:after:-translate-x-1/2 lg:after:h-[1px] lg:after:bg-warm-400 lg:after:transition-all lg:after:duration-200 lg:after:w-0 lg:hover:after:w-full"
                             style="color: #7a756f"
-                            >Spoznajte ma</span
+                            >{{ heroCta }}</span
                         >
                     </div>
 
@@ -309,32 +324,16 @@ onUnmounted(() => {
                         <h2
                             class="about-content text-3xl md:text-4xl font-display text-charcoal-900 mb-6"
                         >
-                            Ahoj, som Pauli
+                            {{ mainTitle }}
                         </h2>
 
                         <div class="space-y-4 text-charcoal-600 leading-relaxed">
-                            <p class="about-content">
-                                Vitajte! Som profesionálna fotografka z Bratislavy, špecializujem sa
-                                na zachytávanie najvzácnejších momentov života — od očakávania
-                                materstva, cez zázrak novorodencov až po radosť z rodinných
-                                stretnutí.
-                            </p>
-                            <p class="about-content">
-                                Moja cesta k fotografii začala pred viac ako desiatimi rokmi, keď
-                                som vzala do rúk svoj prvý fotoaparát a objavila kúzlo zamrazenia
-                                okamihov v čase. Odvtedy som mala česť zdokumentovať stovky rodín,
-                                svadieb a životných míľnikov.
-                            </p>
-                            <p class="about-content">
-                                Môj prístup je uvoľnený a prirodzený. Verím, že najlepšie fotografie
-                                vznikajú vtedy, keď zabudnete, že tam fotoaparát vôbec je. Každé
-                                fotenie je prispôsobené jedinečnému príbehu vašej rodiny a vytvára
-                                obrazy, ktoré budú cenené po generácie.
-                            </p>
-                            <p class="about-content">
-                                Keď nie som za objektívom, nájdete ma pri objavovaní nových lokalít
-                                na fotenie, pri trávení času s vlastnou rodinou alebo pri úprave
-                                fotografií v mojom útulnom domácom štúdiu s šálkou kávy.
+                            <p
+                                v-for="(paragraph, index) in paragraphs"
+                                :key="index"
+                                class="about-content"
+                            >
+                                {{ paragraph }}
                             </p>
                         </div>
                     </div>
@@ -351,63 +350,35 @@ onUnmounted(() => {
                     ref="philosophyHeaderRef1"
                     class="philosophy-header text-accent text-lg md:text-xl mb-3"
                 >
-                    Moja filozofia
+                    {{ philosophyAccent }}
                 </p>
                 <h2
                     ref="philosophyHeaderRef2"
                     class="philosophy-header text-3xl md:text-4xl font-display text-charcoal-900 mb-8"
                 >
-                    Čo robí moju prácu výnimočnou
+                    {{ philosophyTitle }}
                 </h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                    <div class="philosophy-item text-center">
+                    <div
+                        v-for="(item, index) in philosophyItems"
+                        :key="index"
+                        class="philosophy-item text-center"
+                    >
                         <div
                             class="w-16 h-16 mx-auto mb-4 bg-warm-400 bg-opacity-10 flex items-center justify-center rounded-full"
                         >
                             <img
-                                src="/svg/icons/heart.svg"
-                                alt="Autentické momenty"
+                                :src="`/svg/icons/${item.icon}.svg`"
+                                :alt="item.title"
                                 class="h-8 w-8"
                             >
                         </div>
                         <h3 class="font-display text-xl text-charcoal-900 mb-2">
-                            Autentické momenty
+                            {{ item.title }}
                         </h3>
                         <p class="text-charcoal-600 text-sm">
-                            Zameriavam sa na zachytenie skutočných emócií a pravých spojení, nie
-                            nútených póz.
-                        </p>
-                    </div>
-
-                    <div class="philosophy-item text-center">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 bg-warm-400 bg-opacity-10 flex items-center justify-center rounded-full"
-                        >
-                            <img src="/svg/icons/camera.svg" alt="Nadčasový štýl" class="h-8 w-8" >
-                        </div>
-                        <h3 class="font-display text-xl text-charcoal-900 mb-2">Nadčasový štýl</h3>
-                        <p class="text-charcoal-600 text-sm">
-                            Čistá, elegantná úprava, ktorá bude vyzerať krásne aj o desaťročia.
-                        </p>
-                    </div>
-
-                    <div class="philosophy-item text-center">
-                        <div
-                            class="w-16 h-16 mx-auto mb-4 bg-warm-400 bg-opacity-10 flex items-center justify-center rounded-full"
-                        >
-                            <img
-                                src="/svg/icons/clock.svg"
-                                alt="Uvoľnený zážitok"
-                                class="h-8 w-8"
-                            >
-                        </div>
-                        <h3 class="font-display text-xl text-charcoal-900 mb-2">
-                            Uvoľnený zážitok
-                        </h3>
-                        <p class="text-charcoal-600 text-sm">
-                            Fotenia sú navrhnuté tak, aby pôsobili ako zábavný výlet, nie stresujúce
-                            natáčanie.
+                            {{ item.description }}
                         </p>
                     </div>
                 </div>
@@ -424,14 +395,14 @@ onUnmounted(() => {
                     ref="ctaContentRef1"
                     class="cta-content text-2xl md:text-3xl font-display text-charcoal-900 mb-4"
                 >
-                    Poďme spolupracovať
+                    {{ ctaTitle }}
                 </h2>
                 <p ref="ctaContentRef2" class="cta-content text-charcoal-600 mb-8 max-w-xl mx-auto">
-                    Rada by som počula váš príbeh a vytvorila niečo krásne.
+                    {{ ctaText }}
                 </p>
                 <div ref="ctaContentRef3" class="cta-content">
                     <UiAppButton to="/contact" variant="outline" size="lg">
-                        Kontaktujte ma
+                        {{ ctaButtonText }}
                     </UiAppButton>
                 </div>
             </div>

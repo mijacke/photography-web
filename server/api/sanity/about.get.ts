@@ -13,7 +13,7 @@ const getSanityClient = () => {
 /**
  * Fetches About page data from Sanity CMS.
  *
- * @returns `{ mainImage: { asset: { _id, url } } }` or `null`
+ * @returns About page content including hero, main, philosophy, and CTA sections
  *
  * @throws 500 - Sanity fetch error
  */
@@ -21,12 +21,36 @@ export default defineEventHandler(async () => {
     const client = getSanityClient()
 
     const ABOUT_QUERY = `*[_type == "about"][0] {
+        // Hero section
+        heroAccent,
+        heroLine1,
+        heroLine2,
+        heroLine3,
+        heroCta,
+        
+        // Main content
         mainImage {
             asset-> {
                 _id,
                 url
             }
-        }
+        },
+        mainTitle,
+        paragraphs,
+        
+        // Philosophy section
+        philosophyAccent,
+        philosophyTitle,
+        philosophyItems[] {
+            icon,
+            title,
+            description
+        },
+        
+        // CTA section
+        ctaTitle,
+        ctaText,
+        ctaButtonText
     }`
 
     try {
