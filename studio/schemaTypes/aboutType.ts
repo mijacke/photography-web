@@ -94,7 +94,7 @@ export const aboutType = defineType({
                 {
                     type: 'object',
                     fields: [
-                        defineField({ name: 'icon', title: 'Ikona', type: 'string', description: 'Názov ikony (heart, camera, clock)' }),
+                        defineField({ name: 'icon', title: 'Ikona', type: 'string', description: 'Dostupné ikony: heart, camera, clock, check, images, location, mail, phone, facebook, instagram' }),
                         defineField({ name: 'title', title: 'Nadpis', type: 'string' }),
                         defineField({ name: 'description', title: 'Popis', type: 'text', rows: 2 }),
                     ],
