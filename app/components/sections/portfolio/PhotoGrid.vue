@@ -17,6 +17,8 @@ const props = defineProps<Props>()
 const isMounted = ref(false)
 const titleRef = ref<HTMLElement | null>(null)
 const itemRefs = ref<HTMLElement[]>([])
+const animationsInitialized = ref(false)
+let pollInterval: ReturnType<typeof setInterval> | null = null
 
 const selectedPhotoIndex = ref<number | null>(null)
 
@@ -66,17 +68,19 @@ const getPhotoOrientation = (photo: Photo) => {
 
 const { fadeInUp, cleanup, initializeAnimations, add } = useGsapAnimations()
 
-onMounted(() => {
-    const handleKeydown = (e: KeyboardEvent) => {
-        if (selectedPhotoIndex.value === null) return
-        if (e.key === 'Escape') closeLightbox()
-        if (e.key === 'ArrowLeft') goToPrevious()
-        if (e.key === 'ArrowRight') goToNext()
-    }
-    window.addEventListener('keydown', handleKeydown)
+const handleKeydown = (e: KeyboardEvent) => {
+    if (selectedPhotoIndex.value === null) return
+    if (e.key === 'Escape') closeLightbox()
+    if (e.key === 'ArrowLeft') goToPrevious()
+    if (e.key === 'ArrowRight') goToNext()
+}
 
-    // Set mounted immediately for masonry to render
-    isMounted.value = true
+/**
+ * Initialize GSAP animations for all gallery items.
+ */
+const initGalleryAnimations = (items: HTMLElement[]) => {
+    if (animationsInitialized.value) return
+    animationsInitialized.value = true
 
     initializeAnimations(() => {
         const { gsap, ScrollTrigger } = useGsapAnimations()
@@ -85,47 +89,99 @@ onMounted(() => {
             fadeInUp(titleRef.value, { y: 30, duration: 0.8 })
         }
 
-        // Wait for masonry to render items
-        setTimeout(() => {
-            add(() => {
-                const validItems = itemRefs.value.filter((el) => el instanceof HTMLElement)
+        add(() => {
+            if (items.length > 0) {
+                gsap.set(items, { autoAlpha: 0, y: 40 })
 
-                if (validItems.length > 0) {
-                    gsap.set(validItems, { autoAlpha: 0, y: 40 })
-
-                    ScrollTrigger.batch(validItems, {
-                        onEnter: (batch) => {
-                            gsap.to(batch, {
-                                autoAlpha: 1,
-                                y: 0,
-                                duration: 0.7,
-                                stagger: 0.08,
-                                ease: 'power3.out',
-                            })
-                        },
-                        start: 'top 95%',
-                        once: true,
-                    })
-
-                    // Fallback: make all items visible after 2 seconds
-                    // This ensures items are visible even if ScrollTrigger fails
-                    setTimeout(() => {
-                        gsap.to(validItems, {
+                ScrollTrigger.batch(items, {
+                    onEnter: (batch) => {
+                        gsap.to(batch, {
                             autoAlpha: 1,
                             y: 0,
-                            duration: 0.5,
-                            overwrite: 'auto',
+                            duration: 0.7,
+                            stagger: 0.08,
+                            ease: 'power3.out',
                         })
-                    }, 2000)
-                }
-            })
-        }, 300)
-    })
+                    },
+                    start: 'top 95%',
+                    once: true,
+                })
 
-    onUnmounted(() => {
-        window.removeEventListener('keydown', handleKeydown)
-        cleanup()
+                ScrollTrigger.refresh()
+            }
+        })
     })
+}
+
+/**
+ * Poll for when all items are rendered by MasonryWall.
+ */
+const startPollingForItems = () => {
+    if (pollInterval) clearInterval(pollInterval)
+
+    pollInterval = setInterval(() => {
+        const validItems = itemRefs.value.filter((el) => el instanceof HTMLElement)
+        const targetCount = props.photos.length
+
+        if (validItems.length >= targetCount && targetCount > 0 && !animationsInitialized.value) {
+            if (pollInterval) {
+                clearInterval(pollInterval)
+                pollInterval = null
+            }
+            nextTick(() => {
+                initGalleryAnimations(validItems)
+            })
+        }
+    }, 100)
+
+    // Safety timeout after 5 seconds
+    setTimeout(() => {
+        if (pollInterval) {
+            clearInterval(pollInterval)
+            pollInterval = null
+        }
+        if (!animationsInitialized.value) {
+            const validItems = itemRefs.value.filter((el) => el instanceof HTMLElement)
+            if (validItems.length > 0) {
+                initGalleryAnimations(validItems)
+            }
+        }
+    }, 5000)
+}
+
+// Watch for photos prop changes - handles SPA navigation
+watch(
+    () => props.photos.length,
+    (newCount, oldCount) => {
+        if (newCount > 0 && oldCount === 0 && isMounted.value && !animationsInitialized.value) {
+            setTimeout(() => {
+                startPollingForItems()
+            }, 100)
+        }
+    }
+)
+
+onMounted(() => {
+    window.addEventListener('keydown', handleKeydown)
+
+    itemRefs.value = []
+    animationsInitialized.value = false
+    isMounted.value = true
+
+    if (props.photos.length > 0) {
+        setTimeout(() => {
+            startPollingForItems()
+        }, 100)
+    }
+})
+
+onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeydown)
+    if (pollInterval) {
+        clearInterval(pollInterval)
+        pollInterval = null
+    }
+    cleanup()
 })
 </script>
 
