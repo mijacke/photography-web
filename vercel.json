@@ -1,17 +1,4 @@
 {
-    "redirects": [
-        {
-            "source": "/(.*)",
-            "has": [
-                {
-                    "type": "host",
-                    "value": "www.paulifotografka.sk"
-                }
-            ],
-            "destination": "https://paulifotografka.sk/$1",
-            "permanent": true
-        }
-    ],
     "crons": [
         {
             "path": "/api/cron/refresh-instagram-token",
