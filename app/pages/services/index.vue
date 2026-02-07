@@ -21,10 +21,35 @@ const {
 
 const videoSrc = computed(() => heroVideoUrl.value || '')
 
-useSeoMeta({
-    title: 'Služby | Fotografka',
+usePageSeo({
+    title: 'Služby | Fotografka Galanta - rodinné, tehotenské, svadobné, novorodenecké fotenie',
     description:
-        'Profesionálne fotografické služby pre rodiny, novorodencov, tehotné a svadby. Pôsobím v Bratislave a okolí.',
+        'Kompletné fotografické služby v meste Galanta: rodinné, tehotenské, svadobné a novorodenecké fotografovanie. Rezervujte si termín fotenia v Galante a okolí.',
+    path: '/services',
+    keywords: [
+        'sluzby fotografka galanta',
+        'fotenie galanta cennik',
+        'rezervacia fotenia galanta',
+    ],
+    structuredData: {
+        '@type': 'Service',
+        serviceType: 'Fotografické služby',
+        provider: {
+            '@type': 'LocalBusiness',
+            name: 'Pauli Fotografka',
+        },
+        areaServed: 'Galanta',
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Fotografické služby Galanta',
+            itemListElement: [
+                { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Rodinné fotenie' } },
+                { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tehotenské fotenie' } },
+                { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Novorodenecké fotenie' } },
+                { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Svadobné fotenie' } },
+            ],
+        },
+    },
 })
 
 const services = computed(() => servicesContent.value.map(service => ({

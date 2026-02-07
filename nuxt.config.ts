@@ -16,7 +16,11 @@ export default defineNuxtConfig({
         },
         head: {
             link: [
+                { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico', sizes: 'any' },
                 { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+                { rel: 'icon', type: 'image/png', href: '/favicon.png', sizes: '48x48' },
+                { rel: 'shortcut icon', href: '/favicon.ico' },
+                { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' },
             ],
             style: [
                 {
@@ -26,6 +30,29 @@ export default defineNuxtConfig({
           `,
                 },
             ],
+        },
+    },
+    site: {
+        url: process.env.NUXT_PUBLIC_SITE_URL || 'https://paulifotografka.sk',
+        name: 'Pauli Fotografka',
+        trailingSlash: false,
+    },
+    sitemap: {
+        defaults: {
+            changefreq: 'weekly',
+            priority: 0.8,
+        },
+        autoLastmod: true,
+        exclude: ['/api/**'],
+    },
+    nitro: {
+        routeRules: {
+            '/portfolio': {
+                redirect: {
+                    to: '/portfolio/rodina',
+                    statusCode: 301,
+                },
+            },
         },
     },
     runtimeConfig: {
@@ -42,6 +69,7 @@ export default defineNuxtConfig({
         contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || '',
         gaApiSecret: process.env.GA_API_SECRET || '',
         public: {
+            siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://paulifotografka.sk',
             googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
             gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',
             // Sanity - public credentials, safe to hardcode

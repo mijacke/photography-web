@@ -1,10 +1,21 @@
 <script setup lang="ts">
 const { hasExternalMediaConsent, requestExternalMediaConsent } = useCookieConsent()
 
-useSeoMeta({
-    title: 'Kontakt | Fotografka',
+usePageSeo({
+    title: 'Kontakt | Fotografka Galanta - rezervácia fotenia',
     description:
-        'Napíšte mi a poďme spolu vytvoriť niečo krásne. Profesionálna fotografka rodín, novorodencov, tehotných a svadieb v Bratislave.',
+        'Kontaktujte ma pre fotografovanie v Galante: tehotenské, rodinné, svadobné a novorodenecké fotenie. Odpovedám rýchlo a pomôžem s rezerváciou termínu.',
+    path: '/contact',
+    keywords: [
+        'kontakt fotografka galanta',
+        'rezervacia fotenia galanta',
+        'telefon fotografka galanta',
+    ],
+    structuredData: {
+        '@type': 'ContactPage',
+        name: 'Kontakt - Pauli Fotografka',
+        url: 'https://paulifotografka.sk/contact',
+    },
 })
 </script>
 

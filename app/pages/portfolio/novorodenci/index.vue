@@ -1,10 +1,20 @@
 <script setup lang="ts">
-useSeoMeta({
-    title: 'Novorodenecká Fotografia | Profesionálne Fotografie Bábätiek',
+usePageSeo({
+    title: 'Novorodenecké fotenie Galanta | Novorodenecká fotografia Galanta',
     description:
-        'Nežné fotografie vašich najmenších. Novorodenecké fotenie v pohodlí domova alebo ateliéri.',
-    ogTitle: 'Novorodenecká Fotografia | Prvé Chvíle Nového Života',
-    ogDescription: 'Zachytávam krehkú krásu prvých dní života.',
+        'Jemné novorodenecké fotografovanie v Galante. Bezpečné a citlivé fotenie bábätiek s rodičmi doma alebo v ateliéri.',
+    path: '/portfolio/novorodenci',
+    keywords: [
+        'novorodenecke fotenie galanta',
+        'newborn fotenie galanta',
+        'fotografia babatka galanta',
+    ],
+    structuredData: {
+        '@type': 'Service',
+        name: 'Novorodenecké fotenie Galanta',
+        serviceType: 'Novorodenecká fotografia',
+        areaServed: 'Galanta',
+    },
 })
 
 const {

@@ -118,7 +118,7 @@ onUnmounted(() => {
                 ref="subtitleRef"
                 class="hero-subtitle text-xs md:text-sm 3xl:text-base 4xl:text-lg tracking-[0.25em] uppercase text-charcoal-600 mb-3"
             >
-                Tehotenské, novorodencké a rodinné fotografie v Bratislave
+                Tehotenské, novorodenecké a rodinné fotografie v Galante
             </p>
             <h1
                 ref="titleRef"

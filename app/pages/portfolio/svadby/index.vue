@@ -1,10 +1,20 @@
 <script setup lang="ts">
-useSeoMeta({
-    title: 'Svadobná Fotografia | Profesionálne Svadobné Fotografie',
+usePageSeo({
+    title: 'Svadobné fotenie Galanta | Svadobná fotografia Galanta',
     description:
-        'Zachytávam najkrajší deň vášho života. Romantické svadobné fotografie plné emócií a lásky.',
-    ogTitle: 'Svadobná Fotografia | Váš Svadobný Príbeh',
-    ogDescription: 'Váš svadobný deň si zaslúži byť zachytený v celej svojej kráse.',
+        'Svadobné fotografovanie v Galante a okolí. Emotívna svadobná fotografia, ktorá zachytí celý váš príbeh od príprav po večernú oslavu.',
+    path: '/portfolio/svadby',
+    keywords: [
+        'svadobne fotenie galanta',
+        'svadobna fotografia galanta',
+        'svadobny fotograf galanta',
+    ],
+    structuredData: {
+        '@type': 'Service',
+        name: 'Svadobné fotenie Galanta',
+        serviceType: 'Svadobná fotografia',
+        areaServed: 'Galanta',
+    },
 })
 
 const {

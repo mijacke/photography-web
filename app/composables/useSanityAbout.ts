@@ -38,7 +38,7 @@ const FALLBACKS = {
     heroCta: 'Spoznajte ma',
     mainTitle: 'Ahoj, som Pauli',
     paragraphs: [
-        'Vitajte! Som profesionálna fotografka z Bratislavy, špecializujem sa na zachytávanie najvzácnejších momentov života — od očakávania materstva, cez zázrak novorodencov až po radosť z rodinných stretnutí.',
+        'Vitajte! Som profesionálna fotografka z Galanty, špecializujem sa na zachytávanie najvzácnejších momentov života — od očakávania materstva, cez zázrak novorodencov až po radosť z rodinných stretnutí.',
         'Moja cesta k fotografii začala pred viac ako desiatimi rokmi, keď som vzala do rúk svoj prvý fotoaparát a objavila kúzlo zamrazenia okamihov v čase. Odvtedy som mala česť zdokumentovať stovky rodín, svadieb a životných míľnikov.',
         'Môj prístup je uvoľnený a prirodzený. Verím, že najlepšie fotografie vznikajú vtedy, keď zabudnete, že tam fotoaparát vôbec je. Každé fotenie je prispôsobené jedinečnému príbehu vašej rodiny a vytvára obrazy, ktoré budú cenené po generácie.',
         'Keď nie som za objektívom, nájdete ma pri objavovaní nových lokalít na fotenie, pri trávení času s vlastnou rodinou alebo pri úprave fotografií v mojom útulnom domácom štúdiu s šálkou kávy.',

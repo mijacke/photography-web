@@ -26,10 +26,15 @@ const {
     initializeAnimations,
 } = useGsapAnimations()
 
-useSeoMeta({
-    title: 'O mne | Fotografka',
+usePageSeo({
+    title: 'O mne | Pauli Fotografka - fotografka Galanta',
     description:
-        'Spoznajte ma bližšie - môj príbeh, prístup a vášeň pre zachytávanie vzácnych momentov života.',
+        'Spoznajte môj príbeh a prístup k fotografovaniu v Galante. Fotografka pre tehotenské, rodinné, svadobné a novorodenecké fotenie s dôrazom na prirodzené emócie.',
+    path: '/about',
+    keywords: [
+        'o mne fotografka galanta',
+        'fotografka galanta skusenosti',
+    ],
 })
 
 const heroAccentRef = ref<HTMLElement | null>(null)

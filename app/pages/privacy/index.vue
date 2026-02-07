@@ -7,9 +7,11 @@ import {
     SUPERVISORY_AUTHORITY,
 } from '~/config/legal'
 
-useSeoMeta({
+usePageSeo({
     title: 'Ochrana osobných údajov | Pauli Fotografka',
-    description: 'Zásady ochrany osobných údajov na stránke paulifotografka.sk',
+    description: 'Zásady ochrany osobných údajov na stránke paulifotografka.sk.',
+    path: '/privacy',
+    noindex: true,
 })
 </script>
 

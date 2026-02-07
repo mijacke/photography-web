@@ -86,7 +86,7 @@ const FALLBACKS = {
     faqItems: [
         { question: 'Ako dlho vopred je potrebné rezervovať termín?', answer: 'Pre rodinné a tehotenské fotenie odporúčam rezervovať 4-6 týždňov vopred, novorodenecké fotenie 2-3 mesiace (ešte pred pôrodom!), svadby ideálne 6-12 mesiacov vopred.' },
         { question: 'Čo si máme obliecť?', answer: 'Po rezervácii vám pošlem podrobného sprievodcu štýlom! Vo všeobecnosti odporúčam zladiť (nie zjednotiť) oblečenie v jemných, neutrálnych farbách, ktoré sa navzájom dopĺňajú.' },
-        { question: 'Kde fotenie prebieha?', answer: 'Ponúkam fotenie v exteriéri aj interiéri. Mám krásne tipy na lokality v okolí Bratislavy, ale rada prídem aj k vám domov alebo na miesto, ktoré je pre vás výnimočné.' },
+        { question: 'Kde fotenie prebieha?', answer: 'Ponúkam fotenie v exteriéri aj interiéri. Mám krásne tipy na lokality v Galante a okolí, no rada prídem aj k vám domov alebo na miesto, ktoré je pre vás výnimočné.' },
         { question: 'Kedy dostaneme fotky?', answer: 'Online galériu s fotografiami obdržíte do 2-3 týždňov pri portrétnom fotení a do 4-6 týždňov pri svadbách. Prvé ukážky vám pošlem už do 48 hodín!' },
     ],
 }

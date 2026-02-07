@@ -1,11 +1,20 @@
 <script setup lang="ts">
-useSeoMeta({
-    title: 'Rodinná Fotografia | Profesionálne Rodinné Fotografie',
+usePageSeo({
+    title: 'Rodinné fotenie Galanta | Rodinná fotografia Galanta',
     description:
-        'Zachytávam autentické rodinné momenty plné lásky a radosti. Profesionálna rodinná fotografia v Bratislave a okolí.',
-    ogTitle: 'Rodinná Fotografia | Vaše Rodinné Príbehy',
-    ogDescription:
-        'Každá rodina má svoj jedinečný príbeh. Pomôžem vám ho zachytiť v krásnych fotografiách.',
+        'Rodinné fotografovanie v Galante plné prirodzených emócií. Rodinná fotografia Galanta a okolie pre páry, deti aj celé rodiny.',
+    path: '/portfolio/rodina',
+    keywords: [
+        'rodinne fotenie galanta',
+        'rodinna fotografia galanta',
+        'rodinne fotografovanie galanta',
+    ],
+    structuredData: {
+        '@type': 'Service',
+        name: 'Rodinné fotenie Galanta',
+        serviceType: 'Rodinná fotografia',
+        areaServed: 'Galanta',
+    },
 })
 
 const {

@@ -1,9 +1,20 @@
 <script setup lang="ts">
-useSeoMeta({
-    title: 'Tehotenská Fotografia | Profesionálne Tehotenské Fotografie',
-    description: 'Oslavujem krásu materstva. Tehotenské fotenie v Bratislave a okolí.',
-    ogTitle: 'Tehotenská Fotografia | Krása Materstva',
-    ogDescription: 'Zachytávam magické obdobie očakávania nového života.',
+usePageSeo({
+    title: 'Tehotenské fotenie Galanta | Tehotenská fotografia Galanta',
+    description:
+        'Tehotenské fotografovanie v Galante s citlivým vedením a prirodzeným štýlom. Zachytenie krásy materstva pre Galantu a okolie.',
+    path: '/portfolio/tehotenstvo',
+    keywords: [
+        'tehotenske fotenie galanta',
+        'tehotenska fotografia galanta',
+        'fotenie tehotenstva galanta',
+    ],
+    structuredData: {
+        '@type': 'Service',
+        name: 'Tehotenské fotenie Galanta',
+        serviceType: 'Tehotenská fotografia',
+        areaServed: 'Galanta',
+    },
 })
 
 const {

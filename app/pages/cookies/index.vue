@@ -7,9 +7,11 @@ import {
     RETENTION,
 } from '~/config/legal'
 
-useSeoMeta({
+usePageSeo({
     title: 'Cookies | Pauli Fotografka',
-    description: 'Informácie o používaní cookies na stránke paulifotografka.sk',
+    description: 'Informácie o používaní cookies na stránke paulifotografka.sk.',
+    path: '/cookies',
+    noindex: true,
 })
 
 const cookieCategories = [
