@@ -40,6 +40,7 @@ export default defineNuxtConfig({
         resendApiKey: process.env.RESEND_API_KEY || '',
         resendFromEmail: process.env.RESEND_FROM_EMAIL || '',
         contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || '',
+        gaApiSecret: process.env.GA_API_SECRET || '',
         public: {
             googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
             gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',

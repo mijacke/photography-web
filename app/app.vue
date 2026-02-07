@@ -1,9 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { Analytics } from '@vercel/analytics/nuxt'
+</script>
 
 <template>
     <NuxtLayout>
         <NuxtPage :key="$route.path" />
     </NuxtLayout>
+    <Analytics />
 </template>
 
 <style>

@@ -86,16 +86,12 @@ const loadGoogleAnalytics = (gaId: string) => {
     const existingScript = document.querySelector(`script[src*="googletagmanager.com/gtag"]`)
     
     if (existingScript) {
-        window.gtag('event', 'page_view', {
-            page_path: window.location.pathname,
-            page_title: document.title,
-        })
         return
     }
 
     window.gtag('js', new Date())
     window.gtag('config', gaId, {
-        send_page_view: true,
+        send_page_view: false,
     })
     
     const script = document.createElement('script')
