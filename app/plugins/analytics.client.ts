@@ -72,7 +72,7 @@ export default defineNuxtPlugin(() => {
         let sentViaFirstParty = false
 
         try {
-            await $fetch('/api/analytics', {
+            const response = await $fetch<{ success?: boolean; skipped?: string }>('/api/analytics', {
                 method: 'POST',
                 body: {
                     eventName: 'page_view',
@@ -88,7 +88,11 @@ export default defineNuxtPlugin(() => {
                     },
                 },
             })
-            sentViaFirstParty = true
+            sentViaFirstParty = response?.success === true
+
+            if (!sentViaFirstParty && import.meta.dev) {
+                console.warn('[Analytics] First-party endpoint did not accept event:', response)
+            }
         } catch (error) {
             if (import.meta.dev) {
                 console.error('[Analytics] Failed to send first-party page_view:', error)

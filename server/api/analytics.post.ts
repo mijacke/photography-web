@@ -40,10 +40,10 @@ export default defineEventHandler(async (event) => {
     const apiSecret = runtimeConfig.gaApiSecret as string
 
     if (!measurementId || !apiSecret) {
-        return {
-            success: false,
-            skipped: 'missing-ga-config',
-        }
+        throw createError({
+            statusCode: 503,
+            message: 'GA4 Measurement Protocol is not configured',
+        })
     }
 
     if (!body || !ALLOWED_EVENT_NAMES.has(body.eventName)) {
