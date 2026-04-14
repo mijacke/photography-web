@@ -44,7 +44,7 @@ export default defineEventHandler(async () => {
         let url: string
 
         if (businessAccountId) {
-            url = `https://graph.facebook.com/${apiVersion}/${businessAccountId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=5&access_token=${accessToken}`
+            url = `https://graph.facebook.com/${encodeURIComponent(apiVersion)}/${encodeURIComponent(businessAccountId)}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&limit=5&access_token=${encodeURIComponent(accessToken)}`
         } else {
             url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,timestamp&limit=5&access_token=${encodeURIComponent(accessToken)}`
         }

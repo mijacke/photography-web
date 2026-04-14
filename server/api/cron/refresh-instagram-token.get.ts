@@ -15,13 +15,11 @@ export default defineEventHandler(async (event) => {
     const authHeader = getHeader(event, 'authorization')
     const cronSecret = process.env.CRON_SECRET
 
-    if (process.env.NODE_ENV === 'production' && cronSecret) {
-        if (authHeader !== `Bearer ${cronSecret}`) {
-            throw createError({
-                statusCode: 401,
-                message: 'Unauthorized - Invalid CRON_SECRET',
-            })
-        }
+    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+        throw createError({
+            statusCode: 401,
+            message: 'Unauthorized',
+        })
     }
 
     const config = useRuntimeConfig()
@@ -47,7 +45,7 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        const url = new URL(`https://graph.facebook.com/${apiVersion}/oauth/access_token`)
+        const url = new URL(`https://graph.facebook.com/${encodeURIComponent(apiVersion)}/oauth/access_token`)
         url.searchParams.set('grant_type', 'fb_exchange_token')
         url.searchParams.set('client_id', appId)
         url.searchParams.set('client_secret', appSecret)
@@ -92,7 +90,7 @@ export default defineEventHandler(async (event) => {
 
             timestamp: new Date().toISOString(),
             note: 'New token generated. Update INSTAGRAM_ACCESS_TOKEN in Vercel Environment Variables.',
-            newTokenPreview: `${data.access_token.substring(0, 20)}...`,
+            newTokenPreview: `${data.access_token.substring(0, 6)}...${data.access_token.slice(-4)}`,
         }
     } catch (error: unknown) {
         console.error('[CRON] Instagram token refresh error:', error)

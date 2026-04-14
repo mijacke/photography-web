@@ -39,7 +39,8 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        const debugUrl = `https://graph.facebook.com/debug_token?input_token=${accessToken}&access_token=${accessToken}`
+        const encodedToken = encodeURIComponent(accessToken)
+        const debugUrl = `https://graph.facebook.com/debug_token?input_token=${encodedToken}&access_token=${encodedToken}`
 
         const response = await fetch(debugUrl)
         const data = await response.json()

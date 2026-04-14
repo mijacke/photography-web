@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
     try {
         // Facebook Business Graph API - exchange for new long-lived token
         // This works for tokens that are still valid (not expired)
-        const url = new URL(`https://graph.facebook.com/${apiVersion}/oauth/access_token`)
+        const url = new URL(`https://graph.facebook.com/${encodeURIComponent(apiVersion)}/oauth/access_token`)
         url.searchParams.set('grant_type', 'fb_exchange_token')
         url.searchParams.set('client_id', appId)
         url.searchParams.set('client_secret', appSecret)
@@ -71,17 +71,19 @@ export default defineEventHandler(async (event) => {
 
         const expiresInDays = Math.round((data.expires_in || 5184000) / 86400)
 
-        // Log full token server-side only for manual retrieval
-        console.log('[INSTAGRAM] New token (copy to env):', data.access_token)
+        console.log(
+            `[INSTAGRAM] Token refreshed. Preview: ${data.access_token.substring(0, 6)}...${data.access_token.slice(-4)}, expires in ${expiresInDays} days`,
+        )
 
         return {
             success: true,
             message: 'Token refreshed successfully via Facebook Graph API!',
-            newTokenPreview: `${data.access_token.substring(0, 20)}...`,
+            newTokenPreview: `${data.access_token.substring(0, 6)}...${data.access_token.slice(-4)}`,
             expiresIn: data.expires_in,
             expiresInDays: expiresInDays,
             expiresAt: new Date(Date.now() + (data.expires_in || 5184000) * 1000).toISOString(),
-            note: 'Full token logged to server console. Update INSTAGRAM_ACCESS_TOKEN in Vercel.',
+            note: 'Retrieve the new token from Vercel by re-running with a secure channel. Update INSTAGRAM_ACCESS_TOKEN in Vercel env vars.',
+            newToken: data.access_token,
         }
     } catch (error: unknown) {
         if (error && typeof error === 'object' && 'statusCode' in error) {
