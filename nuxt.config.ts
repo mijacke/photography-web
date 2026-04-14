@@ -21,6 +21,11 @@ export default defineNuxtConfig({
                 { rel: 'icon', type: 'image/png', href: '/favicon.png', sizes: '48x48' },
                 { rel: 'shortcut icon', href: '/favicon.ico' },
                 { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' },
+                { rel: 'preconnect', href: 'https://cdn.sanity.io', crossorigin: '' },
+                { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+                { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+                { rel: 'dns-prefetch', href: 'https://www.google-analytics.com' },
+                { rel: 'dns-prefetch', href: 'https://scontent.cdninstagram.com' },
             ],
             style: [
                 {
@@ -43,10 +48,27 @@ export default defineNuxtConfig({
             priority: 0.8,
         },
         autoLastmod: true,
-        exclude: ['/api/**'],
+        exclude: ['/api/**', '/portfolio', '/privacy', '/cookies'],
     },
     nitro: {
         routeRules: {
+            '/**': {
+                headers: {
+                    'X-Content-Type-Options': 'nosniff',
+                    'X-Frame-Options': 'SAMEORIGIN',
+                    'Referrer-Policy': 'strict-origin-when-cross-origin',
+                    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+                    'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+                    'X-DNS-Prefetch-Control': 'on',
+                },
+            },
+            '/api/**': {
+                headers: {
+                    'Cache-Control': 'no-store',
+                    'X-Content-Type-Options': 'nosniff',
+                    'Referrer-Policy': 'no-referrer',
+                },
+            },
             '/portfolio': {
                 redirect: {
                     to: '/portfolio/rodina',

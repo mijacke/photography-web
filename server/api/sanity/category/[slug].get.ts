@@ -49,6 +49,8 @@ export default defineEventHandler(async (event) => {
         introTitle,
         introParagraphs,
         introImage,
+        // SEO
+        servedCitiesNote,
         // Gallery
         "gallery": *[_type == "gallery" && category._ref == ^._id][0] {
             portraitPhotos[] {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const business = useBusinessInfo()
 const currentYear = new Date().getFullYear()
 
 const openCookieSettings = () => {
@@ -8,20 +9,15 @@ const openCookieSettings = () => {
 const socialLinks = [
     {
         label: 'Instagram',
-        href: 'https://www.instagram.com/paulifotografka/',
+        href: business.socials.instagram,
         icon: '/svg/icons/instagram.svg',
     },
     {
         label: 'Facebook',
-        href: 'https://www.facebook.com/paulifotografka',
+        href: business.socials.facebook,
         icon: '/svg/icons/facebook.svg',
     },
 ]
-
-const contactInfo = {
-    email: 'mitchie369@gmail.com',
-    phone: '+421 903 830 347',
-}
 </script>
 
 <template>
@@ -40,7 +36,7 @@ const contactInfo = {
                             class="h-20 w-auto"
                         />
                     </NuxtLink>
-                    <p class="text-charcoal-600 text-sm mb-4">Zachytávam vaše najkrajšie momenty</p>
+                    <p class="text-charcoal-600 text-sm mb-4">{{ business.tagline }}</p>
                     <div class="flex gap-4">
                         <a
                             v-for="social in socialLinks"
@@ -66,10 +62,10 @@ const contactInfo = {
                                 class="h-5 w-5 opacity-60 flex-shrink-0"
                             >
                             <a
-                                :href="`mailto:${contactInfo.email}`"
+                                :href="`mailto:${business.email}`"
                                 class="text-charcoal-600 hover:text-warm-500 transition-colors"
                             >
-                                {{ contactInfo.email }}
+                                {{ business.email }}
                             </a>
                         </div>
                         <div class="flex items-center gap-3 justify-center md:justify-start">
@@ -79,10 +75,10 @@ const contactInfo = {
                                 class="h-5 w-5 opacity-60 flex-shrink-0"
                             >
                             <a
-                                :href="`tel:${contactInfo.phone.replace(/\s/g, '')}`"
+                                :href="`tel:${business.phoneE164}`"
                                 class="text-charcoal-600 hover:text-warm-500 transition-colors"
                             >
-                                {{ contactInfo.phone }}
+                                {{ business.phoneDisplay }}
                             </a>
                         </div>
                     </div>
@@ -151,7 +147,7 @@ const contactInfo = {
 
             <div class="mt-8 pt-4 border-t border-cream-300 text-center">
                 <p class="text-charcoal-500 text-sm">
-                    © {{ currentYear }} Pauli Fotografka. Všetky práva vyhradené.
+                    © {{ currentYear }} {{ business.name }}. Všetky práva vyhradené.
                 </p>
             </div>
         </div>

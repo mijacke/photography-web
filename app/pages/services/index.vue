@@ -34,10 +34,7 @@ usePageSeo({
     structuredData: {
         '@type': 'Service',
         serviceType: 'Fotografické služby',
-        provider: {
-            '@type': 'LocalBusiness',
-            name: 'Pauli Fotografka',
-        },
+        provider: { '@id': 'https://paulifotografka.sk/#business' },
         areaServed: 'Galanta',
         hasOfferCatalog: {
             '@type': 'OfferCatalog',
@@ -50,6 +47,29 @@ usePageSeo({
             ],
         },
     },
+})
+
+// Reactive FAQPage schema — updates if Sanity FAQ items change.
+useHead({
+    script: [
+        {
+            key: 'services-faq-schema',
+            type: 'application/ld+json',
+            innerHTML: computed(() => JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                '@id': 'https://paulifotografka.sk/services#faq',
+                mainEntity: faqItems.value.map((item) => ({
+                    '@type': 'Question',
+                    name: item.question,
+                    acceptedAnswer: {
+                        '@type': 'Answer',
+                        text: item.answer,
+                    },
+                })),
+            })),
+        },
+    ],
 })
 
 const services = computed(() => servicesContent.value.map(service => ({

@@ -8,6 +8,7 @@ export const categoryType = defineType({
         { name: 'basic', title: 'Základné' },
         { name: 'hero', title: 'Hero sekcia' },
         { name: 'intro', title: 'Intro sekcia' },
+        { name: 'seo', title: 'SEO' },
     ],
     fieldsets: [
         {
@@ -103,6 +104,18 @@ export const categoryType = defineType({
             type: 'image',
             options: { hotspot: true },
             group: 'intro',
+        }),
+
+        // ===== SEO =====
+        defineField({
+            name: 'servedCitiesNote',
+            title: 'Kde fotím (mestá a okolie)',
+            type: 'text',
+            rows: 2,
+            group: 'seo',
+            description:
+                'Krátky odstavec (1–2 vety) so zoznamom miest, kde fotíš. Napr. „Pôsobím v Galante a okolí — Šaľa, Sereď, Trnava, Nitra a západné Slovensko." Ak necháš prázdne, sekcia sa na stránke nezobrazí.',
+            validation: (rule) => rule.max(280),
         }),
     ],
     preview: {

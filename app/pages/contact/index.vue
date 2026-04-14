@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { hasExternalMediaConsent, requestExternalMediaConsent } = useCookieConsent()
+const business = useBusinessInfo()
 
 usePageSeo({
     title: 'Kontakt | Fotografka Galanta - rezervácia fotenia',
@@ -58,10 +59,10 @@ usePageSeo({
                                         Email
                                     </h3>
                                     <a
-                                        href="mailto:mitchie369@gmail.com"
+                                        :href="`mailto:${business.email}`"
                                         class="text-charcoal-500 hover:text-warm-500 transition-colors text-sm"
                                     >
-                                        mitchie369@gmail.com
+                                        {{ business.email }}
                                     </a>
                                 </div>
                             </div>
@@ -81,10 +82,10 @@ usePageSeo({
                                         Telefón
                                     </h3>
                                     <a
-                                        href="tel:+421903830347"
+                                        :href="`tel:${business.phoneE164}`"
                                         class="text-charcoal-500 hover:text-warm-500 transition-colors text-sm"
                                     >
-                                        +421 903 830 347
+                                        {{ business.phoneDisplay }}
                                     </a>
                                 </div>
                             </div>

@@ -26,6 +26,7 @@ const {
     introTitle,
     introParagraphs,
     introImageUrl,
+    servedCitiesNote,
     photos,
 } = useSanityCategory('tehotenstvo')
 </script>
@@ -51,6 +52,17 @@ const {
         </SectionsPortfolioIntroSection>
 
         <SectionsPortfolioServicesCTA />
+
+        <section v-if="servedCitiesNote" class="py-10 md:py-14 bg-cream-100">
+            <div class="container-narrow text-center">
+                <h2 class="text-xl md:text-2xl font-display text-charcoal-900 mb-3">
+                    Kde fotím
+                </h2>
+                <p class="text-charcoal-600 max-w-2xl mx-auto">
+                    {{ servedCitiesNote }}
+                </p>
+            </div>
+        </section>
 
         <SectionsPortfolioPhotoGrid :photos="photos" />
 

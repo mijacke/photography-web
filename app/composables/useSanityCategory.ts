@@ -19,6 +19,7 @@ interface SanityCategory {
     introTitle?: string
     introParagraphs?: string[]
     introImage?: SanityImage
+    servedCitiesNote?: string
     gallery?: {
         portraitPhotos?: Array<{ asset: SanityImageAsset }>
         landscapePhotos?: Array<{ asset: SanityImageAsset }>
@@ -31,6 +32,9 @@ interface Photo {
     alt: string
     orientation: 'portrait' | 'landscape'
 }
+
+const DEFAULT_SERVED_CITIES_NOTE =
+    'Pôsobím v Galante a okolí — Šaľa, Sereď, Trnava, Nitra, Dunajská Streda a celé západné Slovensko.'
 
 // Fallback content for each category
 const CATEGORY_FALLBACKS: Record<string, {
@@ -167,6 +171,10 @@ export const useSanityCategory = (categorySlug: string) => {
             : null
     )
 
+    const servedCitiesNote = computed(
+        () => data.value?.servedCitiesNote?.trim() || DEFAULT_SERVED_CITIES_NOTE
+    )
+
     // Interleave portrait and landscape photos for visual variety in masonry grid
     const photos = computed<Photo[]>(() => {
         const allPhotos: Photo[] = []
@@ -215,6 +223,7 @@ export const useSanityCategory = (categorySlug: string) => {
         introTitle,
         introParagraphs,
         introImageUrl,
+        servedCitiesNote,
         // Gallery
         photos,
         // Meta
