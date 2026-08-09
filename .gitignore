@@ -45,3 +45,5 @@ docs/api/
 CLAUDE.md
 
 graphify-out
+.vercel
+.env*

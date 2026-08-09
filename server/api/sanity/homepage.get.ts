@@ -17,7 +17,7 @@ const getSanityClient = () => {
  *
  * @throws 500 - Sanity fetch error
  */
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
     const client = getSanityClient()
 
     const HOMEPAGE_QUERY = `*[_type == "homepage"][0] {
@@ -68,6 +68,13 @@ export default defineEventHandler(async () => {
 
     try {
         const homepage = await client.fetch(HOMEPAGE_QUERY)
+        // Vercel edge cache: routeRules headers are not applied to dynamic
+        // function responses, so the cache policy must be set in-handler.
+        setResponseHeader(
+            event,
+            'Cache-Control',
+            'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+        )
         return homepage || null
     } catch (error: unknown) {
         throw createError({

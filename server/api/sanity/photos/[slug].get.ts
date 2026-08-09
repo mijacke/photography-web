@@ -50,6 +50,13 @@ export default defineEventHandler(async (event) => {
 
     try {
         const photos = await client.fetch(PHOTOS_QUERY, { categorySlug: slug })
+        // Vercel edge cache must be set in-handler (routeRules headers are
+        // not applied to dynamic function responses).
+        setResponseHeader(
+            event,
+            'Cache-Control',
+            'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+        )
         return photos || []
     } catch (error: unknown) {
         throw createError({
