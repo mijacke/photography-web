@@ -35,6 +35,10 @@ export default defineNuxtConfig({
           `,
                 },
             ],
+            // Vercel Speed Insights (Core Web Vitals) — only on Vercel builds
+            script: process.env.VERCEL
+                ? [{ src: '/_vercel/speed-insights/script.js', defer: true }]
+                : [],
         },
     },
     site: {
