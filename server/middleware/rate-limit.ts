@@ -1,15 +1,31 @@
 import { Ratelimit } from '@upstash/ratelimit'
-import { Redis } from '@upstash/redis'
+import { kv } from '@vercel/kv'
 
-const redis = Redis.fromEnv()
+const PROTECTED_PATHS = [
+    '/api/instagram',
+    '/api/consent',
+    '/api/contact',
+    '/api/analytics',
+    '/api/sanity',
+]
 
-const ratelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(60, '1 m'),
-    analytics: true,
-})
+let limiter: Ratelimit | null = null
 
-const PROTECTED_PATHS = ['/api/instagram', '/api/consent', '/api/contact', '/api/analytics']
+// Lazy init so a missing KV config (e.g. local dev) skips limiting instead of crashing
+const getLimiter = (): Ratelimit | null => {
+    if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+        return null
+    }
+    if (!limiter) {
+        limiter = new Ratelimit({
+            redis: kv,
+            limiter: Ratelimit.slidingWindow(60, '1 m'),
+            prefix: 'rl:global',
+            analytics: false,
+        })
+    }
+    return limiter
+}
 
 export default defineEventHandler(async (event) => {
     const path = getRequestURL(event).pathname
@@ -18,12 +34,17 @@ export default defineEventHandler(async (event) => {
         return
     }
 
+    const instance = getLimiter()
+    if (!instance) {
+        return
+    }
+
     const ip =
-        getHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim() ||
-        getHeader(event, 'x-real-ip') ||
+        getRequestIP(event, { xForwardedFor: true }) ||
+        event.node.req.socket.remoteAddress ||
         'anonymous'
 
-    const { success, limit, remaining, reset } = await ratelimit.limit(ip)
+    const { success, limit, remaining, reset } = await instance.limit(ip)
 
     setHeader(event, 'X-RateLimit-Limit', limit.toString())
     setHeader(event, 'X-RateLimit-Remaining', remaining.toString())

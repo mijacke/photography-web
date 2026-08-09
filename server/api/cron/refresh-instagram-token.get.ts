@@ -1,4 +1,4 @@
-import { defineEventHandler, createError, getHeader } from 'h3'
+import { defineEventHandler } from 'h3'
 
 /**
  * Cron endpoint for automatic Instagram token refresh.
@@ -12,15 +12,7 @@ import { defineEventHandler, createError, getHeader } from 'h3'
  * @returns Success/failure status with token expiry info
  */
 export default defineEventHandler(async (event) => {
-    const authHeader = getHeader(event, 'authorization')
-    const cronSecret = process.env.CRON_SECRET
-
-    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
-        throw createError({
-            statusCode: 401,
-            message: 'Unauthorized',
-        })
-    }
+    assertCronAuthorized(event)
 
     const config = useRuntimeConfig()
     const accessToken = config.instagramAccessToken || config.instagramToken

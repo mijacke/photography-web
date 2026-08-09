@@ -1,4 +1,4 @@
-import { defineEventHandler, getHeader, createError } from 'h3'
+import { defineEventHandler } from 'h3'
 
 interface TokenDebugData {
     is_valid: boolean
@@ -14,15 +14,7 @@ interface TokenDebugData {
 }
 
 export default defineEventHandler(async (event) => {
-    const authHeader = getHeader(event, 'authorization')
-    const cronSecret = process.env.CRON_SECRET
-
-    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
-        throw createError({
-            statusCode: 401,
-            message: 'Unauthorized',
-        })
-    }
+    assertCronAuthorized(event)
 
     const config = useRuntimeConfig()
 

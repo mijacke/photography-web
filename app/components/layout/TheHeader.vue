@@ -137,7 +137,7 @@ const handleClickOutside = (event: Event) => {
                 <NuxtLink to="/" class="flex-shrink-0" aria-label="Domovská stránka">
                     <NuxtImg
                         src="/images/brand_logo/logo.png"
-                        alt="Logo"
+                        alt="Pauli Fotografka – logo"
                         width="270"
                         height="90"
                         :class="[
@@ -148,7 +148,7 @@ const handleClickOutside = (event: Event) => {
                     />
                 </NuxtLink>
 
-                <div class="hidden md:flex items-center gap-8" role="menubar">
+                <div class="hidden md:flex items-center gap-8">
                     <template v-for="link in navLinks" :key="link.href">
                         <div
                             v-if="link.hasDropdown"
@@ -199,14 +199,11 @@ const handleClickOutside = (event: Event) => {
                                         v-if="isPortfolioDropdownOpen"
                                         id="portfolio-menu"
                                         class="bg-white shadow-lg"
-                                        role="menu"
-                                        aria-label="Portfólio kategórie"
                                     >
                                         <NuxtLink
                                             v-for="category in portfolioCategories"
                                             :key="category.href"
                                             :to="category.href"
-                                            role="menuitem"
                                             :class="[
                                                 'block px-4 py-3 text-sm font-medium tracking-wider uppercase transition-colors',
                                                 route.path === category.href
@@ -224,7 +221,6 @@ const handleClickOutside = (event: Event) => {
                         <NuxtLink
                             v-else
                             :to="link.href"
-                            role="menuitem"
                             :class="[
                                 'text-sm font-medium tracking-wider uppercase transition-colors duration-300',
                                 isLinkActive(link.href) ? activeLinkClasses : linkClasses,
@@ -240,9 +236,12 @@ const handleClickOutside = (event: Event) => {
                     class="hamburger md:hidden"
                     :class="burgerClasses"
                     role="button"
+                    tabindex="0"
                     :aria-expanded="isMobileMenuOpen"
                     aria-controls="mobile-menu"
-                    aria-label="Otvoriť menu"
+                    :aria-label="isMobileMenuOpen ? 'Zavrieť menu' : 'Otvoriť menu'"
+                    @keydown.enter.prevent="isMobileMenuOpen = !isMobileMenuOpen"
+                    @keydown.space.prevent="isMobileMenuOpen = !isMobileMenuOpen"
                 >
                     <input
                         type="checkbox"
@@ -272,8 +271,6 @@ const handleClickOutside = (event: Event) => {
                 v-if="isMobileMenuOpen"
                 id="mobile-menu"
                 class="md:hidden bg-cream-200 border-t border-cream-300"
-                role="menu"
-                aria-label="Mobilné menu"
             >
                 <div class="container-wide py-6 flex flex-col gap-4">
                     <template v-for="link in navLinks" :key="link.href">
@@ -288,7 +285,6 @@ const handleClickOutside = (event: Event) => {
                                     v-for="category in portfolioCategories"
                                     :key="category.href"
                                     :to="category.href"
-                                    role="menuitem"
                                     :class="[
                                         'text-sm font-medium tracking-wider uppercase py-1 block transition-colors',
                                         route.path === category.href
@@ -308,7 +304,6 @@ const handleClickOutside = (event: Event) => {
                         <NuxtLink
                             v-else
                             :to="link.href"
-                            role="menuitem"
                             :class="[
                                 'text-lg font-medium tracking-wide py-2 transition-colors',
                                 isLinkActive(link.href)

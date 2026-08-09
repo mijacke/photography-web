@@ -27,10 +27,10 @@ const getSanityClient = () => {
 export default defineEventHandler(async (event) => {
     const slug = getRouterParam(event, 'slug')
 
-    if (!slug) {
+    if (!slug || !PORTFOLIO_CATEGORY_SLUGS.has(slug)) {
         throw createError({
-            statusCode: 400,
-            statusMessage: 'Category slug is required',
+            statusCode: 404,
+            statusMessage: 'Unknown category',
         })
     }
 

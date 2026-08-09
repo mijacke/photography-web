@@ -1,3 +1,5 @@
+import { enforceRateLimit } from '../utils/rateLimit'
+
 interface AnalyticsRequestBody {
     eventName: string
     clientId: string
@@ -32,6 +34,8 @@ const sanitizeParamValue = (value: unknown): string | number | undefined => {
 
 export default defineEventHandler(async (event) => {
     setHeader(event, 'Cache-Control', 'no-store')
+
+    await enforceRateLimit(event, 'analytics', 60, '10 m')
 
     const body = await readBody<AnalyticsRequestBody>(event)
     const runtimeConfig = useRuntimeConfig(event)

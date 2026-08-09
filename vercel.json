@@ -1,4 +1,13 @@
 {
+    "regions": ["fra1"],
+    "redirects": [
+        {
+            "source": "/:path(.*)",
+            "has": [{ "type": "host", "value": "paulifotografka.sk" }],
+            "destination": "https://www.paulifotografka.sk/:path",
+            "permanent": true
+        }
+    ],
     "crons": [
         {
             "path": "/api/cron/refresh-instagram-token",

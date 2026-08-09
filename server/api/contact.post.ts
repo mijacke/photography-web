@@ -70,9 +70,10 @@ export default defineEventHandler(async (event) => {
 
     const config = useRuntimeConfig()
     const resendApiKey = config.resendApiKey
+    const recipientEmail = config.contactRecipientEmail || ''
 
-    if (!resendApiKey) {
-        console.error('[CONTACT] Missing RESEND_API_KEY')
+    if (!resendApiKey || !recipientEmail) {
+        console.error('[CONTACT] Missing RESEND_API_KEY or CONTACT_RECIPIENT_EMAIL')
         throw createError({
             statusCode: 500,
             message: 'Konfigurácia emailu nie je nastavená',
@@ -80,7 +81,6 @@ export default defineEventHandler(async (event) => {
     }
 
     const resend = new Resend(resendApiKey)
-    const recipientEmail = config.contactRecipientEmail || ''
 
     const htmlContent = `
         <h2>Nová správa z kontaktného formulára</h2>

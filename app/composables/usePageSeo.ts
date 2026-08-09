@@ -10,7 +10,7 @@ interface PageSeoOptions {
     breadcrumbs?: Array<{ name: string, path: string }>
 }
 
-const DEFAULT_SITE_URL = 'https://paulifotografka.sk'
+const DEFAULT_SITE_URL = 'https://www.paulifotografka.sk'
 
 const DEFAULT_KEYWORDS = [
     'fotografka galanta',
@@ -109,8 +109,12 @@ export const usePageSeo = (options: PageSeoOptions) => {
     const siteUrl = normalizeSiteUrl(config.public.siteUrl as string | undefined)
     const path = normalizePath(options.path || route.path)
     const canonicalUrl = toAbsoluteUrl(path, siteUrl)
-    const imageValue = typeof options.image === 'function' ? options.image() : options.image
-    const imageUrl = toAbsoluteUrl(imageValue || business.defaultImagePath, siteUrl)
+    // Computed so images resolved from async data (e.g. Sanity hero photos)
+    // land in og:image instead of the pre-fetch fallback.
+    const imageUrl = computed(() => {
+        const imageValue = typeof options.image === 'function' ? options.image() : options.image
+        return toAbsoluteUrl(imageValue || business.defaultImagePath, siteUrl)
+    })
     const logoUrl = toAbsoluteUrl(business.logoPath, siteUrl)
     const robots = options.noindex
         ? 'noindex, nofollow'
@@ -130,10 +134,12 @@ export const usePageSeo = (options: PageSeoOptions) => {
         ogSiteName: business.name,
         ogLocale: 'sk_SK',
         ogImage: imageUrl,
+        ogImageAlt: options.title,
         twitterCard: 'summary_large_image',
         twitterTitle: options.title,
         twitterDescription: options.description,
         twitterImage: imageUrl,
+        twitterImageAlt: options.title,
     })
 
     useHead({
@@ -158,100 +164,106 @@ export const usePageSeo = (options: PageSeoOptions) => {
             ? [options.structuredData]
             : []
 
-    const personNode = {
-        '@type': 'Person',
-        '@id': `${siteUrl}/#person`,
-        name: business.name,
-        alternateName: business.alternateName,
-        image: imageUrl,
-        url: siteUrl,
-        jobTitle: 'Fotografka',
-        worksFor: { '@id': `${siteUrl}/#business` },
-        sameAs: business.sameAs,
-    }
+    const buildGraph = (): Array<Record<string, unknown>> => {
+        const image = imageUrl.value
 
-    const localBusinessNode = {
-        '@type': ['LocalBusiness', 'ProfessionalService'],
-        '@id': `${siteUrl}/#business`,
-        name: business.name,
-        alternateName: business.alternateName,
-        description: `${business.name} — profesionálna fotografka v meste ${business.addressLocality}. Rodinné, tehotenské, novorodenecké a svadobné fotenie.`,
-        url: siteUrl,
-        image: imageUrl,
-        logo: logoUrl,
-        telephone: business.phoneE164,
-        email: business.email,
-        priceRange: business.priceRange,
-        openingHours: business.openingHours,
-        knowsLanguage: business.knowsLanguage,
-        hasMap: business.mapUrl,
-        founder: { '@id': `${siteUrl}/#person` },
-        address: {
-            '@type': 'PostalAddress',
-            addressLocality: business.addressLocality,
-            addressRegion: business.addressRegion,
-            addressCountry: business.addressCountry,
-        },
-        geo: {
-            '@type': 'GeoCoordinates',
-            latitude: business.latitude,
-            longitude: business.longitude,
-        },
-        areaServed: business.areaServed.map((name) => ({ '@type': 'City', name })),
-        sameAs: business.sameAs,
-        serviceType: [
-            'Rodinné fotenie',
-            'Tehotenské fotenie',
-            'Novorodenecké fotenie',
-            'Svadobné fotenie',
-        ],
-    }
-
-    const breadcrumbNode = buildBreadcrumbList(path, siteUrl, options.breadcrumbs)
-
-    const webPageNode: Record<string, unknown> = {
-        '@type': 'WebPage',
-        '@id': `${canonicalUrl}#webpage`,
-        url: canonicalUrl,
-        name: options.title,
-        description: options.description,
-        inLanguage: 'sk-SK',
-        isPartOf: { '@id': `${siteUrl}/#website` },
-        breadcrumb: { '@id': breadcrumbNode['@id'] },
-        primaryImageOfPage: {
-            '@type': 'ImageObject',
-            contentUrl: imageUrl,
-            url: imageUrl,
-            caption: options.title,
-            creator: { '@id': `${siteUrl}/#person` },
-        },
-    }
-
-    const graph: Array<Record<string, unknown>> = [
-        {
-            '@type': 'WebSite',
-            '@id': `${siteUrl}/#website`,
-            url: siteUrl,
+        const personNode = {
+            '@type': 'Person',
+            '@id': `${siteUrl}/#person`,
             name: business.name,
+            alternateName: business.alternateName,
+            image,
+            url: siteUrl,
+            jobTitle: 'Fotografka',
+            worksFor: { '@id': `${siteUrl}/#business` },
+            sameAs: business.sameAs,
+        }
+
+        const localBusinessNode = {
+            '@type': ['LocalBusiness', 'ProfessionalService'],
+            '@id': `${siteUrl}/#business`,
+            name: business.name,
+            alternateName: business.alternateName,
+            description: `${business.name} — profesionálna fotografka v meste ${business.addressLocality}. Rodinné, tehotenské, novorodenecké a svadobné fotenie.`,
+            url: siteUrl,
+            image,
+            logo: logoUrl,
+            telephone: business.phoneE164,
+            email: business.email,
+            priceRange: business.priceRange,
+            openingHours: business.openingHours,
+            knowsLanguage: business.knowsLanguage,
+            hasMap: business.mapUrl,
+            founder: { '@id': `${siteUrl}/#person` },
+            address: {
+                '@type': 'PostalAddress',
+                addressLocality: business.addressLocality,
+                addressRegion: business.addressRegion,
+                addressCountry: business.addressCountry,
+            },
+            geo: {
+                '@type': 'GeoCoordinates',
+                latitude: business.latitude,
+                longitude: business.longitude,
+            },
+            areaServed: business.areaServed.map((name) => ({ '@type': 'City', name })),
+            sameAs: business.sameAs,
+            serviceType: [
+                'Rodinné fotenie',
+                'Tehotenské fotenie',
+                'Novorodenecké fotenie',
+                'Svadobné fotenie',
+            ],
+        }
+
+        const breadcrumbNode = buildBreadcrumbList(path, siteUrl, options.breadcrumbs)
+
+        const webPageNode: Record<string, unknown> = {
+            '@type': 'WebPage',
+            '@id': `${canonicalUrl}#webpage`,
+            url: canonicalUrl,
+            name: options.title,
+            description: options.description,
             inLanguage: 'sk-SK',
-            publisher: { '@id': `${siteUrl}/#business` },
-        },
-        webPageNode,
-        breadcrumbNode,
-        personNode,
-        localBusinessNode,
-        ...extraSchemaNodes,
-    ]
+            isPartOf: { '@id': `${siteUrl}/#website` },
+            breadcrumb: { '@id': breadcrumbNode['@id'] },
+            primaryImageOfPage: {
+                '@type': 'ImageObject',
+                contentUrl: image,
+                url: image,
+                caption: options.title,
+                creator: { '@id': `${siteUrl}/#person` },
+            },
+        }
+
+        return [
+            {
+                '@type': 'WebSite',
+                '@id': `${siteUrl}/#website`,
+                url: siteUrl,
+                name: business.name,
+                inLanguage: 'sk-SK',
+                publisher: { '@id': `${siteUrl}/#business` },
+            },
+            webPageNode,
+            breadcrumbNode,
+            personNode,
+            localBusinessNode,
+            ...extraSchemaNodes,
+        ]
+    }
 
     useHead({
         script: [
             {
                 key: 'seo-structured-data',
                 type: 'application/ld+json',
-                innerHTML: JSON.stringify({
-                    '@context': 'https://schema.org',
-                    '@graph': graph,
-                }),
+                innerHTML: computed(() =>
+                    JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@graph': buildGraph(),
+                    })
+                ),
             },
         ],
     })

@@ -25,6 +25,15 @@ const goHome = () => {
     clearError()
     window.location.href = '/'
 }
+
+useHead({
+    htmlAttrs: { lang: 'sk' },
+    title: () => `${errorTitle.value} | Pauli Fotografka`,
+    meta: [
+        { name: 'robots', content: 'noindex, nofollow' },
+        { name: 'description', content: () => errorMessage.value },
+    ],
+})
 </script>
 
 <template>

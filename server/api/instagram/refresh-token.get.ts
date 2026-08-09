@@ -1,15 +1,7 @@
-import { defineEventHandler, createError, getHeader } from 'h3'
+import { defineEventHandler, createError } from 'h3'
 
 export default defineEventHandler(async (event) => {
-    const authHeader = getHeader(event, 'authorization')
-    const cronSecret = process.env.CRON_SECRET
-
-    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
-        throw createError({
-            statusCode: 401,
-            message: 'Unauthorized',
-        })
-    }
+    assertCronAuthorized(event)
 
     const config = useRuntimeConfig()
 

@@ -15,7 +15,7 @@ usePageSeo({
     structuredData: {
         '@type': 'ContactPage',
         name: 'Kontakt - Pauli Fotografka',
-        url: 'https://paulifotografka.sk/contact',
+        url: 'https://www.paulifotografka.sk/contact',
     },
 })
 </script>
@@ -138,6 +138,7 @@ usePageSeo({
                                 <ClientOnly>
                                     <template v-if="hasExternalMediaConsent">
                                         <iframe
+                                            title="Mapa – Galanta a okolie"
                                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42567.15!2d17.7!3d48.19!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476c8d3e5f28f6d7%3A0x400f7d1c69672e0!2sGalanta!5e0!3m2!1ssk!2ssk!4v1703388000000"
                                             width="100%"
                                             height="100%"

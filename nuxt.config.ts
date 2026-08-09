@@ -38,7 +38,7 @@ export default defineNuxtConfig({
         },
     },
     site: {
-        url: process.env.NUXT_PUBLIC_SITE_URL || 'https://paulifotografka.sk',
+        url: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.paulifotografka.sk',
         name: 'Pauli Fotografka',
         trailingSlash: false,
     },
@@ -60,13 +60,50 @@ export default defineNuxtConfig({
                     'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
                     'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
                     'X-DNS-Prefetch-Control': 'on',
+                    'Content-Security-Policy': [
+                        "default-src 'self'",
+                        "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+                        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+                        "img-src 'self' data: blob: https://cdn.sanity.io https://*.cdninstagram.com https://*.fbcdn.net https://www.google-analytics.com https://*.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com https://stats.g.doubleclick.net",
+                        "font-src 'self' data: https://fonts.gstatic.com",
+                        "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://stats.g.doubleclick.net https://vitals.vercel-insights.com https://cdn.sanity.io",
+                        "media-src 'self' blob: https://cdn.sanity.io",
+                        'frame-src https://www.google.com https://maps.google.com',
+                        "object-src 'none'",
+                        "base-uri 'self'",
+                        "form-action 'self'",
+                        "frame-ancestors 'self'",
+                        'upgrade-insecure-requests',
+                    ].join('; '),
                 },
             },
+            // Content pages: ISR keeps HTML cached at the edge (10 min) — Sanity
+            // content changes rarely, TTFB drops dramatically for SK visitors.
+            '/': { isr: 600 },
+            '/about': { isr: 600 },
+            '/portfolio/rodina': { isr: 600 },
+            '/portfolio/svadby': { isr: 600 },
+            '/portfolio/novorodenci': { isr: 600 },
+            '/portfolio/tehotenstvo': { isr: 600 },
             '/api/**': {
                 headers: {
                     'Cache-Control': 'no-store',
                     'X-Content-Type-Options': 'nosniff',
                     'Referrer-Policy': 'no-referrer',
+                },
+            },
+            // Sanity content is edge-cached with stale-while-revalidate;
+            // services stays uncached (see CLAUDE.md caching table).
+            '/api/sanity/**': {
+                headers: {
+                    'Cache-Control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+                    'X-Content-Type-Options': 'nosniff',
+                    'Referrer-Policy': 'no-referrer',
+                },
+            },
+            '/api/sanity/services': {
+                headers: {
+                    'Cache-Control': 'no-store',
                 },
             },
             '/portfolio': {
@@ -91,7 +128,7 @@ export default defineNuxtConfig({
         contactRecipientEmail: process.env.CONTACT_RECIPIENT_EMAIL || '',
         gaApiSecret: process.env.GA_API_SECRET || '',
         public: {
-            siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://paulifotografka.sk',
+            siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://www.paulifotografka.sk',
             googleMapsApiKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
             gaMeasurementId: process.env.NUXT_PUBLIC_GA_MEASUREMENT_ID || '',
             // Sanity - public credentials, safe to hardcode

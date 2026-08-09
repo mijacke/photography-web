@@ -18,10 +18,10 @@ usePageSeo({
         '@type': 'ItemList',
         name: 'Fotografické služby v Galante',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Rodinné fotenie', url: 'https://paulifotografka.sk/portfolio/rodina' },
-            { '@type': 'ListItem', position: 2, name: 'Novorodenecké fotenie', url: 'https://paulifotografka.sk/portfolio/novorodenci' },
-            { '@type': 'ListItem', position: 3, name: 'Tehotenské fotenie', url: 'https://paulifotografka.sk/portfolio/tehotenstvo' },
-            { '@type': 'ListItem', position: 4, name: 'Svadobné fotenie', url: 'https://paulifotografka.sk/portfolio/svadby' },
+            { '@type': 'ListItem', position: 1, name: 'Rodinné fotenie', url: 'https://www.paulifotografka.sk/portfolio/rodina' },
+            { '@type': 'ListItem', position: 2, name: 'Novorodenecké fotenie', url: 'https://www.paulifotografka.sk/portfolio/novorodenci' },
+            { '@type': 'ListItem', position: 3, name: 'Tehotenské fotenie', url: 'https://www.paulifotografka.sk/portfolio/tehotenstvo' },
+            { '@type': 'ListItem', position: 4, name: 'Svadobné fotenie', url: 'https://www.paulifotografka.sk/portfolio/svadby' },
         ],
     },
 })
@@ -30,7 +30,18 @@ usePageSeo({
 <template>
     <div>
         <SectionsHomeHeroSection />
-        <SectionsHomeAboutSection />
+        <SectionsHomeAboutSection>
+            <p>
+                Som fotografka z Galanty a fotografiu vnímam ako spôsob, ako zastaviť čas.
+                Špecializujem sa na rodinné, tehotenské, novorodenecké a svadobné fotenie —
+                prirodzene, s citom a bez zbytočného pózovania.
+            </p>
+            <p>
+                Fotím v Galante a širokom okolí — Sereď, Šaľa, Trnava, Nitra či Dunajská Streda.
+                Každé stretnutie je pre mňa nový príbeh a mojou úlohou je zachytiť ho tak, aby ste
+                sa k nemu radi vracali aj o mnoho rokov.
+            </p>
+        </SectionsHomeAboutSection>
         <SectionsHomePortfolioPreview />
         <SectionsHomeGalleryCarousel />
         <SectionsHomeServicesSection />

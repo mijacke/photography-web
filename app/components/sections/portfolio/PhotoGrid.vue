@@ -21,6 +21,22 @@ const animationsInitialized = ref(false)
 let pollInterval: ReturnType<typeof setInterval> | null = null
 
 const selectedPhotoIndex = ref<number | null>(null)
+const closeButtonRef = ref<HTMLButtonElement | null>(null)
+let lastFocusedElement: HTMLElement | null = null
+
+// Lock body scroll and manage focus while the lightbox is open
+watch(selectedPhotoIndex, (value, oldValue) => {
+    if (!import.meta.client) return
+    if (value !== null && oldValue === null) {
+        lastFocusedElement = document.activeElement as HTMLElement | null
+        document.body.style.overflow = 'hidden'
+        nextTick(() => closeButtonRef.value?.focus())
+    } else if (value === null && oldValue !== null) {
+        document.body.style.overflow = ''
+        lastFocusedElement?.focus()
+        lastFocusedElement = null
+    }
+})
 
 const selectedPhoto = computed(() => {
     if (selectedPhotoIndex.value === null) return null
@@ -177,6 +193,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener('keydown', handleKeydown)
+    document.body.style.overflow = ''
     if (pollInterval) {
         clearInterval(pollInterval)
         pollInterval = null
@@ -215,7 +232,12 @@ onUnmounted(() => {
                                 ? 'aspect-[3/4]'
                                 : 'aspect-[4/3]'
                         "
+                        role="button"
+                        tabindex="0"
+                        :aria-label="`Zobraziť fotografiu: ${item.alt}`"
                         @click="openLightbox(item)"
+                        @keydown.enter.prevent="openLightbox(item)"
+                        @keydown.space.prevent="openLightbox(item)"
                     >
                         <div
                             v-if="item.src === 'placeholder'"
@@ -251,9 +273,15 @@ onUnmounted(() => {
                 <div
                     v-if="selectedPhoto"
                     class="fixed inset-0 z-[100] flex items-center justify-center bg-charcoal-900/95 p-4"
+                    role="dialog"
+                    aria-modal="true"
+                    :aria-label="selectedPhoto.alt"
                     @click="closeLightbox"
                 >
                     <button
+                        ref="closeButtonRef"
+                        type="button"
+                        aria-label="Zavrieť galériu"
                         class="absolute top-6 right-6 text-white hover:text-warm-400 transition-colors z-10"
                         @click="closeLightbox"
                     >
@@ -268,6 +296,8 @@ onUnmounted(() => {
                     </button>
 
                     <button
+                        type="button"
+                        aria-label="Predchádzajúca fotografia"
                         class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white hover:text-warm-400 transition-colors p-2 z-10"
                         @click.stop="goToPrevious"
                     >
@@ -287,6 +317,8 @@ onUnmounted(() => {
                     </button>
 
                     <button
+                        type="button"
+                        aria-label="Nasledujúca fotografia"
                         class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white hover:text-warm-400 transition-colors p-2 z-10"
                         @click.stop="goToNext"
                     >

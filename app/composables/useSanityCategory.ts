@@ -183,26 +183,29 @@ export const useSanityCategory = (categorySlug: string) => {
         const gallery = data.value?.gallery
         const portraits = gallery?.portraitPhotos || []
         const landscapes = gallery?.landscapePhotos || []
+        const altBase = data.value?.introTitle || fallbacks.introTitle
 
         const maxLength = Math.max(portraits.length, landscapes.length)
 
         for (let i = 0; i < maxLength; i++) {
             const portrait = portraits[i]
             if (portrait?.asset?.url) {
+                const photoId = id++
                 allPhotos.push({
-                    id: id++,
+                    id: photoId,
                     src: buildOptimizedUrl(portrait.asset.url, 1200, 85) || '',
-                    alt: `Fotografia ${id}`,
+                    alt: `${altBase} Galanta – fotografia ${photoId}`,
                     orientation: 'portrait',
                 })
             }
 
             const landscape = landscapes[i]
             if (landscape?.asset?.url) {
+                const photoId = id++
                 allPhotos.push({
-                    id: id++,
+                    id: photoId,
                     src: buildOptimizedUrl(landscape.asset.url, 1200, 85) || '',
-                    alt: `Fotografia ${id}`,
+                    alt: `${altBase} Galanta – fotografia ${photoId}`,
                     orientation: 'landscape',
                 })
             }

@@ -34,7 +34,7 @@ usePageSeo({
     structuredData: {
         '@type': 'Service',
         serviceType: 'Fotografické služby',
-        provider: { '@id': 'https://paulifotografka.sk/#business' },
+        provider: { '@id': 'https://www.paulifotografka.sk/#business' },
         areaServed: 'Galanta',
         hasOfferCatalog: {
             '@type': 'OfferCatalog',
@@ -58,7 +58,7 @@ useHead({
             innerHTML: computed(() => JSON.stringify({
                 '@context': 'https://schema.org',
                 '@type': 'FAQPage',
-                '@id': 'https://paulifotografka.sk/services#faq',
+                '@id': 'https://www.paulifotografka.sk/services#faq',
                 mainEntity: faqItems.value.map((item) => ({
                     '@type': 'Question',
                     name: item.question,
@@ -242,6 +242,8 @@ onUnmounted(() => {
                     muted
                     loop
                     playsinline
+                    preload="metadata"
+                    aria-hidden="true"
                     class="absolute inset-0 w-full h-full object-cover"
                 >
                     <source :src="videoSrc" type="video/mp4" >
@@ -252,12 +254,12 @@ onUnmounted(() => {
             </div>
 
             <div class="flex-[20] flex items-center justify-center text-center bg-cream-100 px-4">
-                <p
+                <h1
                     ref="headerTextRef"
                     class="header-animate text-xs md:text-sm 3xl:text-base 4xl:text-lg tracking-[0.25em] uppercase text-charcoal-600"
                 >
                     {{ heroText }}
-                </p>
+                </h1>
             </div>
         </section>
 
