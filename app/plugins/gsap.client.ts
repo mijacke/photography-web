@@ -7,8 +7,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
  * @remarks
  * **Client-only**: Registers GSAP plugins and sets animation defaults.
  *
- * **Reduced motion**: Respects `prefers-reduced-motion` by setting
- * `gsap.globalTimeline.timeScale(0)` to effectively disable animations.
+ * **Reduced motion**: handled per-animation in `useGsapAnimations()`, which
+ * skips reveals entirely so the content renders straight away. Freezing the
+ * global timeline here instead would strand every reveal on its hidden start
+ * frame and hide the content for good.
  *
  * **Provides**: `$gsap` and `$ScrollTrigger` globally via Nuxt's provide system.
  */
@@ -22,11 +24,7 @@ export default defineNuxtPlugin(() => {
         duration: 1,
     })
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReducedMotion) {
-        gsap.globalTimeline.timeScale(0)
-        ScrollTrigger.defaults({ markers: false })
-    }
+    ScrollTrigger.defaults({ markers: false })
 
     return {
         provide: {

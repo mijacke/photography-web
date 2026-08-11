@@ -46,20 +46,20 @@ const goToSlide = (index: number) => {
 
 onMounted(() => {
     initializeAnimations(() => {
-        const { gsap } = useGsapAnimations()
-        if (subtitleRef.value) {
-            gsap.from(subtitleRef.value, {
-                y: 20,
-                autoAlpha: 0,
+        const { gsap, prepareReveal } = useGsapAnimations()
+        if (subtitleRef.value && prepareReveal(subtitleRef.value, { y: 20, autoAlpha: 0 })) {
+            gsap.to(subtitleRef.value, {
+                y: 0,
+                autoAlpha: 1,
                 duration: 0.8,
                 delay: 0.3,
                 ease: 'power3.out',
             })
         }
-        if (titleRef.value) {
-            gsap.from(titleRef.value, {
-                y: 25,
-                autoAlpha: 0,
+        if (titleRef.value && prepareReveal(titleRef.value, { y: 25, autoAlpha: 0 })) {
+            gsap.to(titleRef.value, {
+                y: 0,
+                autoAlpha: 1,
                 duration: 0.9,
                 delay: 0.5,
                 ease: 'power3.out',

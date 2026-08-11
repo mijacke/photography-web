@@ -20,6 +20,7 @@ const {
     slideIn,
     staggerReveal,
     scaleIn3D,
+    prepareReveal,
     cleanup,
     refresh,
     gsap,
@@ -186,10 +187,10 @@ onMounted(() => {
 
         if (aboutTextWrapperRef.value) {
             const contents = aboutTextWrapperRef.value.querySelectorAll('.about-content')
-            if (contents.length > 0) {
-                gsap.from(contents, {
-                    x: 40,
-                    autoAlpha: 0,
+            if (contents.length > 0 && prepareReveal(contents, { x: 40, autoAlpha: 0 })) {
+                gsap.to(contents, {
+                    x: 0,
+                    autoAlpha: 1,
                     duration: 0.8,
                     stagger: 0.1,
                     ease: 'power3.out',

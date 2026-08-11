@@ -24,7 +24,7 @@ const bodyRef = ref<HTMLElement | null>(null)
 
 onMounted(() => {
     initializeAnimations(() => {
-        const { gsap } = useGsapAnimations()
+        const { gsap, prepareReveal } = useGsapAnimations()
 
         if (imageWrapper.value) {
             slideIn(imageWrapper.value, { direction: 'left', distance: 50, duration: 1 })
@@ -45,25 +45,25 @@ onMounted(() => {
                 },
             })
 
-            if (subtitleRef.value) {
-                tl.from(subtitleRef.value, {
-                    y: 20,
-                    autoAlpha: 0,
+            if (subtitleRef.value && prepareReveal(subtitleRef.value, { y: 20, autoAlpha: 0 })) {
+                tl.to(subtitleRef.value, {
+                    y: 0,
+                    autoAlpha: 1,
                     duration: 0.6,
                     ease: 'power3.out',
                 })
             }
-            if (titleRef.value) {
-                tl.from(
+            if (titleRef.value && prepareReveal(titleRef.value, { y: 20, autoAlpha: 0 })) {
+                tl.to(
                     titleRef.value,
-                    { y: 20, autoAlpha: 0, duration: 0.7, ease: 'power3.out' },
+                    { y: 0, autoAlpha: 1, duration: 0.7, ease: 'power3.out' },
                     '-=0.3'
                 )
             }
-            if (bodyRef.value) {
-                tl.from(
+            if (bodyRef.value && prepareReveal(bodyRef.value, { y: 20, autoAlpha: 0 })) {
+                tl.to(
                     bodyRef.value,
-                    { y: 20, autoAlpha: 0, duration: 0.8, ease: 'power3.out' },
+                    { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out' },
                     '-=0.3'
                 )
             }

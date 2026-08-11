@@ -33,7 +33,11 @@ onUnmounted(() => {
 
 Additionally:
 
-- **Router plugin** calls `cleanup()` in `beforeEach` for safety
+- **Router plugin** calls `cleanup()` in `beforeEach` for safety. Note that
+  `useGsapAnimations()` is not a singleton: the plugin's call builds a fresh
+  closure whose `ctx` is `undefined`, so in practice this hook is a no-op and
+  `onUnmounted()` does the real work. Reveals must therefore not rely on it —
+  see [ADR-0004](0004-scroll-reveal-safety.md).
 - **Double-rAF + 50ms delay** before initializing ensures DOM stability
 - **`isCleanedUp` flag** prevents animations starting after cleanup
 

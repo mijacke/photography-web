@@ -1,11 +1,20 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+/** How long a reveal gets to play once its target is on screen. */
+const REVEAL_FAILSAFE_MS = 1500
+
 /**
  * Composable providing GSAP ScrollTrigger animation utilities.
  *
  * @remarks
  * **Client-only**: Uses `gsap.context` which requires browser APIs.
+ *
+ * **Never use `gsap.from()` for reveals**: it writes the hidden start state
+ * onto the element on creation and only restores visibility if that exact
+ * tween completes, so an interrupted tween leaves the content invisible
+ * forever. Reveals here set the start state explicitly and animate to
+ * absolute end values, and `prepareReveal()` arms a failsafe on top.
  *
  * **Cleanup required**: Call `cleanup()` in `onUnmounted()` to prevent
  * memory leaks and animation conflicts on page transitions.
@@ -31,6 +40,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 export function useGsapAnimations() {
     let ctx: gsap.Context | undefined
     let isCleanedUp = false
+    const failsafeObservers: IntersectionObserver[] = []
 
     function elementExists(
         selector: string | Element | Element[] | NodeList | null | undefined
@@ -39,6 +49,73 @@ export function useGsapAnimations() {
         if (typeof selector === 'string') return document.querySelector(selector) !== null
         if (Array.isArray(selector)) return selector.length > 0
         if (selector instanceof NodeList) return selector.length > 0
+        return true
+    }
+
+    /**
+     * Whether the visitor asked the operating system to minimise animation.
+     */
+    function prefersReducedMotion(): boolean {
+        return (
+            typeof window !== 'undefined' &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        )
+    }
+
+    /**
+     * Safety net for scroll reveals.
+     *
+     * @remarks
+     * A reveal hides its target before animating it in, so a tween that never
+     * runs would leave the content permanently invisible while still taking up
+     * layout space. Once an element has actually reached the viewport, give its
+     * reveal a moment to play, then force it visible if it is still hidden.
+     */
+    function armFailsafe(target: gsap.TweenTarget) {
+        if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return
+
+        const elements = gsap.utils.toArray<HTMLElement>(target)
+        if (elements.length === 0) return
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return
+
+                const element = entry.target as HTMLElement
+                observer.unobserve(element)
+
+                window.setTimeout(() => {
+                    if (element.style.visibility === 'hidden') {
+                        gsap.set(element, { clearProps: 'visibility,opacity,transform' })
+                    }
+                }, REVEAL_FAILSAFE_MS)
+            })
+        })
+
+        elements.forEach((element) => observer.observe(element))
+        failsafeObservers.push(observer)
+    }
+
+    /**
+     * Applies the hidden start state for a reveal and arms its failsafe.
+     *
+     * @returns `false` when the reveal should be skipped because the visitor
+     * prefers reduced motion — the content is then left untouched, and so
+     * stays visible.
+     */
+    function prepareReveal(target: gsap.TweenTarget, fromVars: gsap.TweenVars): boolean {
+        if (prefersReducedMotion()) return false
+
+        const elements = gsap.utils
+            .toArray<HTMLElement>(target)
+            // An element with no layout box (`hidden lg:block` below `lg`) can
+            // never trigger its own reveal, so it must not be hidden either.
+            .filter((element) => element.getClientRects().length > 0)
+
+        if (elements.length === 0) return false
+
+        gsap.set(elements, fromVars)
+        armFailsafe(elements)
         return true
     }
 
@@ -65,7 +142,7 @@ export function useGsapAnimations() {
         } = options
         const target = typeof elements === 'string' ? elements : elements
 
-        gsap.set(target, { autoAlpha: 0, y })
+        if (!prepareReveal(target as gsap.TweenTarget, { autoAlpha: 0, y })) return null
 
         return ScrollTrigger.batch(target as Element | Element[], {
             onEnter: (batch) => {
@@ -105,9 +182,11 @@ export function useGsapAnimations() {
         } = options
         const xOffset = direction === 'left' ? -distance : distance
 
-        return gsap.from(element, {
-            x: xOffset,
-            autoAlpha: 0,
+        if (!prepareReveal(element, { x: xOffset, autoAlpha: 0 })) return null
+
+        return gsap.to(element, {
+            x: 0,
+            autoAlpha: 1,
             duration,
             ease,
             scrollTrigger: {
@@ -127,6 +206,7 @@ export function useGsapAnimations() {
         } = {}
     ) {
         if (!elementExists(element)) return null
+        if (prefersReducedMotion()) return null
 
         const { yPercent = -15, start = 'top bottom', end = 'bottom top' } = options
 
@@ -163,9 +243,11 @@ export function useGsapAnimations() {
             ease = 'power2.out',
         } = options
 
-        return gsap.from(items, {
-            y,
-            autoAlpha: 0,
+        if (!prepareReveal(items as gsap.TweenTarget, { y, autoAlpha: 0 })) return null
+
+        return gsap.to(items, {
+            y: 0,
+            autoAlpha: 1,
             duration,
             stagger,
             ease,
@@ -190,10 +272,12 @@ export function useGsapAnimations() {
 
         const { scale = 0.95, rotateX = 3, duration = 1.1, start = 'top 85%' } = options
 
-        return gsap.from(element, {
-            scale,
-            rotateX,
-            autoAlpha: 0,
+        if (!prepareReveal(element, { scale, rotateX, autoAlpha: 0 })) return null
+
+        return gsap.to(element, {
+            scale: 1,
+            rotateX: 0,
+            autoAlpha: 1,
             duration,
             ease: 'power3.out',
             transformOrigin: 'center center',
@@ -208,6 +292,8 @@ export function useGsapAnimations() {
     function cleanup() {
         isCleanedUp = true
         ctx?.revert()
+        failsafeObservers.forEach((observer) => observer.disconnect())
+        failsafeObservers.length = 0
     }
 
     function refresh() {
@@ -248,6 +334,8 @@ export function useGsapAnimations() {
         parallax,
         staggerReveal,
         scaleIn3D,
+        prepareReveal,
+        prefersReducedMotion,
         cleanup,
         refresh,
         initializeAnimations,
