@@ -59,7 +59,8 @@ export default defineNuxtConfig({
             '/**': {
                 headers: {
                     'X-Content-Type-Options': 'nosniff',
-                    'X-Frame-Options': 'SAMEORIGIN',
+                    // Framing governed by CSP frame-ancestors below (X-Frame-Options
+                    // cannot express an allow-list of external origins).
                     'Referrer-Policy': 'strict-origin-when-cross-origin',
                     'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
                     'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
@@ -76,7 +77,9 @@ export default defineNuxtConfig({
                         "object-src 'none'",
                         "base-uri 'self'",
                         "form-action 'self'",
-                        "frame-ancestors 'self'",
+                        // daktus.sk embeds the site as a live portfolio preview
+                        // (*.netlify.app covers its deploy previews, localhost its dev)
+                        "frame-ancestors 'self' https://daktus.sk https://www.daktus.sk https://*.netlify.app http://localhost:3000",
                         'upgrade-insecure-requests',
                     ].join('; '),
                 },
