@@ -145,10 +145,29 @@ const socialLinks = [
                 </div>
             </div>
 
-            <div class="mt-8 pt-4 border-t border-cream-300 text-center">
+            <div
+                class="mt-8 pt-4 border-t border-cream-300 flex flex-col items-center gap-2 text-center md:flex-row md:items-baseline md:justify-between md:text-left"
+            >
                 <p class="text-charcoal-500 text-sm">
                     © {{ currentYear }} {{ business.name }}. Všetky práva vyhradené.
                 </p>
+                <a
+                    href="https://daktus.sk"
+                    target="_blank"
+                    rel="noopener"
+                    class="group inline-flex items-baseline gap-2 text-charcoal-500 text-sm transition-colors hover:text-charcoal-600"
+                >
+                    <span>Dizajn a vývoj</span>
+                    <span
+                        class="relative font-medium tracking-wide text-charcoal-600 transition-colors group-hover:text-warm-500 after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-warm-500 after:transition-transform after:duration-300 group-hover:after:scale-x-100"
+                        >DAKTUS</span
+                    >
+                    <span
+                        class="inline-block text-xs transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                        >↗</span
+                    >
+                </a>
             </div>
         </div>
     </footer>
