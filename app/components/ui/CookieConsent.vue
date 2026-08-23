@@ -166,6 +166,10 @@ const emitConsentEvent = () => {
 }
 
 onMounted(() => {
+    // Embedded previews (e.g. the daktus.sk portfolio iframe) stay banner-free:
+    // no consent UI and no analytics inside third-party embeds.
+    if (window.self !== window.top) return
+
     const stored = localStorage.getItem(CONSENT_KEY)
 
     if (stored) {
